@@ -1,13 +1,23 @@
+from graph_tools import Graph
+
+# create a graph with four nodes and two edges
+g = Graph(directed=True)
+g.add_edge(1, 2)
+g.add_edge(2, 3)
+g.add_vertex(4)
+#print(g)
+
+# find the all shortest paths from vertex 1
+dist, prev = g.dijkstra(1)
+#print(dist)
+
+# generate BA graph with 100 vertices
+g = Graph(directed=False).create_graph('barabasi', 100)
 
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    # check if all vertices are mutually connected
+    print(g.is_connected())
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    # compute the betweenness centrality of vertex 1
+   # print(g.betweenness(1))
