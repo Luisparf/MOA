@@ -1,0 +1,16 @@
+
+Value of objective function: 1020.00000000
+
+Actual values of the variables:
+x11                             0
+x12                            10
+x13                            25
+x14                             0
+x21                            45
+x22                             0
+x23                             5
+x24                             0
+x31                             0
+x32                            10
+x33                             0
+x34                            30

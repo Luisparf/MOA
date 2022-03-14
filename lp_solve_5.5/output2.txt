@@ -1,0 +1,11 @@
+
+Value of objective function: 21.42857143
+
+Actual values of the variables:
+A                               0
+B                               0
+C                               0
+D                         7.14286
+E                               0
+X                              50
+Y                               0
