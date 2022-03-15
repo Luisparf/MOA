@@ -12,6 +12,7 @@ build/
 develop-eggs/
 dist/
 downloads/
+igraph-0.9.9/
 eggs/
 .eggs/
 lib/
