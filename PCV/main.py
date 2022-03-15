@@ -1,3 +1,6 @@
+from igraph import *
+from constructiveModule import calculateDistance
+
 if __name__ == '__main__':
 
     lines = []
