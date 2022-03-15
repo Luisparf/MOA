@@ -1,9 +1,15 @@
-# from constructiveModule import calculateDistance
+from scipy.spatial import distance
 
 if __name__ == '__main__':
 
+    a = (1, 2, 3)
+    b = (4, 5, 6)
+
+    print(distance.euclidean(a, b))
+
     lines = []
     dict = {}
+
     while (line := str(input())) != "EOF":
         line = line.replace('\r', '').replace('.', '').split()
         lines.append(line.copy())
