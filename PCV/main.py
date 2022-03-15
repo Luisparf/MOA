@@ -5,12 +5,12 @@ if __name__ == '__main__':
     lines = []
     dict = {}
     while (line := str(input())) != "EOF":
-        line = line.replace('\r', '').split()
+        line = line.replace('\r', '').replace('.', '').split()
         lines.append(line.copy())
 
     del lines[0:5]
 
-    #print(lines)
+    # print(lines)
 
     for i in range(1, len(lines)):
         dict["node"] = lines[i][0]  # sei lá se usaremos...
