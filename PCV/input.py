@@ -7,7 +7,7 @@ from math import dist
 def fileinput():
     """
 
-    Apenas para uma versão futura...
+    Apenas para uma possível versão futura...
 
     """
     f = open('1.in', 'r')
@@ -29,7 +29,7 @@ def fileinput():
 def runcodesinput():
     lines = []
     while (line := str(input())) != "EOF":
-        line = line.replace('\r', '').replace('.', '').split()
+        line = line.replace('\r', '') # .replace('.', '').split()
         lines.append(line.copy())
 
     del lines[0:5]
@@ -53,7 +53,7 @@ def formatnode(lines):
         # print('\n'.join("{}: {}".format(k, v) for k, v in lines[i].items()))
 
         '''
-        trecho que será usado para o calculo da distancia euclidiana
+        trecho que será usado para o cálculo da distância euclidiana
         x1 = int(lines[1]['x'])
         y1 = int(lines[1]['y'])
 
