@@ -7,8 +7,6 @@ if __name__ == '__main__':
     lines = runinput()
     dict = {}
 
-    print(lines)
-
     for i in range(1, len(lines)):
         dict["node"] = lines[i][0]  # sei lá se usaremos...
         dict["x"] = lines[i][1]  # same
@@ -24,5 +22,5 @@ if __name__ == '__main__':
         y2 = int(lines[i]['y'])
 
         a = (x1, y1)
-        b = (x2, x2)
+        b = (x2, y2)
         print("Euclidian distance between node {}{} and node {}{} is {}\n".format(1, a, i, b, distance.euclidean(a, b)))
