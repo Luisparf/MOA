@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ############################################# INPUT BY FILE ###############################################
 
 
@@ -38,6 +39,7 @@ def runcodesinput():
 ############################################################################################################
 
 def formatnode(lines):
+
     dict = {}
 
     for i in range(1, len(lines)):
@@ -49,6 +51,7 @@ def formatnode(lines):
         # print('\n'.join("{}: {}".format(k, v) for k, v in lines[i].items()))
 
         '''
+        trecho que será usado para o calculo da distancia euclidiana
         x1 = int(lines[1]['x'])
         y1 = int(lines[1]['y'])
 
