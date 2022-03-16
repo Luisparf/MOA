@@ -1,5 +1,5 @@
 from scipy.spatial import distance
-from input import fileinput ,runinput
+from input import fileinput, runinput
 
 if __name__ == '__main__':
 
@@ -13,7 +13,7 @@ if __name__ == '__main__':
         dict["y"] = lines[i][2]  # same ^
 
         lines[i] = dict.copy()
-        print(lines[i])
+        print('\n'.join("{}: {}".format(k, v) for k, v in lines[i].items()))
 
         x1 = int(lines[1]['x'])
         y1 = int(lines[1]['y'])
