@@ -1,6 +1,12 @@
 ############################################# INPUT BY FILE ###############################################
 
+
 def fileinput():
+    """
+
+    Apenas para uma versão futura...
+
+    """
     f = open('1.in', 'r')
     lines = f.readlines()
 
