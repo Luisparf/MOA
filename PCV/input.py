@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 ############################################# INPUT BY FILE ###############################################
 
+from math import dist
+
 
 def fileinput():
     """
@@ -44,8 +46,8 @@ def formatnode(lines):
 
     for i in range(1, len(lines)):
         dict["used"] = False
-        dict["x"] = lines[i][1]
-        dict["y"] = lines[i][2]
+        dict["x"] = float(lines[i][1])
+        dict["y"] = float(lines[i][2])
 
         lines[i] = dict.copy()
         # print('\n'.join("{}: {}".format(k, v) for k, v in lines[i].items()))
@@ -64,3 +66,22 @@ def formatnode(lines):
         # print("Euclidian distance between node {}{} and node {}{} is {}\n".format(1, a, i, b, dist(a, b)))
         '''
     return lines
+
+############################################################################################################
+
+def nodesDistances(nodes):
+    distances = {}
+    for i in range(1, len(nodes)):
+        distances[i] = {}
+        for a in range(1, len(nodes)):
+            x0 = nodes[i]['x']
+            y0 = nodes[i]['y']
+            
+            x1 = nodes[a]['x']
+            y1 = nodes[a]['y']
+            
+            distances[i][a] = dist([x0, y0], [x1, y1])
+
+    return distances
+
+
