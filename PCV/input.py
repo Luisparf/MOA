@@ -43,7 +43,7 @@ def formatnode(lines):
     dict = {}
 
     for i in range(1, len(lines)):
-        # dict["node"] = lines[i][0]  # sei lá se usaremos...
+        dict["used"] = False
         dict["x"] = lines[i][1]
         dict["y"] = lines[i][2]
 
