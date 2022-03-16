@@ -29,7 +29,7 @@ def fileinput():
 def runcodesinput():
     lines = []
     while (line := str(input())) != "EOF":
-        line = line.replace('\r', '') # .replace('.', '').split()
+        line = line.replace('\r', '').split() # .replace('.', '').split()
         lines.append(line.copy())
 
     del lines[0:5]
@@ -72,15 +72,19 @@ def formatnode(lines):
 def nodesDistances(nodes):
     distances = {}
     for i in range(1, len(nodes)):
-        distances[i] = {}
-        for a in range(1, len(nodes)):
+        for a in range(i, len(nodes)):
+            distances[a] = {}
+            
             x0 = nodes[i]['x']
             y0 = nodes[i]['y']
             
             x1 = nodes[a]['x']
             y1 = nodes[a]['y']
             
-            distances[i][a] = dist([x0, y0], [x1, y1])
+            calculatedDist = dist([x0, y0], [x1, y1])
+
+            distances[i][a] = calculatedDist
+            distances[a][i] = calculatedDist
 
     return distances
 
