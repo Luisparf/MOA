@@ -1,6 +1,6 @@
-from scipy.spatial import distance
+# from scipy.spatial import distance
 from input import fileinput, runinput
-
+from math import dist
 if __name__ == '__main__':
 
     # lines = fileinput()
@@ -23,4 +23,5 @@ if __name__ == '__main__':
 
         a = (x1, y1)
         b = (x2, y2)
-        print("Euclidian distance between node {}{} and node {}{} is {}\n".format(1, a, i, b, distance.euclidean(a, b)))
+        # print("Euclidian distance between node {}{} and node {}{} is {}\n".format(1, a, i, b, distance.euclidean(a, b)))
+        print("Euclidian distance between node {}{} and node {}{} is {}\n".format(1, a, i, b, dist(a, b)))
