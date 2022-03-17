@@ -9,7 +9,7 @@ def matrizConstrutive(nodes, distances):
     selected = randint(1, localLen(nodes)-1)
     first = selected
 
-    walkWeigh = 0
+    walkWeight = 0
     walkedPath = []
     walkedPath.append(nodes[selected])
 
@@ -37,10 +37,10 @@ def matrizConstrutive(nodes, distances):
             walkedPath.append(first)
             break
 
-        walkWeigh += menor
+        walkWeight += menor
         walkedPath.append(menorIndex)
         nodes[menorIndex]['used'] = True
         selected = menorIndex
 
-    return walkWeigh
+    return walkWeight
 
