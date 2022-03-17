@@ -77,7 +77,7 @@ def matrizConstrutive(nodes, distances):
         selected = menorIndex
 
     
-    print(walkedPath)
+    # print(walkedPath)
 
     return walkWeight
 

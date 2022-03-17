@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # from scipy.spatial import distance
-from input import fileinput, runcodesinput, nodesDistances
-from constructive import matrizConstrutive
+from input import fileinput, runcodesinput
+from constructive import matrizConstrutive, nodesDistances
 
 if __name__ == '__main__':
     # lines = fileinput()
