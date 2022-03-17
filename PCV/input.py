@@ -72,8 +72,18 @@ def formatnode(lines):
 def nodesDistances(nodes):
     distances = {}
     for i in range(1, len(nodes)):
-        for a in range(i, len(nodes)):
-            distances[a] = {}
+        try:
+            distances[i]
+        except:
+            distances[i] = {}
+
+        distances[i][i] = 0.0
+        for a in range(i+1, len(nodes)):            
+            try:
+                distances[a]
+            except:
+                distances[a] = {}
+
             
             x0 = nodes[i]['x']
             y0 = nodes[i]['y']
@@ -81,7 +91,9 @@ def nodesDistances(nodes):
             x1 = nodes[a]['x']
             y1 = nodes[a]['y']
             
-            calculatedDist = dist([x0, y0], [x1, y1])
+
+            calculatedDist = int(dist([x0, y0], [x1, y1])) # Só considerando parte inteira
+            #calculatedDist = dist([x0, y0], [x1, y1]) #Considerando ponto flutuante
 
             distances[i][a] = calculatedDist
             distances[a][i] = calculatedDist
