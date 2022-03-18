@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from input import fileinput, runcodesinput
-from constructive import matrizConstrutive, nodesDistances
+from constructive import matrizConstrutive, nodesDistances, insertDistant
 
 if __name__ == '__main__':
 
     # lines = fileinput()
     nodes = runcodesinput()  # lê o arquivo e armazena cada nó em uma lista, onde cada nó i está no indice i da lista e contém suas coordenadas x,y
     distances = nodesDistances(nodes) # distâncias de nó para nó
+    
 
-   
     
 
     # print(distances[24]) 

@@ -45,7 +45,7 @@ def nodesDistances(nodes): # armazena todas as distâncias  nó X nó
 
 ###########################################################################################
 
-def matrizConstrutive(nodes, distances,first):
+def matrizConstrutive(nodes, distances):
     # selected = randint(1, localLen(nodes)-1)
     # first = selected
 
@@ -89,5 +89,5 @@ def matrizConstrutive(nodes, distances,first):
 
 ###########################################################################################
 
-def insertdistant():
+def insertDistant(nodes):
     print()
