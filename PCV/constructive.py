@@ -45,9 +45,9 @@ def nodesDistances(nodes): # armazena todas as distâncias  nó X nó
 
 ###########################################################################################
 
-def matrizConstrutive(nodes, distances):
-    selected = randint(1, localLen(nodes)-1)
-    first = selected
+def matrizConstrutive(nodes, distances,first):
+    # selected = randint(1, localLen(nodes)-1)
+    # first = selected
 
     walkWeight = 0
     walkedPath = []
@@ -63,7 +63,7 @@ def matrizConstrutive(nodes, distances):
         # Conteiro para verificar se todos os vizinho já foram explorados 
         endCounter = 0
         for i in range(1, localLen(nodes)):
-            #print(selected, i)
+            # print("selected = {} i = {}".format(selected, i))
 
             if (i == selected) or (nodes[i]['used']):
                 endCounter += 1
@@ -89,3 +89,5 @@ def matrizConstrutive(nodes, distances):
 
 ###########################################################################################
 
+def insertdistant():
+    print()
