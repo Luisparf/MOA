@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+###########################################################################################
+#                                                                                         #
+#                Módulo que contém os algoritmos construtivos para o PCV                  #                          
+#                                                                                         #      
+###########################################################################################
+
 from math import dist
 from random import randint
 
@@ -6,7 +12,7 @@ from random import randint
 # Uma cópia local de funções como essa reduz o tempo de execução
 localLen = len
 
-def nodesDistances(nodes):
+def nodesDistances(nodes): # armazena todas as distâncias  nó X nó
     distances = {}
     for i in range(1, len(nodes)):
         try:
@@ -30,7 +36,7 @@ def nodesDistances(nodes):
             
 
             calculatedDist = int(dist([x0, y0], [x1, y1])) # Só considerando parte inteira
-            #calculatedDist = dist([x0, y0], [x1, y1]) #Considerando ponto flutuante
+            #calculatedDist = dist([x0, y0], [x1, y1]) # Considerando ponto flutuante
 
             distances[i][a] = calculatedDist
             distances[a][i] = calculatedDist
@@ -80,4 +86,6 @@ def matrizConstrutive(nodes, distances):
     # print(walkedPath)
 
     return walkWeight
+
+###########################################################################################
 
