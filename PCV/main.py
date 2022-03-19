@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from input import fileinput, runcodesinput
-from constructive import matrizConstrutive, nodesDistances, insertDistant
+from constructive import closestNeigbourMatriz, closestInsertionMatriz, nodesDistances, insertDistant
 
 if __name__ == '__main__':
 
@@ -11,7 +11,7 @@ if __name__ == '__main__':
     
 
     
-
+    print(int(closestInsertionMatriz(nodes, distances)))
     # print(distances[24]) 
     # print(distances[1][3]) # distancia entre o nó 1 e nó 3
     # Printar resultado da heurística vizinho mais próximo (considerando só a parte inteira)

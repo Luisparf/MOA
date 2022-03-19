@@ -14,14 +14,14 @@ localLen = len
 
 def nodesDistances(nodes): # armazena todas as distâncias  nó X nó
     distances = {}
-    for i in range(1, len(nodes)):
+    for i in range(1, localLen(nodes)):
         try:
             distances[i]
         except:
             distances[i] = {}
 
         distances[i][i] = 0.0
-        for a in range(i+1, len(nodes)):            
+        for a in range(i+1, localLen(nodes)):            
             try:
                 distances[a]
             except:
@@ -35,8 +35,8 @@ def nodesDistances(nodes): # armazena todas as distâncias  nó X nó
             y1 = nodes[a]['y']
             
 
-            calculatedDist = int(dist([x0, y0], [x1, y1])) # Só considerando parte inteira
-            #calculatedDist = dist([x0, y0], [x1, y1]) # Considerando ponto flutuante
+            #calculatedDist = int(dist([x0, y0], [x1, y1])) # Só considerando parte inteira
+            calculatedDist = dist([x0, y0], [x1, y1]) # Considerando ponto flutuante
 
             distances[i][a] = calculatedDist
             distances[a][i] = calculatedDist
@@ -45,13 +45,13 @@ def nodesDistances(nodes): # armazena todas as distâncias  nó X nó
 
 ###########################################################################################
 
-def matrizConstrutive(nodes, distances):
-    # selected = randint(1, localLen(nodes)-1)
-    # first = selected
+def closestNeigbourMatriz(nodes, distances):
+    selected = randint(1, localLen(nodes)-1)
+    first = selected
 
-    walkWeight = 0
+    pathWeight = 0
     walkedPath = []
-    walkedPath.append(nodes[selected])
+    walkedPath.append(selected)
 
     while True:
         # Valor da distância entre nó atual e menor vizinho
@@ -77,7 +77,7 @@ def matrizConstrutive(nodes, distances):
             walkedPath.append(first)
             break
 
-        walkWeight += menor
+        pathWeight += menor
         walkedPath.append(menorIndex)
         nodes[menorIndex]['used'] = True
         selected = menorIndex
@@ -85,9 +85,52 @@ def matrizConstrutive(nodes, distances):
     
     # print(walkedPath)
 
-    return walkWeight
+    return pathWeight
 
 ###########################################################################################
 
 def insertDistant(nodes):
     print()
+
+###########################################################################################
+
+def closestInsertionMatriz(nodes, distances):
+    selected = randint(1, localLen(nodes)-1)
+    #first = selected
+
+    pathWeight = 0
+
+    usedNodes = []
+    usedNodes.append(selected)
+
+    usedEdges = []
+
+    while True:
+        if localLen(usedNodes) == (localLen(nodes) - 1):
+            break
+        
+        # Valor da distância entre nó atual e menor vizinho
+        menor = float('inf')
+        
+        # Indice do menor vizinho encontrado
+        menorIndexUsedNode = None
+        menorIndexNeighbour = -1
+
+        for node in usedNodes:
+            for i in range(1, localLen(nodes)):
+                if nodes[i]['used'] or node == i:
+                    continue
+
+                if distances[node][i] < menor:
+                    menor = distances[node][i]
+                    menorIndexUsedNode = node
+                    menorIndexNeighbour = i
+        
+        if menorIndexNeighbour != -1 and menorIndexUsedNode != None:
+            nodes[menorIndexNeighbour]['used'] = True
+            usedNodes.append(menorIndexNeighbour)
+            pathWeight += menor
+
+            usedEdges.append({menorIndexUsedNode})
+
+    return pathWeight
