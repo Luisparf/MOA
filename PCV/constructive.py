@@ -161,8 +161,8 @@ def insertMoreDistant(graph, allDistances):
 
         # a) Encontrar um vértice k não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
 
-        sizeTam = localLen(cycle)
-        i = cycle[sizeTam-1] # no caso, pega o ultimo inseridos
+        sizeCycle = localLen(cycle)
+        i = cycle[sizeCycle-1] # no caso, pega o ultimo inseridos
         greaterDistance = 0
         for j in range(1, localLen(graph)):
             if allDistances[i][j] > greaterDistance and graph[j]['used'] == False:
@@ -177,9 +177,9 @@ def insertMoreDistant(graph, allDistances):
                 minimum = allDistances[i][k] + allDistances[k][i+1] - allDistances[i][i+1]
                 chosenEdge = i
 
-        # compara primeiro e ultimos elementos do ciclo para de fato considerar a lista como um ciclo
-        if allDistances[1][k] + allDistances[k][sizeTam] - allDistances[1][sizeTam] < minimum: 
-            minimum = allDistances[1][k] + allDistances[k][sizeTam] - allDistances[1][sizeTam]
+        # compara primeiro e ultimo elemento do ciclo para de fato considerar a lista(grafo) como um ciclo
+        if allDistances[1][k] + allDistances[k][sizeCycle] - allDistances[1][sizeCycle] < minimum: 
+            minimum = allDistances[1][k] + allDistances[k][sizeCycle] - allDistances[1][sizeCycle]
             chosenEdge = 1
 
         i = chosenEdge
@@ -189,12 +189,15 @@ def insertMoreDistant(graph, allDistances):
         cycle.insert(i,k)
         graph[k]['used'] = True
 
-        if localLen(cycle) == (localLen(graph) ):
+        if sizeCycle == localLen(graph)-1:
             break
 
     del(cycle[0])
-    print(cycle)
 
+
+
+    print(cycle)
+    
 
 
     
