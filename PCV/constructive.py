@@ -90,11 +90,16 @@ def matrizConstrutive(graph, allDistances):
     return walkWeight
 
 ###########################################################################################
+def printGraph(graph):
+    for i in range(1, localLen(graph)):
+        print(f"\n{i}")
+        print('\n'.join("{}: {}".format(k, v) for k, v in graph[i].items()))
+   
+############################################################################################
 
+"""
 def get_key(allDistances,val):
-    """
-    função que recupera o indide do vértice com a maior distancia para o vértice selecionado
-    """
+    
     for key, value in allDistances.items():
         if val == value:
              return key
@@ -103,17 +108,8 @@ def get_key(allDistances,val):
 
 ############################################################################################
 
-def printGraph(graph):
-    for i in range(1, localLen(graph)):
-        print(f"\n{i}")
-        print('\n'.join("{}: {}".format(k, v) for k, v in graph[i].items()))
-   
-############################################################################################
-
 def findMaxDistance(graph, allDistances, i):
-    """
-    a) Encontrar um vértice vk não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
-    """
+    
     greaterDistance = 0
     for j in range(1, localLen(graph)):
         if allDistances[i][j] > greaterDistance and graph[j]['used'] == False:
@@ -128,9 +124,7 @@ def findMaxDistance(graph, allDistances, i):
 ############################################################################################
 
 def findEdge(c, cycle, k): # c = cost or distance
-    """
-    b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,j - Ci,j) seja mínimo.
-    """
+    
     minimum = float('inf')
     for i in range(1,localLen(cycle)):
         if c[i][k] + c[k][i+1] - c[i][i+1] < minimum:
@@ -140,30 +134,58 @@ def findEdge(c, cycle, k): # c = cost or distance
     return chosenEdge
 
 ############################################################################################
+"""
 
-def insertMoreDistant(graph, allDistances):
+def insertMoreDistant(graph, allDistances): # heurística inserção do mais distante
+    """
+    Algorithm source:
+
+    Grafos Hamiltonianos e o Problema do Caixeiro Viajante
+            Prof. Ademir Constantino
+            Departamento de Informática
+            Universidade Estadual de Maringá
+
+    link: https://malbarbo.pro.br/arquivos/2012/1747/problema-do-caixeiro-viajante.pdf
+    """
 
     # Iniciar com um ciclo [v1 , v2 , v3] com 3 vértices.
-    cycle = [1, 2, 3]
+    cycle = [1, 2, 3] # no caso, os 3 primeiros vértices
     for x in cycle:
         graph[x]['used'] = True
 
-    # a) Encontrar um vértice vk não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
-    k = findMaxDistance(graph, allDistances, 3)
-    
+    while True:
 
-    # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,j - Ci,j) seja mínimo.
-    i = findEdge(allDistances, cycle, k)
-    print("(i,j) = ({},{})".format(i, i+1))
+        # a) Encontrar um vértice vk não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
+        i = cycle[localLen(cycle)-1] # no caso, pega o ultimo inseridos
+        greaterDistance = 0
+        for j in range(1, localLen(graph)):
+            if allDistances[i][j] > greaterDistance and graph[j]['used'] == False:
+                greaterDistance = allDistances[i][j]
+                k = j
 
-    # c) Inserir o vértice vk entre (vi , vi+1 ). Se todos os vértices já foram inseridos, pare, 
-    # caso contrário,voltar ao passo “b”.
 
-    cycle.insert(i,k)
-    graph[k]['used'] = True
+        # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,j - Ci,j) seja mínimo.
+        minimum = float('inf')
+        for i in range(1,localLen(cycle)):
+            if allDistances[i][k] + allDistances[k][i+1] - allDistances[i][i+1] < minimum : 
+                minimum = allDistances[i][k] + allDistances[k][i+1] - allDistances[i][i+1]
+                chosenEdge = i
+
+        i = chosenEdge
+        # print("(i,j) = ({},{})".format(i, i+1))
+
+        # c) Inserir o vértice vk entre (vi , vi+1 ). Se todos os vértices já foram inseridos, pare, caso contrário,voltar ao passo “b”. <- "a"
+        cycle.insert(i,k)
+        graph[k]['used'] = True
+
+        if localLen(cycle) == (localLen(graph) - 1):
+            break
 
     print(cycle)
-    printGraph(graph)
+
+
+
+    
 
     
 
