@@ -11,8 +11,7 @@ from functools import reduce
 
 # Uma cópia local de funções como essa reduz o tempo de execução
 localLen = len
-localMax = max
-localMin = min
+
 
 def getAllDistances(graph): # armazena todas as distâncias  nó X nó
     allDistances = {}
@@ -90,6 +89,7 @@ def matrizConstrutive(graph, allDistances):
     return walkWeight
 
 ###########################################################################################
+
 def printGraph(graph):
     for i in range(1, localLen(graph)):
         print(f"\n{i}")
@@ -136,8 +136,11 @@ def findEdge(c, cycle, k): # c = cost or distance
 ############################################################################################
 """
 
-def insertMoreDistant(graph, allDistances): # heurística inserção do mais distante
+def insertMoreDistant(graph, allDistances): 
     """
+
+    More distant insertion heuristic.
+
     Algorithm source:
 
     Grafos Hamiltonianos e o Problema do Caixeiro Viajante
@@ -146,17 +149,20 @@ def insertMoreDistant(graph, allDistances): # heurística inserção do mais dis
             Universidade Estadual de Maringá
 
     link: https://malbarbo.pro.br/arquivos/2012/1747/problema-do-caixeiro-viajante.pdf
+
     """
 
     # Iniciar com um ciclo [v1 , v2 , v3] com 3 vértices.
-    cycle = [1, 2, 3] # no caso, os 3 primeiros vértices
-    for x in cycle:
+    cycle = ['',1, 2, 3] # no caso, os 3 primeiros vértices, '' no primeiro elemento apenas para ciclo[i] = i
+    for x in range(1,localLen(cycle)):
         graph[x]['used'] = True
 
     while True:
 
-        # a) Encontrar um vértice vk não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
-        i = cycle[localLen(cycle)-1] # no caso, pega o ultimo inseridos
+        # a) Encontrar um vértice k não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
+
+        sizeTam = localLen(cycle)
+        i = cycle[sizeTam-1] # no caso, pega o ultimo inseridos
         greaterDistance = 0
         for j in range(1, localLen(graph)):
             if allDistances[i][j] > greaterDistance and graph[j]['used'] == False:
@@ -171,16 +177,22 @@ def insertMoreDistant(graph, allDistances): # heurística inserção do mais dis
                 minimum = allDistances[i][k] + allDistances[k][i+1] - allDistances[i][i+1]
                 chosenEdge = i
 
+        # compara primeiro e ultimos elementos do ciclo para de fato considerar a lista como um ciclo
+        if allDistances[1][k] + allDistances[k][sizeTam] - allDistances[1][sizeTam] < minimum: 
+            minimum = allDistances[1][k] + allDistances[k][sizeTam] - allDistances[1][sizeTam]
+            chosenEdge = 1
+
         i = chosenEdge
         # print("(i,j) = ({},{})".format(i, i+1))
 
-        # c) Inserir o vértice vk entre (vi , vi+1 ). Se todos os vértices já foram inseridos, pare, caso contrário,voltar ao passo “b”. <- "a"
+        # c) Inserir o vértice k entre (i , i+1 ). Se todos os vértices já foram inseridos, pare, caso contrário,voltar ao passo “b”. <- "a"
         cycle.insert(i,k)
         graph[k]['used'] = True
 
-        if localLen(cycle) == (localLen(graph) - 1):
+        if localLen(cycle) == (localLen(graph) ):
             break
 
+    del(cycle[0])
     print(cycle)
 
 

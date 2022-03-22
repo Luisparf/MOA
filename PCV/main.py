@@ -10,6 +10,7 @@ if __name__ == '__main__':
     allDistances = getAllDistances(graph) # distâncias de nó para nó
 
     insertMoreDistant(graph, allDistances)
+    
     # printGraph(graph)
     
 
