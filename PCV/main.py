@@ -12,6 +12,6 @@ if __name__ == '__main__':
     insertMoreDistant(graph, allDistances)
     # printGraph(graph)
     
-     # distancia entre o nó 1 e nó 3
+
     # Printar resultado da heurística vizinho mais próximo (considerando só a parte inteira)
     # print(int(matrizConstrutive(nodes, distances)))

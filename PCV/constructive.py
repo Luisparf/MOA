@@ -12,6 +12,7 @@ from functools import reduce
 # Uma cópia local de funções como essa reduz o tempo de execução
 localLen = len
 localMax = max
+localMin = min
 
 def getAllDistances(graph): # armazena todas as distâncias  nó X nó
     allDistances = {}
@@ -109,61 +110,57 @@ def printGraph(graph):
    
 ############################################################################################
 
-def findMax(graph, allDistances, subRote, i):
+def findMaxDistance(graph, allDistances, i):
+    """
+    a) Encontrar um vértice vk não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
+    """
     greaterDistance = 0
     for j in range(1, localLen(graph)):
         if allDistances[i][j] > greaterDistance and graph[j]['used'] == False:
             greaterDistance = allDistances[i][j]
             greaterIndex = j
 
-    graph[greaterIndex]['used'] = True
-    subRote.append(greaterIndex)
-
-    print("i = {} , j  = {} , Cij = {} ".format(i, greaterIndex, greaterDistance))
-    print('Subrote = {}'.format(subRote))
-    print()
+    return greaterIndex
+   
     # print("All distances from {}: {}".format(i,allDistances[i]))
 
 
 ############################################################################################
 
+def findEdge(c, cycle, k): # c = cost or distance
+    """
+    b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,j - Ci,j) seja mínimo.
+    """
+    minimum = float('inf')
+    for i in range(1,localLen(cycle)):
+        if c[i][k] + c[k][i+1] - c[i][i+1] < minimum:
+            minimum = c[i][k] + c[k][i+1] - c[i][i+1]
+            chosenEdge = i
+
+    return chosenEdge
+
+############################################################################################
+
 def insertMoreDistant(graph, allDistances):
 
-    """
-    Algorithm source:
+    # Iniciar com um ciclo [v1 , v2 , v3] com 3 vértices.
+    cycle = [1, 2, 3]
+    for x in cycle:
+        graph[x]['used'] = True
 
-    XXIV Encontro Nac. de Eng. de Produção - Florianópolis, SC, Brasil, 03 a 05 de nov de 2004
-
-    Análise Comparativa de Algoritmos Heurísticos para Resolução do
-    Problema do Caixeiro-Viajante em Grafos Não Clusterizados
-
-    link:http://abepro.org.br/biblioteca/ENEGEP2004_Enegep0601_0567.pdf
-
-    """
+    # a) Encontrar um vértice vk não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
+    k = findMaxDistance(graph, allDistances, 3)
     
 
-    subRote = []
+    # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,j - Ci,j) seja mínimo.
+    i = findEdge(allDistances, cycle, k)
+    print("(i,j) = ({},{})".format(i, i+1))
+
+    # c) Inserir o vértice vk entre (vi , vi+1 ). Se todos os vértices já foram inseridos, pare, 
+    # caso contrário,voltar ao passo “b”.
+
     
-    # 1. Comece com um subgrafo composto apenas pelo i-ésimo vértice;
-    i = randint(1, localLen(graph)-1)
-    graph[i]['used'] = True
-    subRote.append(i)
 
-    # 2. Encontre um vértice j ≠ i tal que cij seja máximo e forme a subrota i − j − i ;
-    # distance = localMax(allDistances[i].values())
-    findMax(graph,allDistances,subRote,i)
-
-
-    # 3. Dada uma subrota, encontre um vértice j que não pertence a esta subrota, 
-    # mas que seja o mais distante de todos os vértices pertencentes à mesma;
-    i = randint(1, localLen(subRote)-1) # escolhe um vértice da subrota para escolher o vértice mais distante
-    i = subRote[i]
-    print('Chosen vertex to find max distance: {}'.format(i))
-
-    findMax(graph,allDistances,subRote, i)
-
-   
-    # print("All distances from {}: {}".format(i,allDistances[i]))
 
 
 
