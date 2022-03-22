@@ -159,6 +159,12 @@ def insertMoreDistant(graph, allDistances):
     # c) Inserir o vértice vk entre (vi , vi+1 ). Se todos os vértices já foram inseridos, pare, 
     # caso contrário,voltar ao passo “b”.
 
+    cycle.insert(i,k)
+    graph[k]['used'] = True
+
+    print(cycle)
+    printGraph(graph)
+
     
 
 
