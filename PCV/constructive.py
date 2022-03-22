@@ -161,7 +161,7 @@ def insertMoreDistant(graph, allDistances):
 
         # a) Encontrar um vértice k não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
         sizeCycle = localLen(cycle)
-        i = cycle[sizeCycle-1] # no caso, pega o ultimo inseridos
+        i = cycle[sizeCycle-1] # no caso, pega o ultimo inseridos ***
         greaterDistance = 0
         for j in range(1, localLen(graph)):
             if allDistances[i][j] > greaterDistance and graph[j]['used'] == False:
@@ -170,16 +170,19 @@ def insertMoreDistant(graph, allDistances):
 
 
         # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,j - Ci,j) seja mínimo.
+        
         minimum = float('inf')
         for i in range(1,sizeCycle):
             if allDistances[i][k] + allDistances[k][i+1] - allDistances[i][i+1] < minimum : 
                 minimum = allDistances[i][k] + allDistances[k][i+1] - allDistances[i][i+1]
                 chosenEdge = i
-
+        """
+        ***
         # compara primeiro e ultimo elemento do ciclo para de fato considerar a lista(grafo) como um ciclo
         if allDistances[1][k] + allDistances[k][sizeCycle] - allDistances[1][sizeCycle] < minimum: 
             minimum = allDistances[1][k] + allDistances[k][sizeCycle] - allDistances[1][sizeCycle]
             chosenEdge = 1
+            """
 
         i = chosenEdge
         # print("(i,j) = ({},{})".format(i, i+1))
@@ -196,10 +199,9 @@ def insertMoreDistant(graph, allDistances):
     walkWeight = 0
     for i in range(sizeCycle-1):
         walkWeight += allDistances[cycle[i]][cycle[i+1]]
-        print("Distance between {} e {}".format(cycle[i], cycle[i+1]))
 
     print(cycle)
-    print(walkWeight)
+    return walkWeight
     
 
 
