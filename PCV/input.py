@@ -56,21 +56,7 @@ def formatnode(lines):
         dict["y"] = float(lines[i][2])
 
         lines[i] = dict.copy()
-        # print('\n'.join("{}: {}".format(k, v) for k, v in lines[i].items()))
-
-        '''
-        trecho que será usado para o cálculo da distância euclidiana
-        x1 = int(lines[1]['x'])
-        y1 = int(lines[1]['y'])
-
-        x2 = int(lines[i]['x'])
-        y2 = int(lines[i]['y'])
-
-        a = [x1, y1]
-        b = [x2, y2]
-        # print("Euclidian distance between node {}{} and node {}{} is {}\n".format(1, a, i, b, distance.euclidean(a, b)))
-        # print("Euclidian distance between node {}{} and node {}{} is {}\n".format(1, a, i, b, dist(a, b)))
-        '''
+        
     return lines
 
 ############################################################################################################

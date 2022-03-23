@@ -136,6 +136,15 @@ def findEdge(c, cycle, k): # c = cost or distance
 ############################################################################################
 """
 
+def sumTravel(allDistances, sizeCycle, cycle):
+    walkWeight = 0
+    for i in range(sizeCycle-1):
+        walkWeight += allDistances[cycle[i]][cycle[i+1]]
+
+    return walkWeight
+
+############################################################################################
+
 def insertMoreDistant(graph, allDistances): 
     """
 
@@ -161,7 +170,7 @@ def insertMoreDistant(graph, allDistances):
 
         # a) Encontrar um vértice k não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
         sizeCycle = localLen(cycle)
-        i = cycle[sizeCycle-1] # no caso, pega o ultimo inseridos ***
+        i = cycle[sizeCycle-1] # no caso, pega o ultimo inserido ***
         greaterDistance = 0
         for j in range(1, localLen(graph)):
             if allDistances[i][j] > greaterDistance and graph[j]['used'] == False:
@@ -170,8 +179,8 @@ def insertMoreDistant(graph, allDistances):
 
 
         # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,j - Ci,j) seja mínimo.  
-        minimum = float('inf')
-        for i in range(1,sizeCycle):
+        minimum = allDistances[1][k] + allDistances[k][2] - allDistances[1][2]
+        for i in range(2,sizeCycle):
             if allDistances[i][k] + allDistances[k][i+1] - allDistances[i][i+1] < minimum : 
                 minimum = allDistances[i][k] + allDistances[k][i+1] - allDistances[i][i+1]
                 chosenEdge = i
@@ -181,10 +190,9 @@ def insertMoreDistant(graph, allDistances):
         if allDistances[1][k] + allDistances[k][sizeCycle] - allDistances[1][sizeCycle] < minimum: 
             minimum = allDistances[1][k] + allDistances[k][sizeCycle] - allDistances[1][sizeCycle]
             chosenEdge = 1
-            """
+        """
 
         i = chosenEdge
-        # print("(i,j) = ({},{})".format(i, i+1))
 
         # c) Inserir o vértice k entre (i , i+1 ). Se todos os vértices já foram inseridos, pare, caso contrário,voltar ao passo “b”. <- "a"
         cycle.insert(i,k)
@@ -195,9 +203,7 @@ def insertMoreDistant(graph, allDistances):
 
     del(cycle[0])
 
-    walkWeight = 0
-    for i in range(sizeCycle-1):
-        walkWeight += allDistances[cycle[i]][cycle[i+1]]
+    walkWeight = sumTravel(allDistances, sizeCycle, cycle)
 
     # print(cycle)
     return walkWeight
