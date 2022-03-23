@@ -153,7 +153,7 @@ def insertMoreDistant(graph, allDistances):
     """
 
     # Iniciar com um ciclo [v1 , v2 , v3] com 3 vértices.
-    cycle = ['',1, 2, 3] # no caso, os 3 primeiros vértices, '' no primeiro elemento apenas para ciclo[i] = i
+    cycle = ['',1, 2, 3] # no caso, os 3 primeiros vértices, '' na primeira posição apenas para ciclo[i] = i
     for x in range(1,localLen(cycle)):
         graph[x]['used'] = True
 
@@ -169,8 +169,7 @@ def insertMoreDistant(graph, allDistances):
                 k = j
 
 
-        # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,j - Ci,j) seja mínimo.
-        
+        # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,j - Ci,j) seja mínimo.  
         minimum = float('inf')
         for i in range(1,sizeCycle):
             if allDistances[i][k] + allDistances[k][i+1] - allDistances[i][i+1] < minimum : 
@@ -200,7 +199,7 @@ def insertMoreDistant(graph, allDistances):
     for i in range(sizeCycle-1):
         walkWeight += allDistances[cycle[i]][cycle[i+1]]
 
-    print(cycle)
+    # print(cycle)
     return walkWeight
     
 
