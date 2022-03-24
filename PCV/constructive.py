@@ -7,7 +7,7 @@
 
 from math import dist
 from random import randint
-from functools import reduce
+
 
 # Uma cópia local de funções como essa reduz o tempo de execução
 localLen = len
@@ -178,7 +178,7 @@ def insertMoreDistant(graph, allDistances):
                 k = j
 
 
-        # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,j - Ci,j) seja mínimo.  
+        # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,i+1 - Ci,1+1) seja mínimo.  
         minimum = allDistances[1][k] + allDistances[k][2] - allDistances[1][2]
         for i in range(2,sizeCycle):
             if allDistances[i][k] + allDistances[k][i+1] - allDistances[i][i+1] < minimum : 

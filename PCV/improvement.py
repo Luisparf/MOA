@@ -7,7 +7,7 @@
 
 from constructive import sumTravel
 
-def kopt(h): # h é ciclo encontrado pelo algoritmo construtivo
+def kopt(cycle,distances):
 
 	k = 2
 	
