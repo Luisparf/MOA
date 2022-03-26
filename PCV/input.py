@@ -47,6 +47,7 @@ def runcodesinput():
         dict["y"] = float(lines[i][2])
 
         lines[i] = dict.copy()
+
         
     return lines
 

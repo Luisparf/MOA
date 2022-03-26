@@ -7,7 +7,7 @@
 
 from math import dist
 from random import randint
-from improvement import twooptswap
+
 
 # Uma cópia local de funções como essa reduz o tempo de execução
 localLen = len
@@ -123,10 +123,10 @@ def findMaxDistance(graph, allDistances, i):
 
 ############################################################################################
 
-def findEdge(c, cycle, k): # c = cost or distance
+def findEdge(c, route, k): # c = cost or distance
     
     minimum = float('inf')
-    for i in range(1,localLen(cycle)):
+    for i in range(1,localLen(route)):
         if c[i][k] + c[k][i+1] - c[i][i+1] < minimum:
             minimum = c[i][k] + c[k][i+1] - c[i][i+1]
             chosenEdge = i
@@ -137,7 +137,7 @@ def findEdge(c, cycle, k): # c = cost or distance
 """
 
 
-def insertMoreDistant(graph, allDistances): 
+def insertMoreDistant(graph, dist): 
     """
 
     More distant insertion heuristic.
@@ -154,52 +154,50 @@ def insertMoreDistant(graph, allDistances):
     """
 
     # Iniciar com um ciclo [v1 , v2 , v3] com 3 vértices.
-    cycle = ['',1, 2, 3] # no caso, os 3 primeiros vértices, '' na primeira posição apenas para ciclo[i] = i
-    for x in range(1,localLen(cycle)):
+    route = ['',1, 2, 3] # no caso, os 3 primeiros vértices, '' na primeira posição apenas para ciclo[i] = i
+    for x in range(1,localLen(route)):
         graph[x]['used'] = True
 
     while True:
 
         # a) Encontrar um vértice k não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
-        sizeCycle = localLen(cycle)
-        i = cycle[sizeCycle-1] # no caso, pega o ultimo inserido ***
+        sizeroute = localLen(route)
+        i = route[sizeroute-1] # no caso, pega o ultimo inserido ***
         greaterDistance = 0
         for j in range(1, localLen(graph)):
-            if allDistances[i][j] > greaterDistance and graph[j]['used'] == False:
-                greaterDistance = allDistances[i][j]
+            if dist[i][j] > greaterDistance and graph[j]['used'] == False:
+                greaterDistance = dist[i][j]
                 k = j
 
 
         # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,i+1 - Ci,1+1) seja mínimo.  
-        minimum = allDistances[1][k] + allDistances[k][2] - allDistances[1][2]
-        for i in range(2,sizeCycle):
-            if allDistances[i][k] + allDistances[k][i+1] - allDistances[i][i+1] < minimum : 
-                minimum = allDistances[i][k] + allDistances[k][i+1] - allDistances[i][i+1]
+        minimum = dist[1][k] + dist[k][2] - dist[1][2]
+        for i in range(2,sizeroute):
+            if dist[i][k] + dist[k][i+1] - dist[i][i+1] < minimum : 
+                minimum = dist[i][k] + dist[k][i+1] - dist[i][i+1]
                 chosenEdge = i
+        
         """
-        ***
         # compara primeiro e ultimo elemento do ciclo para de fato considerar a lista(grafo) como um ciclo
-        if allDistances[1][k] + allDistances[k][sizeCycle] - allDistances[1][sizeCycle] < minimum: 
-            minimum = allDistances[1][k] + allDistances[k][sizeCycle] - allDistances[1][sizeCycle]
+        if dist[1][k] + dist[k][sizeroute] - dist[1][sizeroute] < minimum: 
+            minimum = dist[1][k] + dist[k][sizeroute] - dist[1][sizeroute]
             chosenEdge = 1
         """
 
         i = chosenEdge
 
         # c) Inserir o vértice k entre (i , i+1 ). Se todos os vértices já foram inseridos, pare, caso contrário,voltar ao passo “b”. <- "a"
-        cycle.insert(i,k)
+        route.insert(i,k)
         graph[k]['used'] = True
 
-        if sizeCycle == localLen(graph)-1:
+        if sizeroute == localLen(graph)-1:
             break
 
-    del(cycle[0])
+    # del(route[0])
 
-    # walkWeight = sumTravel(allDistances, sizeCycle, cycle)
-
-    print(cycle)
-
-    # kopt(cycle,allDistances, sizeCycle)
+    route.append(route[1])
+    # print(route)
+    return route
     
     
 
