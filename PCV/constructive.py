@@ -15,7 +15,7 @@ localLen = len
 
 def getAllDistances(graph): # armazena todas as distâncias  nó X nó
     allDistances = {}
-    for i in range(1, len(graph)):
+    for i in range(1, localLen(graph)):
         try:
             allDistances[i]
         except:
@@ -154,9 +154,10 @@ def insertMoreDistant(graph, dist):
     """
 
     # Iniciar com um ciclo [v1 , v2 , v3] com 3 vértices.
-    route = ['',1, 2, 3] # no caso, os 3 primeiros vértices, '' na primeira posição apenas para ciclo[i] = i
+    route = ['',1.0, 2.0, 3.0] # no caso, os 3 primeiros vértices, '' na primeira posição apenas para ciclo[i] = i
     for x in range(1,localLen(route)):
         graph[x]['used'] = True
+    chosenEdge = 0
 
     while True:
 
@@ -176,13 +177,6 @@ def insertMoreDistant(graph, dist):
             if dist[i][k] + dist[k][i+1] - dist[i][i+1] < minimum : 
                 minimum = dist[i][k] + dist[k][i+1] - dist[i][i+1]
                 chosenEdge = i
-        
-        """
-        # compara primeiro e ultimo elemento do ciclo para de fato considerar a lista(grafo) como um ciclo
-        if dist[1][k] + dist[k][sizeroute] - dist[1][sizeroute] < minimum: 
-            minimum = dist[1][k] + dist[k][sizeroute] - dist[1][sizeroute]
-            chosenEdge = 1
-        """
 
         i = chosenEdge
 
@@ -193,9 +187,9 @@ def insertMoreDistant(graph, dist):
         if sizeroute == localLen(graph)-1:
             break
 
-    # del(route[0])
+    del(route[0])
 
-    route.append(route[1])
+    route.append(route[0])
     # print(route)
     return route
     

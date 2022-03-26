@@ -34,7 +34,7 @@ def fileinput():
 
 def runcodesinput():
     lines = []
-    dict = {}
+    d = {}
     while (line := str(input())) != "EOF":
         line = line.replace('\r', '').split() # .replace('.', '').split()
         lines.append(line.copy())
@@ -42,12 +42,12 @@ def runcodesinput():
     del lines[0:5]
 
     for i in range(1, len(lines)):
-        dict["used"] = False
-        dict["x"] = float(lines[i][1])
-        dict["y"] = float(lines[i][2])
+        d["used"] = False
+        d["x"] = float(lines[i][1])
+        d["y"] = float(lines[i][2])
 
-        lines[i] = dict.copy()
 
-        
+        lines[i] = d.copy()
+
     return lines
 

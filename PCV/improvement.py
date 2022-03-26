@@ -7,12 +7,13 @@
 
 localLen = len
 
-def sumDistance(allDistances, route):
+def sumDistance(dist, route):
 
-    sizeroute = localLen(route)
+    sizeroute = localLen(route)-1
     walkWeight = 0
-    for i in range(1,sizeroute-1):
-        walkWeight += allDistances[route[i]][route[i+1]]
+    for i in range(1,sizeroute):
+        walkWeight += dist[route[i]][route[i+1]]
+
 
     return walkWeight
 
@@ -72,23 +73,26 @@ def two_opt(dist, route):
 	improved = True
 
 	while improved:
-		improved = False
-		for i in range(1, sizeRoute - 1):
-			for j in range(i+1, sizeRoute):
 
+		improved = False
+
+		for i in range(1, sizeRoute - 1):
+			bestDistance = sumDistance(dist, route)
+
+			for j in range(i+1, sizeRoute):
 				# newRoute = two_opt_swap(route.copy(), i, k)
 				newRoute = route[:]
 				newRoute[i:j] = route[j-1:i-1:-1] # o mesmo que two_opt_swap
-				print(newRoute)
+				# print(newRoute)
 				newDistance = sumDistance(dist, newRoute)
-				bestDistance = sumDistance(dist, route)
-				if newDistance < sumDistance(dist, bestRoute):
+
+				if newDistance < bestDistance:
 					bestRoute = newRoute
 					improved = True
 					bestDistance = newDistance
 
 			route = bestRoute	
-
+	# print(route)
 	return bestDistance
 
 	
