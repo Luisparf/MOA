@@ -7,7 +7,7 @@
 
 from math import dist
 from random import randint
-
+from improvement import twooptswap
 
 # Uma cópia local de funções como essa reduz o tempo de execução
 localLen = len
@@ -136,14 +136,6 @@ def findEdge(c, cycle, k): # c = cost or distance
 ############################################################################################
 """
 
-def sumTravel(allDistances, sizeCycle, cycle):
-    walkWeight = 0
-    for i in range(sizeCycle-1):
-        walkWeight += allDistances[cycle[i]][cycle[i+1]]
-
-    return walkWeight
-
-############################################################################################
 
 def insertMoreDistant(graph, allDistances): 
     """
@@ -203,10 +195,12 @@ def insertMoreDistant(graph, allDistances):
 
     del(cycle[0])
 
-    walkWeight = sumTravel(allDistances, sizeCycle, cycle)
+    # walkWeight = sumTravel(allDistances, sizeCycle, cycle)
 
-    # print(cycle)
-    return walkWeight
+    print(cycle)
+
+    # kopt(cycle,allDistances, sizeCycle)
+    
     
 
 
