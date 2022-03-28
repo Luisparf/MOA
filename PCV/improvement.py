@@ -92,7 +92,7 @@ def two_opt(dist, route):
 					bestDistance = newDistance
 
 			route = bestRoute	
-	print(route)
+	# print(route)
 	return bestDistance
 
 	

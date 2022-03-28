@@ -47,16 +47,29 @@ def runcodesinput():
     lines = []
     d = {}
     
-    while (line := str(input())) != "EOF":
+    while True:
+        try:
+            line = str(input())
+            if line == "EOF":
+                break
+        except EOFError as e: 
+            break
+        
         line = line.replace('\r', '').split() # .replace('.', '').split()
         lines.append(line.copy())
 
     del lines[0:5]
 
     for i in range(1, len(lines)):
-        d["used"] = False
-        d["x"] = float(lines[i][1])
-        d["y"] = float(lines[i][2])
+
+        try:
+            d["used"] = False
+            d["x"] = float(lines[i][1])
+            d["y"] = float(lines[i][2])
+            
+        except IndexError:
+            lines[i] = d.copy()
+            return lines
 
 
         lines[i] = d.copy()

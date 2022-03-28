@@ -12,13 +12,13 @@ if __name__ == '__main__':
     #printGraph(graph)
 
     ### Heurística construtiva Inserção do mais distante
-    #graph = insertMoreDistant(graph, allDistances)
-    #print(graph)
+    graph = insertMoreDistant(graph, allDistances)
+    # print(graph)
     
     ### Heurística melhorativa 2-opt
-    #print(int(two_opt(allDistances, graph)))
+    print(int(two_opt(allDistances, graph)))
 
    
 
     # Printar resultado da heurística vizinho mais próximo (considerando só a parte inteira)
-    print(int(nearestNeighbour(graph, allDistances)))
+    # print(int(nearestNeighbour(graph, allDistances)))

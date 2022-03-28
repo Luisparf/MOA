@@ -89,7 +89,7 @@ def nearestNeighbour(graph, allDistances):
     
     print(walkedPath)
 
-    return 
+    return walkWeight
 
 ###########################################################################################
 
