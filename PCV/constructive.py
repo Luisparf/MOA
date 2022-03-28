@@ -46,13 +46,14 @@ def getAllDistances(graph): # armazena todas as distâncias  nó X nó
 
 ###########################################################################################
 
-def matrizConstrutive(graph, allDistances):
+def nearestNeighbour(graph, allDistances):
     selected = randint(1, localLen(graph)-1)
     first = selected
 
     walkWeight = 0
     walkedPath = []
-    walkedPath.append(graph[selected])
+    walkedPath.append(selected)
+    graph[selected]['used'] = True
 
     while True:
         # Valor da distância entre nó atual e menor vizinho
@@ -75,6 +76,8 @@ def matrizConstrutive(graph, allDistances):
                 menorIndex = i
         
         if endCounter == (localLen(graph) - 2):
+            penultimo = localLen(walkedPath) - 1
+            walkWeight += allDistances[walkedPath[penultimo]][first]
             walkedPath.append(first)
             break
 
@@ -84,7 +87,7 @@ def matrizConstrutive(graph, allDistances):
         selected = menorIndex
 
     
-    # print(walkedPath)
+    print(walkedPath)
 
     return walkWeight
 
