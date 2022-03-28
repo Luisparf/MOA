@@ -157,7 +157,7 @@ def insertMoreDistant(graph, dist):
     """
 
     # Iniciar com um ciclo [v1 , v2 , v3] com 3 vértices.
-    route = ['',1,2,3] # no caso, os 3 primeiros vértices, '' na primeira posição apenas para ciclo[i] = i
+    route = ['',1,2,3,1] # no caso, os 3 primeiros vértices, '' na primeira posição apenas para ciclo[i] = i
     for x in range(1,localLen(route)):
         graph[x]['used'] = True
     chosenEdge = 0
@@ -166,13 +166,14 @@ def insertMoreDistant(graph, dist):
 
         # a) Encontrar um vértice k não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
         sizeroute = localLen(route)
-        i = route[sizeroute-1] # no caso, pega o ultimo inserido ***
+        i = route[sizeroute-2] # no caso, pega o ultimo inserido ***
         greaterDistance = 0
         for j in range(1, localLen(graph)):
             if dist[i][j] > greaterDistance and graph[j]['used'] == False:
                 greaterDistance = dist[i][j]
                 k = j
-
+            else:
+                k = localLen(route)-1
 
         # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,i+1 - Ci,1+1) seja mínimo.  
         minimum = dist[1][k] + dist[k][2] - dist[1][2]
@@ -192,7 +193,7 @@ def insertMoreDistant(graph, dist):
 
     route = [value for value in route if value != '']
 
-    route.append(route[0])
+    # route.append(route[0])
     # print(route)
     return route
 

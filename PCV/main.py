@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     ### Heurística construtiva Inserção do mais distante
     graph = insertMoreDistant(graph, allDistances)
-    # print(graph)
+    #print(graph)
     
     ### Heurística melhorativa 2-opt
     print(int(two_opt(allDistances, graph)))

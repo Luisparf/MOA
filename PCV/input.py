@@ -69,10 +69,12 @@ def runcodesinput():
             
         except IndexError:
             lines[i] = d.copy()
-            return lines
-
+            break
 
         lines[i] = d.copy()
+
+    lines.append(lines[1])  
+    # print(lines)  
 
     return lines
 
