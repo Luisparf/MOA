@@ -25,9 +25,7 @@ def fileinput():
 
     for i in range(1, len(lines)):
         line = lines[i].replace('\r', '').replace('.', '').split()
-        lines[i] = line
-
-    
+        lines[i] = line    
 
     for i in range(1, len(lines)):
         d["used"] = False
@@ -52,10 +50,10 @@ def runcodesinput():
             line = str(input())
             if line == "EOF":
                 break
-        except EOFError as e: 
+        except EOFError : 
             break
         
-        line = line.replace('\r', '').split() # .replace('.', '').split()
+        line = line.replace('\r', '').split() 
         lines.append(line.copy())
 
     del lines[0:5]
@@ -68,12 +66,12 @@ def runcodesinput():
             d["y"] = float(lines[i][2])
             
         except IndexError:
-            lines[i] = d.copy()
+            # lines[i] = d.copy()
             break
 
         lines[i] = d.copy()
 
-    lines.append(lines[1])  
+    # lines.append(lines[1])  
     # print(lines)  
 
     return lines

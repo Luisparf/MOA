@@ -76,10 +76,10 @@ def two_opt(dist, route):
 
 		improved = False
 
-		for i in range(1, sizeRoute ):
+		for i in range(1, sizeRoute - 2):
 			bestDistance = sumDistance(dist, route)
 
-			for j in range(i+1, sizeRoute ):
+			for j in range(i+1, sizeRoute):
 				# newRoute = two_opt_swap(route.copy(), i, k)
 				newRoute = route[:]
 				newRoute[i:j] = route[j-1:i-1:-1] # o mesmo que two_opt_swap
@@ -92,7 +92,8 @@ def two_opt(dist, route):
 					bestDistance = newDistance
 
 			route = bestRoute	
-	# print(route)
+	print()
+	print(route)
 	return bestDistance
 
 	
