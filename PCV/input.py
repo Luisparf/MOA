@@ -17,6 +17,7 @@ def fileinput():
 
     """
     f = open('1.in', 'r')
+    d = {}
     lines = f.readlines()
 
     del lines[0:5]
@@ -25,6 +26,16 @@ def fileinput():
     for i in range(1, len(lines)):
         line = lines[i].replace('\r', '').replace('.', '').split()
         lines[i] = line
+
+    
+
+    for i in range(1, len(lines)):
+        d["used"] = False
+        d["x"] = float(lines[i][1])
+        d["y"] = float(lines[i][2])
+
+
+        lines[i] = d.copy()
 
     f.close()
     return lines
@@ -35,7 +46,8 @@ def fileinput():
 def runcodesinput():
     lines = []
     d = {}
-    while (line := str(input())) != "EOF":
+    
+    while (line := str(input())) != "EOF" or line == "EOF ":
         line = line.replace('\r', '').split() # .replace('.', '').split()
         lines.append(line.copy())
 

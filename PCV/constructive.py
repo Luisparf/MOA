@@ -154,7 +154,7 @@ def insertMoreDistant(graph, dist):
     """
 
     # Iniciar com um ciclo [v1 , v2 , v3] com 3 vértices.
-    route = ['',1.0, 2.0, 3.0] # no caso, os 3 primeiros vértices, '' na primeira posição apenas para ciclo[i] = i
+    route = ['',1,2,3] # no caso, os 3 primeiros vértices, '' na primeira posição apenas para ciclo[i] = i
     for x in range(1,localLen(route)):
         graph[x]['used'] = True
     chosenEdge = 0
@@ -187,11 +187,12 @@ def insertMoreDistant(graph, dist):
         if sizeroute == localLen(graph)-1:
             break
 
-    del(route[0])
+    route = [value for value in route if value != '']
 
     route.append(route[0])
     # print(route)
     return route
+
     
     
 
