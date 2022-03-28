@@ -47,7 +47,7 @@ def runcodesinput():
     lines = []
     d = {}
     
-    while (line := str(input())) != "EOF" or line == "EOF ":
+    while (line := str(input())) != "EOF":
         line = line.replace('\r', '').split() # .replace('.', '').split()
         lines.append(line.copy())
 
