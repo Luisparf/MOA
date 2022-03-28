@@ -8,7 +8,6 @@ if __name__ == '__main__':
 
     ### Input ###
     graph = runcodesinput()  # lê o arquivo e armazena cada nó em uma lista, onde cada nó i está no indice i da lista e contém suas coordenadas x,y
-    graph = fileinput()
     allDistances = getAllDistances(graph) # distâncias de nó para nó
     #printGraph(graph)
 
