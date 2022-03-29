@@ -166,7 +166,7 @@ def insertmoredistant(graph, dist):
 
         # a) Encontrar um vértice k não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
         sizeroute = localLen(route)
-        i = route[sizeroute - 2]  # no caso, pega o ultimo inserido ***
+        i = route[sizeroute - 1]  # no caso, pega o ultimo inserido ***
         chosen_edge = i
 
         greater_distance = 0
@@ -194,5 +194,5 @@ def insertmoredistant(graph, dist):
     route = [value for value in route if value != '']
 
     route.append(route[0])
-    print(route)
+    # print(route)
     return route

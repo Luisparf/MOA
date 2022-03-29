@@ -157,6 +157,8 @@ def insertMoreDistant(graph, dist):
     # print(route)
     return route
 
+###########################################################################################
+
 def runcodesinput():
     lines = []
     d = {}
@@ -191,6 +193,8 @@ def runcodesinput():
     # print(lines)  
 
     return lines
+    
+###########################################################################################
 
 def sumDistance(dist, route):
 
@@ -201,6 +205,9 @@ def sumDistance(dist, route):
         #   print("route[{}] = {}".format(i,route[i]))
 
     return walkWeight
+
+    ###########################################################################################
+
 
 def two_opt(route, dist):
     """
