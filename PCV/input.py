@@ -66,7 +66,7 @@ def runcodesinput():
             d["y"] = float(lines[i][2])
             
         except IndexError:
-            # lines[i] = d.copy()
+            lines[i] = d.copy()
             break
 
         lines[i] = d.copy()

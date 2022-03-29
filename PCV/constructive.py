@@ -16,11 +16,9 @@ localLen = len
 def getAllDistances(graph): # armazena todas as distâncias  nó X nó
     allDistances = {}
     for i in range(1, localLen(graph)):
-        try:
-            allDistances[i]
-        except:
+        
+        if (allDistances.get(i) == None):
             allDistances[i] = {}
-
 
         allDistances[i][i] = 0.0
         x0 = graph[i]['x']
@@ -28,12 +26,9 @@ def getAllDistances(graph): # armazena todas as distâncias  nó X nó
         for a in range(i+1, localLen(graph)):  
             #print(i, a)
 
-            try:
-                allDistances[a]
-                
-            except:
+            if (allDistances.get(a) == None):
                 allDistances[a] = {}
-        
+
             x1 = graph[a]['x']
             y1 = graph[a]['y']
             
