@@ -26,6 +26,7 @@ def getAllDistances(graph): # armazena todas as distâncias  nó X nó
         x0 = graph[i]['x']
         y0 = graph[i]['y']
         for a in range(i+1, len(graph)):  
+            #print(i, a)
 
             try:
                 allDistances[a]
@@ -42,7 +43,7 @@ def getAllDistances(graph): # armazena todas as distâncias  nó X nó
 
             allDistances[i][a] = calculatedDist
             allDistances[a][i] = calculatedDist
-         
+    #print(allDistances)
     return allDistances
 
 ###########################################################################################
@@ -50,6 +51,11 @@ def getAllDistances(graph): # armazena todas as distâncias  nó X nó
 def nearestNeighbour(graph, allDistances):
     selected = randint(1, localLen(graph)-1)
     first = selected
+
+    #print("first: ", first)
+
+    #print("Grafo: " ,graph[1:localLen(graph)])
+    #print('-'*30)
 
     walkWeight = 0
     walkedPath = []
@@ -73,24 +79,31 @@ def nearestNeighbour(graph, allDistances):
                 continue
 
             if allDistances[selected][i] < menor:
+                #print("allDistances: ",allDistances)
+                #print()
+                #print("grafo: " ,graph[1:localLen(graph)])
+                #print('-'*30)
                 menor = allDistances[selected][i]
                 menorIndex = i
         
-        if endCounter == (localLen(graph) - 2):
+        if endCounter == (localLen(graph) - 1):
             penultimo = localLen(walkedPath) - 1
             walkWeight += allDistances[walkedPath[penultimo]][first]
             walkedPath.append(first)
             break
+
+        #print(menorIndex)
 
         walkWeight += menor
         walkedPath.append(menorIndex)
         graph[menorIndex]['used'] = True
         selected = menorIndex
 
-    
-    print(walkedPath)
+    #print(endCounter)
+    #print(walkedPath)
 
-    return walkWeight
+    return walkedPath
+    #return walkWeight
 
 ###########################################################################################
 
