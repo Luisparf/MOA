@@ -7,35 +7,36 @@
 
 localLen = len
 
-def sumDistance(dist, route):
 
-    sizeroute = localLen(route)-1
+def sumdistance(dist, route):
+    sizeroute = localLen(route) - 1
     walkWeight = 0
     for i in range(sizeroute):
-    	walkWeight += dist[route[i]][route[i+1]]
+        walkWeight += dist[route[i]][route[i + 1]]
         # 	print("route[{}] = {}".format(i,route[i]))
 
     return walkWeight
 
+
 ############################################################################################
 
 def two_opt_swap(route, i, k):
+    newroute = []
+    sizeroute = localLen(route)
 
-	newroute = []
-	sizeroute = localLen(route)
+    newroute.append(route[0:i])
+    newroute.append(route[k - 2:i - 1:-1])
+    newroute.append(route[k - 1:sizeroute])
 
-	newroute.append(route[0:i])
-	newroute.append(route[k-2:i-1:-1])
-	newroute.append(route[k-1:sizeroute])
+    flatroute = [item for sublist in newroute for item in sublist]
+    # print("\nflatroute = {} i = {} k = {}".format(flatroute, i, k))
+    return flatroute
 
-	flatroute = [item for sublist in newroute for item in sublist]
-	# print("\nflatroute = {} i = {} k = {}".format(flatroute, i, k))
-	return flatroute
 
 ############################################################################################
 
 def two_opt(dist, route):
-	"""
+    """
 
     2-opt heuristic.
 
@@ -68,36 +69,30 @@ def two_opt(dist, route):
 
     """
 
-	sizeRoute = localLen(route)
-	bestRoute = route
-	improved = True
+    size_route = localLen(route)
+    best_route = route
+    improved = True
 
-	while improved:
+    while improved:
 
-		improved = False
+        improved = False
 
-		for i in range(1, sizeRoute - 2):
-			bestDistance = sumDistance(dist, route)
+        for i in range(1, size_route - 2):
+            best_distance = sumdistance(dist, route)
 
-			for j in range(i+1, sizeRoute):
-				# newRoute = two_opt_swap(route.copy(), i, k)
-				newRoute = route[:]
-				newRoute[i:j] = route[j-1:i-1:-1] # o mesmo que two_opt_swap
-				# print(newRoute)
-				newDistance = sumDistance(dist, newRoute)
+            for j in range(i + 1, size_route):
+                # newRoute = two_opt_swap(route.copy(), i, k)
+                new_route = route[:]
+                new_route[i:j] = route[j - 1:i - 1:-1]  # o mesmo que two_opt_swap
+                # print(newRoute)
+                newDistance = sumdistance(dist, new_route)
 
-				if newDistance < bestDistance:
-					bestRoute = newRoute
-					improved = True
-					bestDistance = newDistance
+                if newDistance < best_distance:
+                    best_route = new_route
+                    improved = True
+                    best_distance = newDistance
 
-			route = bestRoute	
-	print()
-	print(route)
-	return bestDistance
-
-	
-
-
-
-	
+            route = best_route
+    print()
+    print(route)
+    return best_distance

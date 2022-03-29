@@ -7,13 +7,13 @@
 
 from math import dist
 from random import randint
-from improvement import sumDistance
+from improvement import sumdistance
 
 # Uma cópia local de funções como essa reduz o tempo de execução
 localLen = len
 
 
-def getAllDistances(graph): # armazena todas as distâncias  nó X nó
+def getAllDistances(graph):  # armazena todas as distâncias  nó X nó
     allDistances = {}
     for i in range(1, localLen(graph)):
         try:
@@ -21,34 +21,33 @@ def getAllDistances(graph): # armazena todas as distâncias  nó X nó
         except:
             allDistances[i] = {}
 
-
         allDistances[i][i] = 0.0
         x0 = graph[i]['x']
         y0 = graph[i]['y']
-        for a in range(i+1, len(graph)):  
+        for a in range(i + 1, len(graph)):
 
             try:
                 allDistances[a]
-                
+
             except:
                 allDistances[a] = {}
-        
+
             x1 = graph[a]['x']
             y1 = graph[a]['y']
-            
 
-            calculatedDist = int(dist([x0, y0], [x1, y1])) # Só considerando parte inteira
-            #calculatedDist = dist([x0, y0], [x1, y1]) # Considerando ponto flutuante
+            calculatedDist = int(dist([x0, y0], [x1, y1]))  # Só considerando parte inteira
+            # calculatedDist = dist([x0, y0], [x1, y1]) # Considerando ponto flutuante
 
             allDistances[i][a] = calculatedDist
             allDistances[a][i] = calculatedDist
-         
+
     return allDistances
+
 
 ###########################################################################################
 
 def nearestNeighbour(graph, allDistances):
-    selected = randint(1, localLen(graph)-1)
+    selected = randint(1, localLen(graph) - 1)
     first = selected
 
     walkWeight = 0
@@ -59,10 +58,10 @@ def nearestNeighbour(graph, allDistances):
     while True:
         # Valor da distância entre nó atual e menor vizinho
         menor = float('inf')
-        
+
         # Indice do menor vizinho encontrado
         menorIndex = -1
-        
+
         # Conteiro para verificar se todos os vizinho já foram explorados 
         endCounter = 0
         for i in range(1, localLen(graph)):
@@ -75,7 +74,7 @@ def nearestNeighbour(graph, allDistances):
             if allDistances[selected][i] < menor:
                 menor = allDistances[selected][i]
                 menorIndex = i
-        
+
         if endCounter == (localLen(graph) - 2):
             penultimo = localLen(walkedPath) - 1
             walkWeight += allDistances[walkedPath[penultimo]][first]
@@ -87,18 +86,19 @@ def nearestNeighbour(graph, allDistances):
         graph[menorIndex]['used'] = True
         selected = menorIndex
 
-    
     print(walkedPath)
 
     return walkWeight
 
+
 ###########################################################################################
 
-def printGraph(graph):
+def printgraph(graph):
     for i in range(1, localLen(graph)):
         print(f"\n{i}")
         print('\n'.join("{}: {}".format(k, v) for k, v in graph[i].items()))
-   
+
+
 ############################################################################################
 
 """
@@ -141,7 +141,7 @@ def findEdge(c, route, k): # c = cost or distance
 """
 
 
-def insertMoreDistant(graph, dist): 
+def insertmoredistant(graph, dist):
     """
 
     More distant insertion heuristic.
@@ -158,55 +158,41 @@ def insertMoreDistant(graph, dist):
     """
 
     # Iniciar com um ciclo [v1 , v2 , v3] com 3 vértices.
-    route = ['',1,2,3] # no caso, os 3 primeiros vértices, '' na primeira posição apenas para ciclo[i] = i
-    for x in range(1,localLen(route)):
+    route = ['', 1, 2, 3]  # no caso, os 3 primeiros vértices, '' na primeira posição apenas para ciclo[i] = i
+    for x in range(1, localLen(route)):
         graph[x]['used'] = True
-    
 
     while True:
 
         # a) Encontrar um vértice k não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
         sizeroute = localLen(route)
-        i = route[sizeroute-2] # no caso, pega o ultimo inserido ***
-        chosenEdge = i
-        
-        greaterDistance = 0
+        i = route[sizeroute - 2]  # no caso, pega o ultimo inserido ***
+        chosen_edge = i
+
+        greater_distance = 0
         for j in range(1, localLen(graph)):
-            if dist[i][j] > greaterDistance and graph[j]['used'] == False:
-                greaterDistance = dist[i][j]
+            if dist[i][j] > greater_distance and graph[j]['used'] is False:
+                greater_distance = dist[i][j]
                 k = j
-            
+
         # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,i+1 - Ci,1+1) seja mínimo.  
         minimum = dist[1][k] + dist[k][2] - dist[1][2]
-        for i in range(2,sizeroute-1):
-            if dist[i][k] + dist[k][i+1] - dist[i][i+1] < minimum : 
-                minimum = dist[i][k] + dist[k][i+1] - dist[i][i+1]
-                chosenEdge = i
+        for i in range(2, sizeroute - 1):
+            if dist[i][k] + dist[k][i + 1] - dist[i][i + 1] < minimum:
+                minimum = dist[i][k] + dist[k][i + 1] - dist[i][i + 1]
+                chosen_edge = i
 
-        i = chosenEdge
+        i = chosen_edge
 
         # c) Inserir o vértice k entre (i , i+1 ). Se todos os vértices já foram inseridos, pare, caso contrário,voltar ao passo “b”. <- "a"
-        route.insert(i,k)
+        route.insert(i, k)
         graph[k]['used'] = True
 
-        if sizeroute == localLen(graph)-1:
+        if sizeroute == localLen(graph) - 1:
             break
 
     route = [value for value in route if value != '']
 
-    route.append(route[0]) 
+    route.append(route[0])
     print(route)
     return route
-
-    
-    
-
-
-    
-
-    
-
-
-
-
-   
