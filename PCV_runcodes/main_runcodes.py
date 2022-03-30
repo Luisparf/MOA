@@ -11,8 +11,8 @@ localDist = dist
 ###########################################################################################
 
 def nearestNeighbour(graph):
-    selected = randint(1, localLen(graph)-1)
-    # selected = 1
+    # selected = randint(1, localLen(graph)-1)
+    selected = 1
 
     first = selected
     
@@ -38,14 +38,14 @@ def nearestNeighbour(graph):
                 endCounter += 1
                 continue
 
-            if localDist( [ graph[selected]['x'], graph[selected]['y'] ] , [ graph[i]['x'], graph[i]['y'] ] ) < menor:
+            if int(dist( [ graph[selected]['x'], graph[selected]['y'] ] , [ graph[i]['x'], graph[i]['y'] ] )) < menor:
 
-                menor = localDist( [ graph[selected]['x'], graph[selected]['y'] ] , [ graph[i]['x'], graph[i]['y'] ] )
+                menor = int(dist( [ graph[selected]['x'], graph[selected]['y'] ] , [ graph[i]['x'], graph[i]['y'] ] ))
                 menorIndex = i
         
         if endCounter == (localLen(graph) - 1):
             penultimo = localLen(walkedPath) - 1
-            walkWeight += localDist( [ graph[walkedPath[penultimo]]['x'], graph[walkedPath[penultimo]]['y'] ] , [ graph[first]['x'], graph[first]['y'] ])
+            walkWeight += int(dist( [ graph[walkedPath[penultimo]]['x'], graph[walkedPath[penultimo]]['y'] ] , [ graph[first]['x'], graph[first]['y'] ]))
             walkedPath.append(first)
             break
 
@@ -186,11 +186,11 @@ def sumdistance(route, graph):
     sizeroute = localLen(route) - 1
     walk_weight = 0
     for i in range(sizeroute):
-        xi = graph[route[i]]['x']
-        yi = graph[route[i]]['y']
+        xi = int(graph[route[i]]['x'])
+        yi = int(graph[route[i]]['y'])
 
-        x_p = graph[route[i + 1]]['x']
-        y_p = graph[route[i + 1]]['y']
+        x_p = int(graph[route[i + 1]]['x'])
+        y_p = int(graph[route[i + 1]]['y'])
 
         walk_weight += int(dist([xi, yi], [x_p, y_p]))
 
@@ -264,7 +264,7 @@ def two_opt(route, graph):
 
             route = best_route
             # print()
-    # print(route)
+    print(route)
     return best_distance
 
 ##########################################################################################################
@@ -281,6 +281,7 @@ if __name__ == '__main__':
     
     ### Heurística construtiva Inserção do mais distante
     route = nearestNeighbour(graph)
+
 
     ### Heurística melhorativa 2-opt
     print(int(two_opt(route, graph)))

@@ -48,8 +48,8 @@ def getAllDistances(graph): # armazena todas as distâncias  nó X nó
 ###########################################################################################
 
 def nearestNeighbour(graph, allDistances):
-    selected = randint(1, localLen(graph)-1)
-    # selected = 1
+    # selected = randint(1, localLen(graph)-1)
+    selected = 1
 
     first = selected
     
