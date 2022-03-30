@@ -7,14 +7,14 @@ from math import dist
 if __name__ == '__main__':
     ### Input ###
     graph = runcodesinput()  # lê o arquivo e armazena cada nó em uma lista, onde cada nó i está no indice i da lista e contém suas coordenadas x,y
-    allDistances = getAllDistances(graph)  # distâncias de nó para nó
+
     # print(allDistances)
 
     ### Heurística construtiva vizinho mais próximo
-    graph = insertmoredistant(graph, allDistances)
+    # graph = nearestNeighbour(graph)
 
     ### Heurística construtiva Inserção do mais distante
-    # graph = nearestNeighbour(graph, allDistances)
+    route = insertmoredistant(graph)
 
     ### Heurística melhorativa 2-opt
-    print(int(two_opt(graph, allDistances)))
+    print(int(two_opt(route, graph)))
