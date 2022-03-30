@@ -6,14 +6,20 @@
 ###########################################################################################
 
 localLen = len
+from math import dist
 
 
-def sumdistance(dist, route):
+def sumdistance(route, graph):
     sizeroute = localLen(route) - 1
     walk_weight = 0
     for i in range(sizeroute):
-        walk_weight += dist[route[i]][route[i + 1]]
-        # 	print("route[{}] = {}".format(i,route[i]))
+        xi = graph[route[i]]['x']
+        yi = graph[route[i]]['y']
+
+        x_p = graph[route[i + 1]]['x']
+        y_p = graph[route[i + 1]]['y']
+
+        walk_weight += int(dist([xi, yi], [x_p, y_p]))
 
     return walk_weight
 
@@ -35,7 +41,7 @@ def two_opt_swap(route, i, k):
 
 ############################################################################################
 
-def two_opt(dist, route):
+def two_opt(route, graph):
     """
 
     2-opt heuristic.
@@ -78,14 +84,14 @@ def two_opt(dist, route):
         improved = False
 
         for i in range(1, size_route - 2):
-            best_distance = sumdistance(dist, route)
+            best_distance = sumdistance(route, graph)
 
             for j in range(i + 1, size_route):
                 # newRoute = two_opt_swap(route.copy(), i, k)
                 new_route = route[:]
                 new_route[i:j] = route[j - 1:i - 1:-1]  # o mesmo que two_opt_swap
                 # print(newRoute)
-                new_distance = sumdistance(dist, new_route)
+                new_distance = sumdistance(new_route, graph)
 
                 if new_distance < best_distance:
                     best_route = new_route

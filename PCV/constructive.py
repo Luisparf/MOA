@@ -7,7 +7,7 @@
 
 from math import dist
 from random import randint
-from improvement import sumdistance
+
 
 # Uma cópia local de funções como essa reduz o tempo de execução
 localLen = len
@@ -47,6 +47,7 @@ def getAllDistances(graph):  # armazena todas as distâncias  nó X nó
 ###########################################################################################
 
 def nearestNeighbour(graph, allDistances):
+
     selected = randint(1, localLen(graph) - 1)
     first = selected
 
@@ -101,47 +102,8 @@ def printgraph(graph):
 
 ############################################################################################
 
-"""
-def get_key(allDistances,val):
-    
-    for key, value in allDistances.items():
-        if val == value:
-             return key
- 
-    return "key doesn't exist"
 
-############################################################################################
-
-def findMaxDistance(graph, allDistances, i):
-    
-    greaterDistance = 0
-    for j in range(1, localLen(graph)):
-        if allDistances[i][j] > greaterDistance and graph[j]['used'] == False:
-            greaterDistance = allDistances[i][j]
-            greaterIndex = j
-
-    return greaterIndex
-   
-    # print("All distances from {}: {}".format(i,allDistances[i]))
-
-
-############################################################################################
-
-def findEdge(c, route, k): # c = cost or distance
-    
-    minimum = float('inf')
-    for i in range(1,localLen(route)):
-        if c[i][k] + c[k][i+1] - c[i][i+1] < minimum:
-            minimum = c[i][k] + c[k][i+1] - c[i][i+1]
-            chosenEdge = i
-
-    return chosenEdge
-
-############################################################################################
-"""
-
-
-def insertmoredistant(graph, dist):
+def insertmoredistant(graph):
     """
 
     More distant insertion heuristic.
@@ -169,17 +131,45 @@ def insertmoredistant(graph, dist):
         i = route[sizeroute - 1]  # no caso, pega o ultimo inserido ***
         chosen_edge = i
 
+        xi = graph[i]['x']
+        yi = graph[i]['y']
+
         greater_distance = 0
         for j in range(1, localLen(graph)):
-            if dist[i][j] > greater_distance and graph[j]['used'] is False:
-                greater_distance = dist[i][j]
+            x1 = graph[j]['x']
+            y1 = graph[j]['y']
+
+            if dist([xi, yi], [x1, y1]) > greater_distance and graph[j]['used'] is False:
+                greater_distance = dist([xi, yi], [x1, y1])
                 k = j
 
-        # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,i+1 - Ci,1+1) seja mínimo.  
-        minimum = dist[1][k] + dist[k][2] - dist[1][2]
+        # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,i+1 - Ci,1+1) seja mínimo.
+        """
+        minimum = alldist[1][k] + alldist[k][2] - alldist[1][2]
         for i in range(2, sizeroute - 1):
-            if dist[i][k] + dist[k][i + 1] - dist[i][i + 1] < minimum:
-                minimum = dist[i][k] + dist[k][i + 1] - dist[i][i + 1]
+            if alldist[i][k] + alldist[k][i + 1] - alldist[i][i + 1] < minimum:
+                minimum = alldist[i][k] + alldist[k][i + 1] - alldist[i][i + 1]
+                chosen_edge = i
+        """
+
+        x1 = graph[1]['x']
+        y1 = graph[1]['y']
+
+        x2 = graph[2]['x']
+        y2 = graph[2]['y']
+
+        xk = graph[k]['x']
+        yk = graph[k]['y']
+        minimum = dist([x1, y1], [xk, yk]) + dist([xk, yk], [x2, y2]) - dist([x1, y1], [x2, y2])
+        for i in range(2, sizeroute - 1):
+            xi = graph[i]['x']
+            yi = graph[i]['y']
+
+            x_p = graph[i+1]['x']
+            y_p = graph[i+1]['y']
+
+            if dist([xi, yi], [xk, yk]) + dist([xk, yk], [x_p, y_p]) - dist([xi, yi], [x_p, y_p]) < minimum:
+                minimum = dist([xi, yi], [xk, yk]) + dist([xk, yk], [x_p, y_p]) - dist([xi, yi], [x_p, y_p])
                 chosen_edge = i
 
         i = chosen_edge
@@ -188,7 +178,7 @@ def insertmoredistant(graph, dist):
         route.insert(i, k)
         graph[k]['used'] = True
 
-        if sizeroute == localLen(graph) - 1:
+        if sizeroute == localLen(graph) - 1 :
             break
 
     route = [value for value in route if value != '']
