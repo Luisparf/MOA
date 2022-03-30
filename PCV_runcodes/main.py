@@ -4,6 +4,7 @@ from random import randint
 
 # Uma cópia local de funções como essa reduz o tempo de execução
 localLen = len
+localDist = dist
 
 ############################################################################################
 
@@ -17,37 +18,32 @@ def printGraph(graph):
 
 def getAllDistances(graph): # armazena todas as distâncias  nó X nó
     allDistances = {}
-    for i in range(1, localLen(graph)-1):
-        try:
-            allDistances[i]
-        except:
+    for i in range(1, localLen(graph)):
+        
+        if (allDistances.get(i) == None):
             allDistances[i] = {}
 
-
         allDistances[i][i] = 0.0
-
         x0 = graph[i]['x']
         y0 = graph[i]['y']
+        for a in range(i+1, localLen(graph)):  
+            #print(i, a)
 
-        for a in range(i+1, len(graph)):  
-
-            try:
-                allDistances[a]
-                
-            except:
+            if (allDistances.get(a) == None):
                 allDistances[a] = {}
-        
+
             x1 = graph[a]['x']
             y1 = graph[a]['y']
             
 
-            calculatedDist = int(dist([x0, y0], [x1, y1])) # Só considerando parte inteira
+            calculatedDist = int(localDist([x0, y0], [x1, y1])) # Só considerando parte inteira
             #calculatedDist = dist([x0, y0], [x1, y1]) # Considerando ponto flutuante
 
             allDistances[i][a] = calculatedDist
             allDistances[a][i] = calculatedDist
-         
+    #print(allDistances)
     return allDistances
+
 
 ###########################################################################################
 

@@ -11,36 +11,33 @@ from random import randint
 
 # Uma cópia local de funções como essa reduz o tempo de execução
 localLen = len
-
+localDist = dist
 
 def getAllDistances(graph):  # armazena todas as distâncias  nó X nó
     allDistances = {}
     for i in range(1, localLen(graph)):
-        try:
-            allDistances[i]
-        except:
+
+        if allDistances.get(i) == None:
             allDistances[i] = {}
 
         allDistances[i][i] = 0.0
         x0 = graph[i]['x']
         y0 = graph[i]['y']
-        for a in range(i + 1, len(graph)):
+        for a in range(i + 1, localLen(graph)):
+            # print(i, a)
 
-            try:
-                allDistances[a]
-
-            except:
+            if allDistances.get(a) == None:
                 allDistances[a] = {}
 
             x1 = graph[a]['x']
             y1 = graph[a]['y']
 
-            calculatedDist = int(dist([x0, y0], [x1, y1]))  # Só considerando parte inteira
+            calculatedDist = int(localDist([x0, y0], [x1, y1]))  # Só considerando parte inteira
             # calculatedDist = dist([x0, y0], [x1, y1]) # Considerando ponto flutuante
 
             allDistances[i][a] = calculatedDist
             allDistances[a][i] = calculatedDist
-
+    # print(allDistances)
     return allDistances
 
 
@@ -103,7 +100,7 @@ def printgraph(graph):
 ############################################################################################
 
 
-def insertmoredistant(graph):
+def insertmoredistant(graph, dist):
     """
 
     More distant insertion heuristic.
@@ -129,47 +126,20 @@ def insertmoredistant(graph):
         # a) Encontrar um vértice k não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
         sizeroute = localLen(route)
         i = route[sizeroute - 1]  # no caso, pega o ultimo inserido ***
-        chosen_edge = i
 
-        xi = graph[i]['x']
-        yi = graph[i]['y']
+        chosen_edge = i
 
         greater_distance = 0
         for j in range(1, localLen(graph)):
-            x1 = graph[j]['x']
-            y1 = graph[j]['y']
-
-            if dist([xi, yi], [x1, y1]) > greater_distance and graph[j]['used'] is False:
-                greater_distance = dist([xi, yi], [x1, y1])
+            if dist[i][j] > greater_distance and graph[j]['used'] == False:
+                greater_distance = dist[i][j]
                 k = j
 
         # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,i+1 - Ci,1+1) seja mínimo.
-        """
-        minimum = alldist[1][k] + alldist[k][2] - alldist[1][2]
+        minimum = dist[1][k] + dist[k][2] - dist[1][2]
         for i in range(2, sizeroute - 1):
-            if alldist[i][k] + alldist[k][i + 1] - alldist[i][i + 1] < minimum:
-                minimum = alldist[i][k] + alldist[k][i + 1] - alldist[i][i + 1]
-                chosen_edge = i
-        """
-
-        x1 = graph[1]['x']
-        y1 = graph[1]['y']
-
-        x2 = graph[2]['x']
-        y2 = graph[2]['y']
-
-        xk = graph[k]['x']
-        yk = graph[k]['y']
-        minimum = dist([x1, y1], [xk, yk]) + dist([xk, yk], [x2, y2]) - dist([x1, y1], [x2, y2])
-        for i in range(2, sizeroute - 1):
-            xi = graph[i]['x']
-            yi = graph[i]['y']
-
-            x_p = graph[i+1]['x']
-            y_p = graph[i+1]['y']
-
-            if dist([xi, yi], [xk, yk]) + dist([xk, yk], [x_p, y_p]) - dist([xi, yi], [x_p, y_p]) < minimum:
-                minimum = dist([xi, yi], [xk, yk]) + dist([xk, yk], [x_p, y_p]) - dist([xi, yi], [x_p, y_p])
+            if dist[i][k] + dist[k][i + 1] - dist[i][i + 1] < minimum:
+                minimum = dist[i][k] + dist[k][i + 1] - dist[i][i + 1]
                 chosen_edge = i
 
         i = chosen_edge
@@ -178,7 +148,7 @@ def insertmoredistant(graph):
         route.insert(i, k)
         graph[k]['used'] = True
 
-        if sizeroute == localLen(graph) - 1 :
+        if sizeroute == localLen(graph) - 1:
             break
 
     route = [value for value in route if value != '']
