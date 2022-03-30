@@ -10,7 +10,7 @@ localLen = len
 localDist = dist
 
 
-def sumdistance(route, graph):
+def sumdistance(graph, route):
     sizeroute = localLen(route) - 1
     walk_weight = 0
     for i in range(sizeroute):
@@ -80,24 +80,29 @@ def two_opt(route, graph):
     best_route = route
     improved = True
 
+    counter = 0
     while improved:
+
+        if counter >= 20:
+            break
 
         improved = False
 
         for i in range(1, size_route - 2):
-            best_distance = sumdistance(route, graph)
+            best_distance = sumdistance(graph, route)
 
             for j in range(i + 1, size_route):
                 # newRoute = two_opt_swap(route.copy(), i, k)
                 new_route = route[:]
                 new_route[i:j] = route[j - 1:i - 1:-1]  # o mesmo que two_opt_swap
                 # print(newRoute)
-                new_distance = sumdistance(new_route, graph)
+                new_distance = sumdistance(graph, new_route)
 
                 if new_distance < best_distance:
                     best_route = new_route
                     improved = True
                     best_distance = new_distance
+                    counter += 1
 
             route = best_route
             # print()

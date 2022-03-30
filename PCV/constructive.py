@@ -43,10 +43,10 @@ def getAllDistances(graph):  # armazena todas as distâncias  nó X nó
 
 ###########################################################################################
 
-def nearestNeighbour(graph, allDistances):
+def nearestNeighbour(graph):
     # selected = randint(1, localLen(graph)-1)
-
     selected = 1
+
     first = selected
 
     walkWeight = 0
@@ -61,7 +61,7 @@ def nearestNeighbour(graph, allDistances):
         # Indice do menor vizinho encontrado
         menorIndex = -1
 
-        # Conteiro para verificar se todos os vizinho já foram explorados 
+        # Conteiro para verificar se todos os vizinho já foram explorados
         endCounter = 0
         for i in range(1, localLen(graph)):
             # print("selected = {} i = {}".format(selected, i))
@@ -70,13 +70,14 @@ def nearestNeighbour(graph, allDistances):
                 endCounter += 1
                 continue
 
-            if allDistances[selected][i] < menor:
-                menor = allDistances[selected][i]
+            if dist([graph[selected]['x'], graph[selected]['y']], [graph[i]['x'], graph[i]['y']]) < menor:
+                menor = dist([graph[selected]['x'], graph[selected]['y']], [graph[i]['x'], graph[i]['y']])
                 menorIndex = i
 
         if endCounter == (localLen(graph) - 1):
             penultimo = localLen(walkedPath) - 1
-            walkWeight += allDistances[walkedPath[penultimo]][first]
+            walkWeight += int(dist([graph[walkedPath[penultimo]]['x'], graph[walkedPath[penultimo]]['y']],
+                                   [graph[first]['x'], graph[first]['y']]))
             walkedPath.append(first)
             break
 
@@ -88,7 +89,6 @@ def nearestNeighbour(graph, allDistances):
     # print(walkedPath)
 
     return walkedPath
-
 
 ###########################################################################################
 

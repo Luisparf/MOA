@@ -199,7 +199,7 @@ def sumdistance(dist, route):
     walkWeight = 0
     for i in range(sizeroute):
         walkWeight += dist[route[i]][route[i+1]]
-        #   print("route[{}] = {}".format(i,route[i]))
+        
 
     return walkWeight
 

@@ -11,10 +11,10 @@ if __name__ == '__main__':
     # print(allDistances)
 
     ### Heurística construtiva vizinho mais próximo
-    # graph = nearestNeighbour(graph)
+    route = nearestNeighbour(graph)
 
     ### Heurística construtiva Inserção do mais distante
-    route = insertmoredistant(graph)
+    # route = insertmoredistant(graph)
 
     ### Heurística melhorativa 2-opt
     print(int(two_opt(route, graph)))

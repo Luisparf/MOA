@@ -38,16 +38,18 @@ def nearestNeighbour(graph):
                 endCounter += 1
                 continue
 
-            if int(dist( [ graph[selected]['x'], graph[selected]['y'] ] , [ graph[i]['x'], graph[i]['y'] ] )) < menor:
 
-                menor = int(dist( [ graph[selected]['x'], graph[selected]['y'] ] , [ graph[i]['x'], graph[i]['y'] ] ))
+
+            if dist([graph[selected]['x'],graph[selected]['y']],[graph[i]['x'],graph[i]['y']])  < menor:
+                menor = dist([graph[selected]['x'],graph[selected]['y']],[graph[i]['x'],graph[i]['y']])
                 menorIndex = i
         
         if endCounter == (localLen(graph) - 1):
             penultimo = localLen(walkedPath) - 1
-            walkWeight += int(dist( [ graph[walkedPath[penultimo]]['x'], graph[walkedPath[penultimo]]['y'] ] , [ graph[first]['x'], graph[first]['y'] ]))
+            walkWeight +=  int(dist( [ graph[walkedPath[penultimo]]['x'], graph[walkedPath[penultimo]]['y'] ], [ graph[first]['x'], graph[first]['y'] ] ) )
             walkedPath.append(first)
             break
+
 
         walkWeight += menor
         walkedPath.append(menorIndex)
@@ -181,26 +183,27 @@ def runcodesinput():
     return lines
     
 ###########################################################################################
+def sumdistance(graph, route):
 
-def sumdistance(route, graph):
-    sizeroute = localLen(route) - 1
-    walk_weight = 0
+    sizeroute = localLen(route)-1
+    walkWeight = 0
     for i in range(sizeroute):
-        xi = int(graph[route[i]]['x'])
-        yi = int(graph[route[i]]['y'])
+        x0 = graph[route[i]]['x']
+        y0 = graph[route[i]]['y']
 
-        x_p = int(graph[route[i + 1]]['x'])
-        y_p = int(graph[route[i + 1]]['y'])
+        x1 = graph[route[i+1]]['x']
+        y1 = graph[route[i+1]]['y']
 
-        walk_weight += int(dist([xi, yi], [x_p, y_p]))
+        walkWeight += int(dist([x0,y0],[x1,y1]))
+        
 
-    return walk_weight
+    return walkWeight
 
 
 ###########################################################################################
 
 
-def two_opt(route, graph):
+def two_opt(graph, route):
     """
 
     2-opt heuristic.
@@ -247,14 +250,14 @@ def two_opt(route, graph):
         improved = False
 
         for i in range(1, size_route - 2):
-            best_distance = sumdistance(route, graph)
+            best_distance = sumdistance(graph, route)
 
             for j in range(i + 1, size_route):
                 # newRoute = two_opt_swap(route.copy(), i, k)
                 new_route = route[:]
                 new_route[i:j] = route[j - 1:i - 1:-1]  # o mesmo que two_opt_swap
                 # print(newRoute)
-                new_distance = sumdistance(route, graph)
+                new_distance = sumdistance(graph, new_route)
 
                 if new_distance < best_distance:
                     best_route = new_route
@@ -284,7 +287,7 @@ if __name__ == '__main__':
 
 
     ### Heurística melhorativa 2-opt
-    print(int(two_opt(route, graph)))
+    print(int(two_opt(graph, route)))
 
    
 
