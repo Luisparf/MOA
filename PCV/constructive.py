@@ -13,45 +13,42 @@ localLen = len
 localDist = dist
 
 
-def getAllDistances(graph):  # armazena todas as distâncias  nó X nó
-    allDistances = {}
+def getalldistances(graph):  # armazena todas as distâncias  nó X nó
+    all_distances = {}
     for i in range(1, localLen(graph)):
 
-        if allDistances.get(i) == None:
-            allDistances[i] = {}
+        if all_distances.get(i) is None:
+            all_distances[i] = {}
 
-        allDistances[i][i] = 0.0
+        all_distances[i][i] = 0.0
         x0 = graph[i]['x']
         y0 = graph[i]['y']
         for a in range(i + 1, localLen(graph)):
             # print(i, a)
 
-            if allDistances.get(a) == None:
-                allDistances[a] = {}
+            if all_distances.get(a) is None:
+                all_distances[a] = {}
 
             x1 = graph[a]['x']
             y1 = graph[a]['y']
 
-            calculatedDist = int(localDist([x0, y0], [x1, y1]))  # Só considerando parte inteira
+            calculated_dist = int(localDist([x0, y0], [x1, y1]))  # Só considerando parte inteira
             # calculatedDist = dist([x0, y0], [x1, y1]) # Considerando ponto flutuante
 
-            allDistances[i][a] = calculatedDist
-            allDistances[a][i] = calculatedDist
+            all_distances[i][a] = calculated_dist
+            all_distances[a][i] = calculated_dist
     # print(allDistances)
-    return allDistances
+    return all_distances
 
 
 ###########################################################################################
 
-def nearestNeighbour(graph):
+def nearestneighbour(graph):
     # selected = randint(1, localLen(graph)-1)
     selected = 1
-
     first = selected
 
-    walkWeight = 0
-    walkedPath = []
-    walkedPath.append(selected)
+    walkedPath = [selected]
     graph[selected]['used'] = True
 
     while True:
@@ -59,36 +56,33 @@ def nearestNeighbour(graph):
         menor = float('inf')
 
         # Indice do menor vizinho encontrado
-        menorIndex = -1
+        menor_index = -1
 
         # Conteiro para verificar se todos os vizinho já foram explorados
-        endCounter = 0
+        end_counter = 0
         for i in range(1, localLen(graph)):
             # print("selected = {} i = {}".format(selected, i))
 
             if (i == selected) or (graph[i]['used']):
-                endCounter += 1
+                end_counter += 1
                 continue
 
-            if dist([graph[selected]['x'], graph[selected]['y']], [graph[i]['x'], graph[i]['y']]) < menor:
-                menor = dist([graph[selected]['x'], graph[selected]['y']], [graph[i]['x'], graph[i]['y']])
-                menorIndex = i
+            if localDist([graph[selected]['x'], graph[selected]['y']], [graph[i]['x'], graph[i]['y']]) < menor:
+                menor = localDist([graph[selected]['x'], graph[selected]['y']], [graph[i]['x'], graph[i]['y']])
+                menor_index = i
 
-        if endCounter == (localLen(graph) - 1):
-            penultimo = localLen(walkedPath) - 1
-            walkWeight += int(dist([graph[walkedPath[penultimo]]['x'], graph[walkedPath[penultimo]]['y']],
-                                   [graph[first]['x'], graph[first]['y']]))
+        if end_counter == (localLen(graph) - 1):
             walkedPath.append(first)
             break
 
-        walkWeight += menor
-        walkedPath.append(menorIndex)
-        graph[menorIndex]['used'] = True
-        selected = menorIndex
+        walkedPath.append(menor_index)
+        graph[menor_index]['used'] = True
+        selected = menor_index
 
     # print(walkedPath)
 
     return walkedPath
+
 
 ###########################################################################################
 

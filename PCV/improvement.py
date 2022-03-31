@@ -20,7 +20,7 @@ def sumdistance(graph, route):
         x_p = graph[route[i + 1]]['x']
         y_p = graph[route[i + 1]]['y']
 
-        walk_weight += int(dist([xi, yi], [x_p, y_p]))
+        walk_weight += localDist([xi, yi], [x_p, y_p])
 
     return walk_weight
 

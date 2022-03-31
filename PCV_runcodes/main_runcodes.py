@@ -1,65 +1,58 @@
 from math import dist
 from random import randint
 
-
 # Uma cópia local de funções como essa reduz o tempo de execução
 localLen = len
 localDist = dist
 
 
-
 ###########################################################################################
 
-def nearestNeighbour(graph):
+def nearestneighbour(graph):
     # selected = randint(1, localLen(graph)-1)
     selected = 1
 
     first = selected
-    
-    walkWeight = 0
-    walkedPath = []
-    walkedPath.append(selected)
-    graph[selected]['used'] = True
 
+    walkWeight = 0
+    walked_path = [selected]
+    graph[selected]['used'] = True
 
     while True:
         # Valor da distância entre nó atual e menor vizinho
         menor = float('inf')
-        
+
         # Indice do menor vizinho encontrado
-        menorIndex = -1
-        
+        menor_index = -1
+
         # Conteiro para verificar se todos os vizinho já foram explorados 
-        endCounter = 0
+        end_counter = 0
         for i in range(1, localLen(graph)):
             # print("selected = {} i = {}".format(selected, i))
 
             if (i == selected) or (graph[i]['used']):
-                endCounter += 1
+                end_counter += 1
                 continue
 
+            if dist([graph[selected]['x'], graph[selected]['y']], [graph[i]['x'], graph[i]['y']]) < menor:
+                menor = dist([graph[selected]['x'], graph[selected]['y']], [graph[i]['x'], graph[i]['y']])
+                menor_index = i
 
-
-            if dist([graph[selected]['x'],graph[selected]['y']],[graph[i]['x'],graph[i]['y']])  < menor:
-                menor = dist([graph[selected]['x'],graph[selected]['y']],[graph[i]['x'],graph[i]['y']])
-                menorIndex = i
-        
-        if endCounter == (localLen(graph) - 1):
-            penultimo = localLen(walkedPath) - 1
-            walkWeight +=  int(dist( [ graph[walkedPath[penultimo]]['x'], graph[walkedPath[penultimo]]['y'] ], [ graph[first]['x'], graph[first]['y'] ] ) )
-            walkedPath.append(first)
+        if end_counter == (localLen(graph) - 1):
+            # penultimo = localLen(walkedPath) - 1
+            # walkWeight +=  dist( [ graph[walkedPath[penultimo]]['x'], graph[walkedPath[penultimo]]['y'] ], [ graph[first]['x'], graph[first]['y'] ] ) 
+            walked_path.append(first)
             break
 
+        # walkWeight += menor
+        walked_path.append(menor_index)
+        graph[menor_index]['used'] = True
+        selected = menor_index
 
-        walkWeight += menor
-        walkedPath.append(menorIndex)
-        graph[menorIndex]['used'] = True
-        selected = menorIndex
-
-    
     # print(walkedPath)
 
-    return walkedPath
+    return walked_path
+
 
 ###########################################################################################
 
@@ -126,7 +119,8 @@ def insertmoredistant(graph):
 
             if localDist([xi, yi], [xk, yk]) + localDist([xk, yk], [x_p, y_p]) - localDist([xi, yi],
                                                                                            [x_p, y_p]) < minimum:
-                minimum = localDist([xi, yi], [xk, yk]) + localDist([xk, yk], [x_p, y_p]) - localDist([xi, yi],[x_p, y_p])
+                minimum = localDist([xi, yi], [xk, yk]) + localDist([xk, yk], [x_p, y_p]) - localDist([xi, yi],
+                                                                                                      [x_p, y_p])
                 chosen_edge = i
 
         i = chosen_edge
@@ -150,16 +144,16 @@ def insertmoredistant(graph):
 def runcodesinput():
     lines = []
     d = {}
-    
+
     while True:
         try:
             line = str(input())
-            if line == "EOF":
-                break
-        except EOFError : 
+            # if line == "EOF":
+            # break
+        except EOFError:
             break
-        
-        line = line.replace('\r', '').split() 
+
+        line = line.replace('\r', '').split()
         lines.append(line.copy())
 
     del lines[0:5]
@@ -170,7 +164,7 @@ def runcodesinput():
             d["used"] = False
             d["x"] = float(lines[i][1])
             d["y"] = float(lines[i][2])
-            
+
         except IndexError:
             lines[i] = d.copy()
             break
@@ -181,21 +175,20 @@ def runcodesinput():
     # print(lines)  
 
     return lines
-    
+
+
 ###########################################################################################
 def sumdistance(graph, route):
-
-    sizeroute = localLen(route)-1
+    sizeroute = localLen(route) - 1
     walkWeight = 0
     for i in range(sizeroute):
         x0 = graph[route[i]]['x']
         y0 = graph[route[i]]['y']
 
-        x1 = graph[route[i+1]]['x']
-        y1 = graph[route[i+1]]['y']
+        x1 = graph[route[i + 1]]['x']
+        y1 = graph[route[i + 1]]['y']
 
-        walkWeight += int(dist([x0,y0],[x1,y1]))
-        
+        walkWeight += localDist([x0, y0], [x1, y1])
 
     return walkWeight
 
@@ -240,12 +233,12 @@ def two_opt(graph, route):
     size_route = localLen(route)
     best_route = route
     improved = True
-    
+
     counter = 0
     while improved:
 
         if counter >= 20:
-           break
+            break
 
         improved = False
 
@@ -267,27 +260,23 @@ def two_opt(graph, route):
 
             route = best_route
             # print()
-    print(route)
+    # print(route)
     return best_distance
+
 
 ##########################################################################################################
 
 if __name__ == '__main__':
-
     ### Input ###
     graph = runcodesinput()  # lê o arquivo e armazena cada nó em uma lista, onde cada nó i está no indice i da lista e contém suas coordenadas x,y
     # allDistances = getAllDistances(graph) # distâncias de nó para nó
-    #print(allDistances)
+    # print(allDistances)
 
     ### Heurística construtiva vizinho mais próximo
     # graph = insertmoredistant(graph, allDistances)
-    
-    ### Heurística construtiva Inserção do mais distante
-    route = nearestNeighbour(graph)
 
+    ### Heurística construtiva Inserção do mais distante
+    route = nearestneighbour(graph)
 
     ### Heurística melhorativa 2-opt
-    print(int(two_opt(graph, route)))
-
-   
-
+    print(two_opt(graph, route))
