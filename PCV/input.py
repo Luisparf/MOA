@@ -61,6 +61,7 @@ def runcodesinput():
 
         try:
             d["used"] = False
+            # d["i"] = i
             d["x"] = float(lines[i][1])
             d["y"] = float(lines[i][2])
 

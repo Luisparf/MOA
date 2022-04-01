@@ -69,9 +69,10 @@ def insertmoredistant(graph):
     """
 
     # Iniciar com um ciclo [v1 , v2 , v3] com 3 vértices.
-    route = [0, 1, 2, 3]  # no caso, os 3 primeiros vértices, 0 na primeira posição apenas para ciclo[i] = i
-    for x in range(1, localLen(route)):
-        graph[x]['used'] = True
+    route = [1, 2, 3]  # no caso, os 3 primeiros vértices, 0 na primeira posição apenas para ciclo[i] = i
+    for x in range(localLen(route) ):
+        print(x+1)
+        graph[x + 1]['used'] = True
 
     while True:
 
@@ -84,7 +85,7 @@ def insertmoredistant(graph):
         yi = graph[i]['y']
 
         greater_distance = 0
-        for j in range(1, localLen(graph)):
+        for j in range(1, localLen(graph) ):
             x1 = graph[j]['x']
             y1 = graph[j]['y']
 
@@ -132,9 +133,9 @@ def insertmoredistant(graph):
         if sizeroute == localLen(graph) - 1:
             break
 
-    route = [value for value in route if value != 0]
+    
 
-    route.append(route[0])
+    # route.append(route[0])
     print(route)
     return route
 
@@ -237,7 +238,7 @@ def two_opt(graph, route):
     counter = 0
     while improved:
 
-        if counter >= 20:
+        if counter >= 1000:
             break
 
         improved = False
@@ -260,7 +261,7 @@ def two_opt(graph, route):
 
             route = best_route
             # print()
-    # print(route)
+    print(route)
     return best_distance
 
 
@@ -272,11 +273,11 @@ if __name__ == '__main__':
     # allDistances = getAllDistances(graph) # distâncias de nó para nó
     # print(allDistances)
 
-    ### Heurística construtiva vizinho mais próximo
-    # graph = insertmoredistant(graph, allDistances)
-
     ### Heurística construtiva Inserção do mais distante
-    route = nearestneighbour(graph)
+    route = insertmoredistant(graph)
+
+    ### Heurística construtiva vizinho mais próximo
+    # route = nearestneighbour(graph)
 
     ### Heurística melhorativa 2-opt
     print(two_opt(graph, route))

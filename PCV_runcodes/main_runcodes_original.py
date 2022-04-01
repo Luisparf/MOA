@@ -36,8 +36,8 @@ def getalldistances(graph):  # armazena todas as distâncias  nó X nó
             x1 = graph[a]['x']
             y1 = graph[a]['y']
 
-            # calculatedDist = int(localDist([x0, y0], [x1, y1])) # Só considerando parte inteira
-            calculated_dist = dist([x0, y0], [x1, y1])  # Considerando ponto flutuante
+            calculated_dist = int(localDist([x0, y0], [x1, y1]))  # Só considerando parte inteira
+            # calculated_dist = dist([x0, y0], [x1, y1])  # Considerando ponto flutuante
 
             all_distances[i][a] = calculated_dist
             all_distances[a][i] = calculated_dist
@@ -87,70 +87,24 @@ def nearestneighbour(graph, all_distances):
         graph[menor_index]['used'] = True
         selected = menor_index
 
-    # print(walkedPath)
-
+    print(walked_path)
     return walked_path
 
 
 ###########################################################################################
 
 
-def insertmoredistant(graph, dist):
-    """
 
-    More distant insertion heuristic.
+def insertprox(graph, dist):
+   
 
-    Algorithm source:
+    
 
-    Grafos Hamiltonianos e o Problema do Caixeiro Viajante
-            Prof. Ademir Constantino
-            Departamento de Informática
-            Universidade Estadual de Maringá
 
-    link: https://malbarbo.pro.br/arquivos/2012/1747/problema-do-caixeiro-viajante.pdf
 
-    """
+        
 
-    # Iniciar com um ciclo [v1 , v2 , v3] com 3 vértices.
-    route = ['', 1, 2, 3]  # no caso, os 3 primeiros vértices, '' na primeira posição apenas para ciclo[i] = i
-    for x in range(1, localLen(route)):
-        graph[x]['used'] = True
 
-    while True:
-
-        # a) Encontrar um vértice k não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
-        sizeroute = localLen(route)
-        i = route[sizeroute - 1]  # no caso, pega o ultimo inserido ***
-
-        chosen_edge = i
-
-        greater_distance = 0
-        for j in range(1, localLen(graph)):
-            if dist[i][j] > greater_distance and graph[j]['used'] == False:
-                greater_distance = dist[i][j]
-                k = j
-
-        # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,i+1 - Ci,1+1) seja mínimo.
-        minimum = dist[1][k] + dist[k][2] - dist[1][2]
-        for i in range(2, sizeroute - 1):
-            if dist[i][k] + dist[k][i + 1] - dist[i][i + 1] < minimum:
-                minimum = dist[i][k] + dist[k][i + 1] - dist[i][i + 1]
-                chosen_edge = i
-
-        i = chosen_edge
-
-        # c) Inserir o vértice k entre (i , i+1 ). Se todos os vértices já foram inseridos, pare, caso contrário,voltar ao passo “b”. <- "a"
-        route.insert(i, k)
-        graph[k]['used'] = True
-
-        if sizeroute == localLen(graph) - 1:
-            break
-
-    route = [value for value in route if value != '']
-
-    route.append(route[0])
-    # print(route)
-    return route
 
 
 ###########################################################################################
@@ -203,8 +157,6 @@ def sumdistance(dist, route):
 
 
 ###########################################################################################
-
-
 def two_opt(route, dist):
     """
 
@@ -246,26 +198,25 @@ def two_opt(route, dist):
     counter = 0
     while improved:
 
-        if counter >= 20:
-            break
-
         improved = False
-
+        # if counter >= 20:
+        #    break
         for i in range(1, size_route - 2):
             best_distance = sumdistance(dist, route)
 
             for j in range(i + 1, size_route):
-                # newRoute = two_opt_swap(route.copy(), i, k)
+                # new_route = two_opt_swap(route.copy(), i, j)
                 new_route = route[:]
                 new_route[i:j] = route[j - 1:i - 1:-1]  # o mesmo que two_opt_swap
-                # print(newRoute)
                 new_distance = sumdistance(dist, new_route)
 
                 if new_distance < best_distance:
+                    # print("counter = {} best_distance = {}".format(counter, best_distance))
                     best_route = new_route
                     improved = True
                     best_distance = new_distance
                     counter += 1
+                    # print(new_route)
 
             route = best_route
             # print()
@@ -282,10 +233,11 @@ if __name__ == '__main__':
     # print(allDistances)
 
     ### Heurística construtiva vizinho mais próximo
-    # graph = insertmoredistant(graph, allDistances)
 
-    ### Heurística construtiva Inserção do mais distante
     graph = nearestneighbour(graph, all_distances)
+
+    ### Heurística construtiva Inserção do mais próximo
+    # graph = insertprox(graph, all_distances)
 
     ### Heurísica melhorativa 2-opt
     print(two_opt(graph, all_distances))
