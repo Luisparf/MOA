@@ -43,34 +43,34 @@ def getalldistances(graph):  # armazena todas as distâncias  nó X nó
 
 
 ########################################################################################################################
-def insertprox_matrix(graph, all_dist):
+def insertdist_matrix(graph, all_dist):
     route = [1, 2, 3]
-
+    sizegraph = localLen(graph)
     for i in range(1, 4):
         graph[i]['used'] = True
 
-    while True:
-        menor = float('inf')
+    while localLen(route) < sizegraph - 1:
+        maior = 0
         k = 1
-        selected_i = 1
-        for i in range(1, len(route) ):
-            for j in range(4, len(graph)):
-                if all_dist[i][j] < menor and graph[j]['used'] is False:
+        selected_i = route[0]
+        for i in range(len(route) - 1 ):
+            for j in range(1, sizegraph):
+                if all_dist[route[i]][j] > maior and graph[j]['used'] is False:
                     k = j
-                    menor = all_dist[i][j]
+                    maior = all_dist[route[i]][j]
 
-        minimum = all_dist[1][k] + all_dist[k][2] - all_dist[1][2]
-        for i in range(2, len(route) + 1):
+        minimum = float('inf')
+        for i in range(len(route) - 2):
             # print("{},{}({}) = C{},{} + C{},{} - C{},{} = {}".format(i, i + 1, k, i, k, k, i + 1, i, i + 1,all_dist[i][k] + all_dist[k][i + 1] - all_dist[i][ i + 1]))
-            if all_dist[i][k] + all_dist[k][i + 1] - all_dist[i][i + 1] < minimum:
-                minimum = all_dist[i][k] + all_dist[k][i + 1] - all_dist[i][i + 1]
-                selected_i = i
-
-        route.insert(selected_i, k)
+            disti = all_dist[route[i]][k] + all_dist[k][route[i + 1]] - all_dist[route[i]][route[i + 1]]
+            if disti < minimum:
+                minimum = disti
+                selected_i = route[i]
+        # print(route)
+        # print()
+        route.insert(selected_i , k)
         graph[k]['used'] = True
 
-        if localLen(route) == localLen(graph) - 1:
-            break
     route.append(route[0])
     # print(sumdistance_matrix(all_dist, route))
     # print(route)

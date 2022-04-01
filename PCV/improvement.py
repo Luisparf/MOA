@@ -65,9 +65,8 @@ def two_opt(graph, route):
         #if counter >= 20:
         #    break
         improved = False
+        best_distance = sumdistance(graph, route)
         for i in range(1, size_route - 2):
-            best_distance = sumdistance(graph, route)
-
             for j in range(i + 1, size_route):
                 # newRoute = two_opt_swap(route.copy(), i, k)
                 new_route = route[:]

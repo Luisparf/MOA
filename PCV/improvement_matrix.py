@@ -77,15 +77,14 @@ def two_opt_matrix(all_dist, route):
     counter = 0
     while improved:
 
-        if counter >= 20:
-           break
+        # if counter >= 20:
+        #      break
 
         improved = False
+        best_distance = sumdistance_matrix(all_dist, route)
 
         for i in range(1, size_route - 2):
-            best_distance = sumdistance_matrix(all_dist, route)
-
-            for j in range(i + 1, size_route):
+            for j in range(i + 1, size_route ):
                 # newRoute = two_opt_swap(route.copy(), i, k)
                 new_route = route[:]
                 new_route[i:j] = route[j - 1:i - 1:-1]  # o mesmo que two_opt_swap

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-localLen = len()
+localLen = len
 
 
 def printgraph(graph):
