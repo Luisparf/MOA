@@ -12,11 +12,11 @@ if __name__ == '__main__':
     all_dist = getalldistances(graph)  # matriz de distâncias
 
     ### Heurística construtiva vizinho mais próximo
-    # route = nearestneighbour_matrix(graph, all_dist) # usando matriz de distâncias
+    route = nearestneighbour_matrix(graph, all_dist) # usando matriz de distâncias
     # route = nearestneighbour(graph)
 
     ### Heurística construtiva Inserção do mais próximo
-    route = insertprox_matrix(graph, all_dist)  # usando matriz de distâncias
+    # route = insertprox_matrix(graph, all_dist)  # usando matriz de distâncias
     # route = insertprox(graph)  # calculando distâncias
 
     ### Heurística melhorativa 2-opt

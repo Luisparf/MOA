@@ -6,9 +6,11 @@
 ###########################################################################################
 
 from math import dist
-from random import randint
+
 
 # Uma cópia local de funções como essa reduz o tempo de execução
+from improvement import sumdistance
+
 localLen = len
 localDist = dist
 
@@ -75,8 +77,10 @@ def insertprox(graph):
                     k = j
                     menor = distj
 
-        minimum = float('inf')
-        for i in range(1, len(route) + 1):
+        minimum =  localDist([graph[1]['x'], graph[1]['y']], [graph[k]['x'], graph[k]['y']]) + \
+                   localDist([graph[k]['x'], graph[k]['y']], [graph[2]['x'], graph[2]['y']]) - \
+                   localDist([graph[1]['x'], graph[1]['y']], [graph[2]['x'], graph[2]['y']])
+        for i in range(2, len(route) ):
             # print("{},{}({}) = C{},{} + C{},{} - C{},{} = {}".format(i, i + 1, k, i, k, k, i + 1, i, i + 1,all_dist[i][k] + all_dist[k][i + 1] - all_dist[i][ i + 1]))
             disti = localDist([graph[i]['x'], graph[i]['y']], [graph[k]['x'], graph[k]['y']]) + \
                     localDist([graph[k]['x'], graph[k]['y']], [graph[i + 1]['x'], graph[i + 1]['y']]) - \
@@ -88,10 +92,10 @@ def insertprox(graph):
         route.insert(selected_i, k)
         graph[k]['used'] = True
 
-        if localLen(route) == localLen(graph) - 1:
+        if localLen(route)  == localLen(graph) - 1:
             break
     route.append(route[0])
-    # print(sumdistance_matrix(all_dist, route))
+    # print(sumdistance(graph, route))
     # print(route)
     return route
 

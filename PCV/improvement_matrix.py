@@ -77,8 +77,8 @@ def two_opt_matrix(all_dist, route):
     counter = 0
     while improved:
 
-        #if counter >= 20:
-        #    break
+        if counter >= 20:
+           break
 
         improved = False
 

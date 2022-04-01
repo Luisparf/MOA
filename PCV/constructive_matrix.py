@@ -59,8 +59,8 @@ def insertprox_matrix(graph, all_dist):
                     k = j
                     menor = all_dist[i][j]
 
-        minimum = float('inf')
-        for i in range(1, len(route) + 1):
+        minimum = all_dist[1][k] + all_dist[k][2] - all_dist[1][2]
+        for i in range(2, len(route) + 1):
             # print("{},{}({}) = C{},{} + C{},{} - C{},{} = {}".format(i, i + 1, k, i, k, k, i + 1, i, i + 1,all_dist[i][k] + all_dist[k][i + 1] - all_dist[i][ i + 1]))
             if all_dist[i][k] + all_dist[k][i + 1] - all_dist[i][i + 1] < minimum:
                 minimum = all_dist[i][k] + all_dist[k][i + 1] - all_dist[i][i + 1]

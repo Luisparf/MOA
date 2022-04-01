@@ -57,86 +57,43 @@ def nearestneighbour(graph):
 ###########################################################################################
 
 
-def insertmoredistant(graph):
-    """
-    More distant insertion heuristic.
-    Algorithm source:
-    Grafos Hamiltonianos e o Problema do Caixeiro Viajante
-            Prof. Ademir Constantino
-            Departamento de Informática
-            Universidade Estadual de Maringá
-    link: https://malbarbo.pro.br/arquivos/2012/1747/problema-do-caixeiro-viajante.pdf
-    """
+def insertprox(graph):
+    route = [1, 2, 3]
 
-    # Iniciar com um ciclo [v1 , v2 , v3] com 3 vértices.
-    route = [1, 2, 3]  # no caso, os 3 primeiros vértices, 0 na primeira posição apenas para ciclo[i] = i
-    for x in range(localLen(route) ):
-        print(x+1)
-        graph[x + 1]['used'] = True
+    for i in range(1, 4):
+        graph[i]['used'] = True
 
     while True:
+        menor = float('inf')
+        k = 1
+        selected_i = 1
+        for i in range(1, len(route)):
+            for j in range(4, len(graph)):
+                distj = localDist([graph[i]['x'], graph[i]['y']], [graph[j]['x'], graph[j]['x']])
+                if distj < menor and graph[j]['used'] is False:
+                    k = j
+                    menor = distj
 
-        # a) Encontrar um vértice k não pertencente ao ciclo, mais distante de qualquer vértice do ciclo
-        sizeroute = localLen(route)
-        i = route[sizeroute - 1]  # no caso, pega o ultimo inserido ***
-        chosen_edge = i
+        minimum = localDist([graph[1]['x'], graph[1]['y']], [graph[k]['x'], graph[k]['y']]) + \
+                  localDist([graph[k]['x'], graph[k]['y']], [graph[2]['x'], graph[2]['y']]) - \
+                  localDist([graph[1]['x'], graph[1]['y']], [graph[2]['x'], graph[2]['y']])
+        for i in range(2, len(route)):
+            # print("{},{}({}) = C{},{} + C{},{} - C{},{} = {}".format(i, i + 1, k, i, k, k, i + 1, i, i + 1,all_dist[i][k] + all_dist[k][i + 1] - all_dist[i][ i + 1]))
+            disti = localDist([graph[i]['x'], graph[i]['y']], [graph[k]['x'], graph[k]['y']]) + \
+                    localDist([graph[k]['x'], graph[k]['y']], [graph[i + 1]['x'], graph[i + 1]['y']]) - \
+                    localDist([graph[i]['x'], graph[i]['y']], [graph[i + 1]['x'], graph[i + 1]['y']])
+            if disti < minimum:
+                minimum = disti
+                selected_i = i
 
-        xi = graph[i]['x']
-        yi = graph[i]['y']
-
-        greater_distance = 0
-        for j in range(1, localLen(graph) ):
-            x1 = graph[j]['x']
-            y1 = graph[j]['y']
-
-            if dist([xi, yi], [x1, y1]) > greater_distance and graph[j]['used'] is False:
-                greater_distance = dist([xi, yi], [x1, y1])
-                k = j
-
-        # b) Encontrar uma aresta (i,j) do ciclo tal que: (Ci,k + Ck,i+1 - Ci,1+1) seja mínimo.
-        """
-        minimum = alldist[1][k] + alldist[k][2] - alldist[1][2]
-        for i in range(2, sizeroute - 1):
-            if alldist[i][k] + alldist[k][i + 1] - alldist[i][i + 1] < minimum:
-                minimum = alldist[i][k] + alldist[k][i + 1] - alldist[i][i + 1]
-                chosen_edge = i
-        """
-
-        x1 = graph[1]['x']
-        y1 = graph[1]['y']
-
-        x2 = graph[2]['x']
-        y2 = graph[2]['y']
-
-        xk = graph[k]['x']
-        yk = graph[k]['y']
-        minimum = localDist([x1, y1], [xk, yk]) + localDist([xk, yk], [x2, y2]) - localDist([x1, y1], [x2, y2])
-        for i in range(2, sizeroute - 1):
-            xi = graph[i]['x']
-            yi = graph[i]['y']
-
-            x_p = graph[i + 1]['x']
-            y_p = graph[i + 1]['y']
-
-            if localDist([xi, yi], [xk, yk]) + localDist([xk, yk], [x_p, y_p]) - localDist([xi, yi],
-                                                                                           [x_p, y_p]) < minimum:
-                minimum = localDist([xi, yi], [xk, yk]) + localDist([xk, yk], [x_p, y_p]) - localDist([xi, yi],
-                                                                                                      [x_p, y_p])
-                chosen_edge = i
-
-        i = chosen_edge
-
-        # c) Inserir o vértice k entre (i , i+1 ). Se todos os vértices já foram inseridos, pare, caso contrário,voltar ao passo “b”. <- "a"
-        route.insert(i, k)
+        route.insert(selected_i, k)
         graph[k]['used'] = True
 
-        if sizeroute == localLen(graph) - 1:
+        if localLen(route) == localLen(graph) - 1:
             break
-
-    
-
-    # route.append(route[0])
-    print(route)
+    route.append(route[0])
+    # print(sumdistance(graph, route))
+    # print(route)
     return route
 
 
