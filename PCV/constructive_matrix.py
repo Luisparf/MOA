@@ -54,8 +54,8 @@ def insertdist_matrix(graph, all_dist):
         k = 1
         selected_i = route[0]
         for i in range(len(route) - 1 ):
-            for j in range(1, sizegraph):
-                if all_dist[route[i]][j] > maior and graph[j]['used'] is False:
+            for j in range(i + 1, sizegraph ):
+                if graph[j]['used'] is False and all_dist[route[i]][j] > maior :
                     k = j
                     maior = all_dist[route[i]][j]
 
@@ -75,7 +75,6 @@ def insertdist_matrix(graph, all_dist):
     # print(sumdistance_matrix(all_dist, route))
     # print(route)
     return route
-
 
 ########################################################################################################################
 

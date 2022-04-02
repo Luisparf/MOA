@@ -7,7 +7,6 @@
 
 from math import dist
 
-
 # Uma cópia local de funções como essa reduz o tempo de execução
 from improvement import sumdistance
 
@@ -60,42 +59,40 @@ def nearestneighbour(graph):
 
 ###########################################################################################
 
-def insertprox(graph):
+def insertdist(graph):
     route = [1, 2, 3]
-
+    sizegraph = localLen(graph)
     for i in range(1, 4):
         graph[i]['used'] = True
 
-    while True:
-        menor = float('inf')
+    while localLen(route) < sizegraph - 1:
+        maior = 0
         k = 1
-        selected_i = 1
-        for i in range(1, len(route)):
-            for j in range(4, len(graph)):
-                distj = localDist([graph[i]['x'], graph[i]['y']], [graph[j]['x'], graph[j]['x']])
-                if distj < menor and graph[j]['used'] is False:
+        selected_i = route[0]
+        for i in range(localLen(route) - 1):
+            for j in range(i + 1, sizegraph/2):
+                disti = localDist([graph[route[i]]['x'], graph[route[i]]['y']], [graph[j]['x'], graph[j]['y']])
+                if graph[j]['used'] is False and disti > maior:
                     k = j
-                    menor = distj
+                    maior = disti
 
-        minimum =  localDist([graph[1]['x'], graph[1]['y']], [graph[k]['x'], graph[k]['y']]) + \
-                   localDist([graph[k]['x'], graph[k]['y']], [graph[2]['x'], graph[2]['y']]) - \
-                   localDist([graph[1]['x'], graph[1]['y']], [graph[2]['x'], graph[2]['y']])
-        for i in range(2, len(route) ):
+        minimum = float('inf')
+        for i in range(localLen(route) - 2):
             # print("{},{}({}) = C{},{} + C{},{} - C{},{} = {}".format(i, i + 1, k, i, k, k, i + 1, i, i + 1,all_dist[i][k] + all_dist[k][i + 1] - all_dist[i][ i + 1]))
-            disti = localDist([graph[i]['x'], graph[i]['y']], [graph[k]['x'], graph[k]['y']]) + \
-                    localDist([graph[k]['x'], graph[k]['y']], [graph[i + 1]['x'], graph[i + 1]['y']]) - \
-                    localDist([graph[i]['x'], graph[i]['y']], [graph[i + 1]['x'], graph[i + 1]['y']])
-            if disti < minimum:
-                minimum = disti
-                selected_i = i
-
+            # all_dist[route[i]][k] + all_dist[k][route[i + 1]] - all_dist[route[i]][route[i + 1]]
+            dista = int(localDist([graph[route[i]]['x'],     graph[route[i]]['y']],     [graph[k]['x'],            graph[k]['y']]) +
+                        localDist([graph[route[i + 1]]['x'], graph[route[i + 1]]['y']], [graph[k]['x'],            graph[k]['y']]) -
+                        localDist([graph[route[i]]['x'],     graph[route[i]]['y']],     [graph[route[i + 1]]['x'], graph[route[i + 1]]['y']]))
+            if dista < minimum:
+                minimum = dista
+                selected_i = route[i]
+        # print(route)
+        # print()
         route.insert(selected_i, k)
         graph[k]['used'] = True
 
-        if localLen(route)  == localLen(graph) - 1:
-            break
     route.append(route[0])
-    # print(sumdistance(graph, route))
+    # print(sumdistance_matrix(all_dist, route))
     # print(route)
     return route
 
