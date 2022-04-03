@@ -9,18 +9,15 @@ from math import dist
 localLen = len
 localDist = dist
 
-
+"""
 def two_opt_swap(route, i, k):
-    newroute = []
-    sizeroute = localLen(route)
-
-    newroute.append(route[0:i])
-    newroute.append(route[k - 2:i - 1:-1])
-    newroute.append(route[k - 1:sizeroute])
+    newroute[i:j] = [route[:], route[k - 1:i - 1:-1]]
 
     flatroute = [item for sublist in newroute for item in sublist]
-    # print("\nflatroute = {} i = {} k = {}".format(flatroute, i, k))
+    print("\nflatroute = {} i = {} k = {}".format(flatroute, i, k))
     return flatroute
+
+"""
 
 
 ########################################################################################################################
@@ -36,7 +33,7 @@ def sumdistance_matrix(all_dist, route):
 ########################################################################################################################
 
 
-def two_opt_matrix(all_dist, route):
+def two_opt_matrix(all_dist, route, x):
     """
 
     2-opt heuristic.
@@ -77,13 +74,13 @@ def two_opt_matrix(all_dist, route):
     counter = 0
     while improved:
 
-        # if counter >= 20:
-        #      break
+        if x == 1 and counter >= 20:
+            break
 
         improved = False
         best_distance = sumdistance_matrix(all_dist, route)
 
-        for i in range(1,size_route - 2):
+        for i in range(1, size_route - 2):
             for j in range(i + 1, size_route):
                 # newRoute = two_opt_swap(route.copy(), i, k)
                 new_route = route[:]

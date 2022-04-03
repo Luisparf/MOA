@@ -7,8 +7,8 @@
 
 ################################### INPUT BY FILE #########################################
 import os
+
 from argparse import ArgumentParser
-from math import dist
 
 localLen = len
 
@@ -21,26 +21,29 @@ def is_valid_file(parser, arg):
 
 
 def fileinput():
-    """
-
-    Apenas para uma possível versão futura...
-
-    """
-
     # algumas definições para --help
     parser = ArgumentParser(description='Solver to PCV ',
-                            epilog="(Try 'python3 main.py <file_name>.tsp')")
+                            epilog="(Try 'python3 main.py att48.tsp')")
+
     parser.add_argument(dest="filename", help='.tsp file with graph ',
                         type=lambda x: is_valid_file(parser, x))
-
+    parser.add_argument('--mode', action='store', dest='mode', default='m',
+                        required=False,
+                        help="m para execução com matriz de distâncias, n para execução sem matriz de distâncias (padrão: m )")
+    parser.add_argument('-c', action='store', dest='algoritmo_construtivo', default='v',
+                        required=False,
+                        help="v para algoritmo 'Vizinho mais próximo', i para algoritmo 'Inserção do mais distante' (padrão: v )")
+    parser.add_argument('-i', action='store', dest='algoritmo_melhorativo', default='opt2',
+                        required=False, help="opt2 para algoritmo '2-opt'")
     args = parser.parse_args()
+    # print(args)
 
     d = {}
     lines = args.filename.readlines()
-    args.filename.readlines()
+    args.filename.close()
 
-    print("COMMENT : {} TYPE : {} TSP DIMENSION: {} EDGE_WEIGHT_TYPE : EUC_2D".format(lines[0], lines[1], lines[2],
-                                                                                      lines[3], lines[4]))
+    print("\nCOMMENT : {}TYPE : {}TSP DIMENSION: {}EDGE_WEIGHT_TYPE : EUC_2D".format(lines[0], lines[1], lines[2],
+                                                                                     lines[3], lines[4]))
 
     del lines[0:5]
     lines.pop()
@@ -54,7 +57,7 @@ def fileinput():
         d["y"] = float(line[2])
         lines[i] = d.copy()
 
-    return lines
+    return args, lines
 
 
 ################################## RUN.CODES INPUT ########################################

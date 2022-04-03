@@ -28,7 +28,7 @@ def sumdistance(graph, route):
 ########################################################################################################################
 
 
-def two_opt(graph, route):
+def two_opt(graph, route, x):
     """
     2-opt heuristic.
     Algorithm pseudo-code:
@@ -62,8 +62,8 @@ def two_opt(graph, route):
     counter = 0
     while improved:
 
-        # if counter >= 20:
-            # break
+        if x == 1 and counter >= 20:
+            break
         improved = False
         best_distance = sumdistance(graph, route)
         for i in range(1, size_route - 2):

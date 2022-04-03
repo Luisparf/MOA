@@ -43,7 +43,16 @@ def getalldistances(graph):  # armazena todas as distâncias  nó X nó
 
 
 ########################################################################################################################
-def insertdist_matrix(graph, all_dist):
+def insertdist_matrix(graph, all_dist): # Heurística construtiva Inserção do mais distante
+    """
+      More distant insertion heuristic.
+      Algorithm source:
+      Grafos Hamiltonianos e o Problema do Caixeiro Viajante
+              Prof. Ademir Constantino
+              Departamento de Informática
+              Universidade Estadual de Maringá
+      link: https://malbarbo.pro.br/arquivos/2012/1747/problema-do-caixeiro-viajante.pdf
+      """
     route = [1, 2, 3]
     sizegraph = localLen(graph)
     for i in range(1, 4):
@@ -53,14 +62,14 @@ def insertdist_matrix(graph, all_dist):
         maior = 0
         k = 1
         selected_i = route[0]
-        for i in range(len(route) - 1 ):
-            for j in range(i + 1, sizegraph ):
-                if graph[j]['used'] is False and all_dist[route[i]][j] > maior :
+        for i in range(localLen(route) - 1):
+            for j in range(i + 1, sizegraph):
+                if graph[j]['used'] is False and all_dist[route[i]][j] > maior:
                     k = j
                     maior = all_dist[route[i]][j]
 
         minimum = float('inf')
-        for i in range(len(route) - 2):
+        for i in range(localLen(route) - 2):
             # print("{},{}({}) = C{},{} + C{},{} - C{},{} = {}".format(i, i + 1, k, i, k, k, i + 1, i, i + 1,all_dist[i][k] + all_dist[k][i + 1] - all_dist[i][ i + 1]))
             disti = all_dist[route[i]][k] + all_dist[k][route[i + 1]] - all_dist[route[i]][route[i + 1]]
             if disti < minimum:
@@ -68,7 +77,7 @@ def insertdist_matrix(graph, all_dist):
                 selected_i = route[i]
         # print(route)
         # print()
-        route.insert(selected_i , k)
+        route.insert(selected_i - 1, k)
         graph[k]['used'] = True
 
     route.append(route[0])
@@ -76,10 +85,11 @@ def insertdist_matrix(graph, all_dist):
     # print(route)
     return route
 
+
 ########################################################################################################################
 
 
-def nearestneighbour_matrix(graph, all_distances):
+def nearestneighbour_matrix(graph, all_distances): # Heurística construtiva vizinho mais próximo
     # selected = randint(1, localLen(graph)-1)
     selected = 1
 
