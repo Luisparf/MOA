@@ -43,7 +43,7 @@ def getalldistances(graph):  # armazena todas as distâncias  nó X nó
 
 
 ########################################################################################################################
-def insertdist_matrix(graph, all_dist): # Heurística construtiva Inserção do mais distante
+def insertdist_matrix(graph, all_dist):  # Heurística construtiva Inserção do mais distante
     """
       More distant insertion heuristic.
       Algorithm source:
@@ -77,7 +77,7 @@ def insertdist_matrix(graph, all_dist): # Heurística construtiva Inserção do 
                 selected_i = route[i]
         # print(route)
         # print()
-        route.insert(selected_i - 1, k)
+        route.insert(selected_i, k)
         graph[k]['used'] = True
 
     route.append(route[0])
@@ -89,7 +89,7 @@ def insertdist_matrix(graph, all_dist): # Heurística construtiva Inserção do 
 ########################################################################################################################
 
 
-def nearestneighbour_matrix(graph, all_distances): # Heurística construtiva vizinho mais próximo
+def nearestneighbour_matrix(graph, all_distances):  # Heurística construtiva vizinho mais próximo
     # selected = randint(1, localLen(graph)-1)
     selected = 1
 
@@ -132,3 +132,29 @@ def nearestneighbour_matrix(graph, all_distances): # Heurística construtiva viz
     # print(walkedPath)
 
     return walked_path
+
+
+########################################################################################################################
+
+def insertcheap_matrix(graph, all_dist):
+    sizegraph = localLen(graph)
+    route = [1]
+    while localLen(route) < sizegraph - 1:
+        for i in range(1, sizegraph ):
+
+            for k in range(2, sizegraph ):
+                # print("{},{}({}) = C{},{} + C{},{} - C{},{} = {}".format(i, i + 1, k, i, k, k, i + 1, i, i + 1,all_dist[i][k] + all_dist[k][i + 1] - all_dist[i][ i + 1]))
+                disti = all_dist[route[i]][k] + all_dist[k][route[i + 1]] - all_dist[route[i]][route[i + 1]]
+                print("{}{}".format(i,k))
+                if disti < minimum and graph[k]['used'] is False:
+                    minimum = disti
+                    selected_i = route[i]
+                # print(route)
+                # print()
+            route.insert(selected_i, k)
+            graph[k]['used'] = True
+
+    route.append(route[0])
+    # print(sumdistance_matrix(all_dist, route))
+    print(route)
+    return route

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from input import fileinput, runcodesinput
-from constructive_matrix import nearestneighbour_matrix, insertdist_matrix, getalldistances
+from constructive_matrix import nearestneighbour_matrix, insertdist_matrix, getalldistances, insertcheap_matrix
 from constructive import nearestneighbour, insertdist
-from improvement_matrix import two_opt_matrix
+from improvement_matrix import two_opt_matrix, sumdistance_matrix
 from improvement import two_opt
 from aux import printgraph
 
@@ -22,13 +22,15 @@ if __name__ == '__main__':
     if args.mode == 'm':
         all_dist = getalldistances(graph)  # matriz de distâncias
         ### Heurística construtiva Vizinho mais próximo
-        if args.algoritmo_construtivo == 'v':
+        if args.algoritmo_construtivo == 'id':
+            x = 0
+            ### Heurística construtiva Inserção do mais distante
+            route = insertdist_matrix(graph, all_dist)  # usando matriz de distâncias
+        elif args.algoritmo_construtivo == 'vp':
             x = 1
             route = nearestneighbour_matrix(graph, all_dist)  # usando matriz de distâncias
-        ### Heurística construtiva Inserção do mais distante
-        elif args.algoritmo_construtivo == 'i':
-            x = 0
-            route = insertdist_matrix(graph, all_dist)  # usando matriz de distâncias
+        elif args.algoritmo_construtivo == 'ic':
+            route = insertcheap_matrix(graph, all_dist)  # usando matriz de distâncias
         else:
             print("{} não é um argumento válido!\n".format(args.algoritmo_construtivo))
             exit(0)
@@ -36,6 +38,8 @@ if __name__ == '__main__':
         ### Heurística melhorativa 2-opt
         if args.algoritmo_melhorativo == 'opt2':
             print(int(two_opt_matrix(all_dist, route, x)))  # com matriz
+        elif args.algoritimo_melhorativo == 'none':
+            print(int(sumdistance_matrix(all_dist, route)))
         else:
             print("{} não é um argumento válido!\n".format(args.algoritmo_melhorativo))
 
@@ -60,13 +64,3 @@ if __name__ == '__main__':
             print("{} não é um argumento válido!\n".format(args.algoritmo_melhorativo))
     else:
         print("{} não é um argumento válido!\n".format(args.mode))
-    # print(args)
-
-    #  route = nearestneighbour(graph)
-
-    #
-    # route = insertdist(graph)  # calculando distâncias
-
-
-    #
-    # print(int(two_opt(graph, route)))
