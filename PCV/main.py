@@ -38,7 +38,7 @@ if __name__ == '__main__':
         ### Heurística melhorativa 2-opt
         if args.algoritmo_melhorativo == 'opt2':
             print(int(two_opt_matrix(all_dist, route, x)))  # com matriz
-        elif args.algoritimo_melhorativo == 'none':
+        elif args.algoritmo_melhorativo == 'none':
             print(int(sumdistance_matrix(all_dist, route)))
         else:
             print("{} não é um argumento válido!\n".format(args.algoritmo_melhorativo))
