@@ -61,9 +61,8 @@ def two_opt(graph, route, x):
 
     counter = 0
     while improved:
+        should_break = False
 
-        if x == 1 and counter >= 20:
-            break
         improved = False
         best_distance = sumdistance(graph, route)
         for i in range(1, size_route - 2):
@@ -80,7 +79,15 @@ def two_opt(graph, route, x):
                     best_distance = new_distance
                     counter += 1
 
+                if x == 1 and counter >= 20:
+                    should_break = True
+                    improved = False
+                    break
+            
             route = best_route
+            if should_break:
+                break
             # print()
+    print(counter)
     # print(route)
     return best_distance

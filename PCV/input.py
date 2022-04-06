@@ -80,7 +80,7 @@ def runcodesinput():
         lines.append(line.copy())
 
     del lines[0:5]
-    lines.pop()
+    #lines.pop()
 
     for i in range(1, localLen(lines)):
         # print(lines[i])
