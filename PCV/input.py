@@ -60,7 +60,7 @@ def fileinput():
 
     args.filename.close()
 
-    print("\nCOMMENT : {}TYPE : {}TSP DIMENSION: {}EDGE_WEIGHT_TYPE : EUC_2D".format(lines[0], lines[1], lines[2], lines[3], lines[4]))
+    print(f'{lines[0]}{lines[1]}{lines[2]}{lines[3]}{lines[4]}')
 
     del lines[0:5]
     return args, lines

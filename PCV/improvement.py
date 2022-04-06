@@ -28,7 +28,7 @@ def sumdistance(graph, route):
 ########################################################################################################################
 
 
-def two_opt(graph, route, x):
+def two_opt(graph, route):
     """
     2-opt heuristic.
     Algorithm pseudo-code:
