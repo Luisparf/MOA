@@ -95,7 +95,7 @@ def nearestneighbour(graph, all_distances):
 
 
 
-def insertprox(graph, dist):
+def insertprox(graph, all_dist):
     route = [1, 2, 3]
 
     for i in range(1, 4):
@@ -256,10 +256,10 @@ if __name__ == '__main__':
 
     ### Heurística construtiva vizinho mais próximo
 
-    graph = nearestneighbour(graph, all_distances)
+    # graph = nearestneighbour(graph, all_distances)
 
     ### Heurística construtiva Inserção do mais próximo
-    # graph = insertprox(graph, all_distances)
+    graph = insertprox(graph, all_distances)
 
     ### Heurísica melhorativa 2-opt
     print(two_opt(graph, all_distances))

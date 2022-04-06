@@ -26,6 +26,7 @@ def sumdistance_matrix(all_dist, route):
     walkWeight = 0
     for i in range(sizeroute):
         walkWeight += all_dist[route[i]][route[i + 1]]
+        # print("walkWeight = {}".format(walkWeight))
 
     return walkWeight
 

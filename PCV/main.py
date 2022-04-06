@@ -24,12 +24,14 @@ if __name__ == '__main__':
         ### Heurística construtiva Vizinho mais próximo
         if args.algoritmo_construtivo == 'id':
             x = 0
-            ### Heurística construtiva Inserção do mais distante
+        ### Heurística construtiva Inserção do mais distante
             route = insertdist_matrix(graph, all_dist)  # usando matriz de distâncias
         elif args.algoritmo_construtivo == 'vp':
             x = 1
             route = nearestneighbour_matrix(graph, all_dist)  # usando matriz de distâncias
+        ### Heurística construtiva Inserção do mais barato
         elif args.algoritmo_construtivo == 'ic':
+            x = 0
             route = insertcheap_matrix(graph, all_dist)  # usando matriz de distâncias
         else:
             print("{} não é um argumento válido!\n".format(args.algoritmo_construtivo))
@@ -59,7 +61,7 @@ if __name__ == '__main__':
 
         ### Heurística melhorativa 2-opt
         if args.algoritmo_melhorativo == 'opt2':
-            print(int(two_opt(graph, route,x)))  # com matriz
+            print(int(two_opt(graph, route, x)))  # com matriz
         else:
             print("{} não é um argumento válido!\n".format(args.algoritmo_melhorativo))
     else:
