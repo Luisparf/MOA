@@ -102,7 +102,7 @@ if __name__ == '__main__':
 
 
         elif args.algoritmo_melhorativo == 'none':
-            sumdistance(graph, route)
+            print(sumdistance(graph, route))
         else:
             print("{} não é um argumento válido!\n".format(args.algoritmo_melhorativo))
     else:
