@@ -28,7 +28,7 @@ def sumdistance(graph, route):
 ########################################################################################################################
 
 
-def two_opt(graph, route):
+def two_opt(graph, route, x):
     """
     2-opt heuristic.
     Algorithm pseudo-code:
@@ -59,6 +59,10 @@ def two_opt(graph, route):
     best_route = route
     improved = True
 
+    plt_counter = -1
+    plt_counters = []
+    plt_opts = []
+
     counter = 0
     while improved:
         should_break = False
@@ -73,11 +77,23 @@ def two_opt(graph, route):
                 # print(newRoute)
                 new_distance = sumdistance(graph, new_route)
 
+                ### trecho para matplot ###
+                plt_opts.append(best_distance)
+                plt_counter += 1
+                plt_counters.append(plt_counter)
+                #################
+
                 if new_distance < best_distance:
                     best_route = new_route
                     improved = True
                     best_distance = new_distance
                     counter += 1
+
+                    ### trecho para matplot ###
+                    plt_opts.append(best_distance)
+                    plt_counter += 1
+                    plt_counters.append(plt_counter)
+                    #################
 
                 if x == 1 and counter >= 20:
                     should_break = True
@@ -90,4 +106,4 @@ def two_opt(graph, route):
             # print()
     print(counter)
     # print(route)
-    return best_distance
+    return best_distance, plt_counters, plt_opts

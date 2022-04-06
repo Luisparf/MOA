@@ -89,19 +89,24 @@ def two_opt_matrix(all_dist, route, x):
                 new_route[i:j] = route[j - 1:i - 1:-1]  # o mesmo que two_opt_swap
                 # print(newRoute)
                 new_distance = sumdistance_matrix(all_dist, new_route)
+
+                ### trecho para matplot ###
                 plt_opts.append(best_distance)
                 plt_counter += 1
                 plt_counters.append(plt_counter)
-
+                #################
 
                 if new_distance < best_distance:
                     best_route = new_route
                     improved = True
                     best_distance = new_distance
                     counter += 1
+
+                    ### trecho para matplot ###
                     plt_opts.append(best_distance)
                     plt_counter += 1
                     plt_counters.append(plt_counter)
+                    #################
 
                 if x == 1 and counter >= 20:
                     should_break = True

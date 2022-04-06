@@ -11,7 +11,7 @@ def printgraph(graph):
         print('\n'.join("{}: {}".format(k, v) for k, v in graph[i].items()))
 
 
-def plot_graph(opt_values, counter_values):
+def plot_graf(opt_values, counter_values, name):
     opt_values.reverse()
     # print("otimos locais {}".format(opt_values))
     # print("i {}".format(counter_values))
@@ -20,7 +20,8 @@ def plot_graph(opt_values, counter_values):
     plt.title("TSP", fontsize=13)
     plt.xlabel("Iterações", fontsize=11)
     plt.ylabel("Ótimos locais", fontsize=11)
-    plt.plot(counter_values, opt_values)
-    # plt.legend()
+    plt.plot(counter_values, opt_values, label=f'Construtivo = {name}')
+    plt.legend()
+    # plt.savefig('fig.png')
     plt.show()
     # print(route)

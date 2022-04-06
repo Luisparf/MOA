@@ -4,8 +4,8 @@ from input import fileinput, runcodesinput
 from constructive_matrix import nearestneighbour_matrix, insertdist_matrix, getalldistances, insertcheap_matrix
 from constructive import nearestneighbour, insertdist, insertcheap
 from improvement_matrix import two_opt_matrix, sumdistance_matrix
-from improvement import two_opt
-from aux import printgraph, plot_graph
+from improvement import two_opt, sumdistance
+from aux import printgraph, plot_graf
 import time
 
 """
@@ -30,19 +30,23 @@ if __name__ == '__main__':
         if args.algoritmo_construtivo == 'id':
             x = 0
             route = insertdist_matrix(graph, all_dist)  # usando matriz de distâncias
-            print("### Heurística construtiva Inserção do mais distante")
+            name = 'Inserção do mais distante'
+            print(f'### Heurística construtiva {name}')
+
 
         ### Heurística construtiva Vizinho mais próximo
         elif args.algoritmo_construtivo == 'vp':
             x = 1
             route = nearestneighbour_matrix(graph, all_dist)  # usando matriz de distâncias
-            print("### Heurística construtiva Vizinho mais próximo")
+            name = 'Vizinho mais próximo'
+            print(f'### Heurística construtiva {name}')
 
-        ### Heurística construtiva Inserção do mais barato
+        ### Heurística construtiva Inserção mais barata
         elif args.algoritmo_construtivo == 'ic':
             x = 0
             route = insertcheap_matrix(graph, all_dist)  # usando matriz de distâncias
-            print("### Heurística construtiva Inserção mais barata")
+            name = 'Inserção mais barata'
+            print(f'### Heurística construtiva {name}')
 
         else:
             print("{} não é um argumento válido!\n".format(args.algoritmo_construtivo))
@@ -52,7 +56,7 @@ if __name__ == '__main__':
         if args.algoritmo_melhorativo == 'opt2':
             cost, plt_counters, plt_opts = two_opt_matrix(all_dist, route, x)
             print(f'Custo = {cost}')
-            plot_graph(plt_opts, plt_counters)
+            plot_graf(plt_opts, plt_counters, name)
 
         ### Sem Heurística melhorativa
         elif args.algoritmo_melhorativo == 'none':
@@ -68,19 +72,22 @@ if __name__ == '__main__':
         if args.algoritmo_construtivo == 'vp':
             x = 1
             route = nearestneighbour(graph)
-            print("### Heurística construtiva Vizinho mais próximo")
+            name = 'Vizinho mais próximo'
+            print(f'### Heurística construtiva {name}')
 
         ### Heurística construtiva Inserção do mais distante
         elif args.algoritmo_construtivo == 'id':
             x = 0
             route = insertdist(graph)
-            print("### Heurística construtiva Inserção do mais distante")
+            name = 'Inserção do mais distante'
+            print(f'### Heurística construtiva {name}')
 
         ### Heurística construtiva Inserção do mais barato
         elif args.algoritmo_construtivo == 'ic':
             x = 0
             route = insertcheap(graph)
-            print("### Heurística construtiva Inserção mais barata")
+            name = 'Inserção mais barata'
+            print(f'### Heurística construtiva {name}')
 
         else:
             print("{} não é um argumento válido!\n".format(args.algoritmo_construtivo))
@@ -88,7 +95,14 @@ if __name__ == '__main__':
 
         ### Heurística melhorativa 2-opt
         if args.algoritmo_melhorativo == 'opt2':
-            print(int(two_opt(graph, route, x)))  # com matriz
+            print("### Heurística melhorativa 2opt")
+            cost, plt_counters, plt_opts = two_opt(graph, route, x)
+            print(int(cost))
+            plot_graf(plt_opts, plt_counters, name)
+
+
+        elif args.algoritmo_melhorativo == 'none':
+            sumdistance(graph, route)
         else:
             print("{} não é um argumento válido!\n".format(args.algoritmo_melhorativo))
     else:
@@ -96,5 +110,3 @@ if __name__ == '__main__':
 
     # print("--- %s  ---" % (time.time() - start_time))
     # print("{}".format('=' * 80))
-
-
