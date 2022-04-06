@@ -81,7 +81,7 @@ def insertdist_matrix(graph, all_dist):  # Heurística construtiva Inserção do
         graph[k]['used'] = True
 
     route.append(route[0])
-    print(route)
+    # print(route)
     return route
 
 
@@ -146,7 +146,7 @@ def insertcheap_matrix(graph, all_dist):
         k = 1
         minimum = float('inf')
         selected_i = 1
-        for i in range(localLen(route) -1):
+        for i in range(localLen(route) - 1):
             for j in range(i+1, sizegraph):
                 disti = all_dist[route[i]][j] + all_dist[j][route[i + 1]] - all_dist[route[i]][route[i + 1]]
                 if disti < minimum and graph[j]['used'] is False:
@@ -161,5 +161,5 @@ def insertcheap_matrix(graph, all_dist):
             break
     route.append(route[0])
     # print(sumdistance_matrix(all_dist, route))
-    print(route)
+    # print(route)
     return route

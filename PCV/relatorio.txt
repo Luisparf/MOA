@@ -1,0 +1,41 @@
+
+COMMENT : NAME : att48
+TYPE : COMMENT : 48 capitals of the US (Padberg/Rinaldi)
+TSP DIMENSION: TYPE : TSP
+EDGE_WEIGHT_TYPE : EUC_2D
+35251
+================================================================================
+
+COMMENT : NAME : Teste 1
+TYPE : COMMENT : 
+TSP DIMENSION: TYPE : TSP
+EDGE_WEIGHT_TYPE : EUC_2D
+400
+================================================================================
+
+COMMENT : NAME : Teste 1
+TYPE : COMMENT : 
+TSP DIMENSION: TYPE : TSP
+EDGE_WEIGHT_TYPE : EUC_2D
+
+COMMENT : NAME : Teste 1
+TYPE : COMMENT : 
+TSP DIMENSION: TYPE : TSP
+EDGE_WEIGHT_TYPE : EUC_2D
+400
+================================================================================
+
+COMMENT : NAME : tsp225
+TYPE : COMMENT : A TSP problem (Reinelt)
+TSP DIMENSION: TYPE : TSP
+EDGE_WEIGHT_TYPE : EUC_2D
+4176
+================================================================================
+
+COMMENT : NAME : tsp225
+TYPE : COMMENT : A TSP problem (Reinelt)
+TSP DIMENSION: TYPE : TSP
+EDGE_WEIGHT_TYPE : EUC_2D
+4176
+--- 25.450954914093018  ---
+================================================================================
