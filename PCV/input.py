@@ -40,10 +40,8 @@ def fileinput():
                         required=False, help="opt2 para algoritmo '2-opt', n para não executar algoritmo melhorativo")
 
     args = parser.parse_args()
-    # print(args)
 
     d = {}
-    # lines = args.filename.readlines()
     lines = []
     i = 0
     while (line := args.filename.readline()) and line != "EOF":

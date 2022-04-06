@@ -7,6 +7,8 @@
 
 from math import dist
 from improvement_matrix import sumdistance_matrix
+import matplotlib.pyplot as plt
+import numpy as np
 
 # Uma cópia local de funções como essa reduz o tempo de execução
 localLen = len
@@ -44,6 +46,7 @@ def getalldistances(graph):  # armazena todas as distâncias  nó X nó
 
 ########################################################################################################################
 def insertdist_matrix(graph, all_dist):  # Heurística construtiva Inserção do mais distante
+
     """
       More distant insertion heuristic.
       Algorithm source:
@@ -55,6 +58,7 @@ def insertdist_matrix(graph, all_dist):  # Heurística construtiva Inserção do
       """
     route = [1, 2, 3]
     sizegraph = localLen(graph)
+
     for i in range(1, 4):
         graph[i]['used'] = True
 
@@ -91,12 +95,13 @@ def insertdist_matrix(graph, all_dist):  # Heurística construtiva Inserção do
 def nearestneighbour_matrix(graph, all_distances):  # Heurística construtiva vizinho mais próximo
     # selected = randint(1, localLen(graph)-1)
     selected = 1
-
     first = selected
-
     walked_path = [selected]
     graph[selected]['used'] = True
 
+    i_values = []
+    opt_values = []
+    sum_menor = 0
     while True:
         # Valor da distância entre nó atual e menor vizinho
         menor = float('inf')
@@ -117,6 +122,7 @@ def nearestneighbour_matrix(graph, all_distances):  # Heurística construtiva vi
                 menor = all_distances[selected][i]
                 menor_index = i
 
+
         if end_counter == (localLen(graph) - 1):
             # penultimo = localLen(walkedPath) - 1
             # walkWeight += allDistances[walkedPath[penultimo]][first]
@@ -127,9 +133,11 @@ def nearestneighbour_matrix(graph, all_distances):  # Heurística construtiva vi
         walked_path.append(menor_index)
         graph[menor_index]['used'] = True
         selected = menor_index
+        sum_menor += menor
+
 
     # print(walkedPath)
-
+    print('sum menor {}'.format(sum_menor))
     return walked_path
 
 

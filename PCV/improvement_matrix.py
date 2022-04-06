@@ -5,6 +5,8 @@
 #                                                                                          #
 ############################################################################################
 from math import dist
+import matplotlib.pyplot as plt
+import numpy as np
 
 localLen = len
 localDist = dist
@@ -67,16 +69,17 @@ def two_opt_matrix(all_dist, route, x):
     link: https://en.wikipedia.org/wiki/2-opt
 
     """
-
+    print("x {}".format(x))
     size_route = localLen(route)
     best_route = route
     improved = True
-
     counter = 0
+    opt_value = 0
+    opt_values = []
+    counter_values = []
     while improved:
 
-        if x == 1 and counter >= 20:
-            break
+        should_break = False
 
         improved = False
         best_distance = sumdistance_matrix(all_dist, route)
@@ -88,6 +91,9 @@ def two_opt_matrix(all_dist, route, x):
                 new_route[i:j] = route[j - 1:i - 1:-1]  # o mesmo que two_opt_swap
                 # print(newRoute)
                 new_distance = sumdistance_matrix(all_dist, new_route)
+                counter_values.append(counter)
+                opt_value += best_distance
+                opt_values.append(opt_value)
 
                 if new_distance < best_distance:
                     best_route = new_route
@@ -95,7 +101,26 @@ def two_opt_matrix(all_dist, route, x):
                     best_distance = new_distance
                     counter += 1
 
+                if x == 1 and counter >= 20:
+                    should_break = True
+                    improved = False
+                    break
+
             route = best_route
+            if should_break:
+                break
             # print()
+    print("contador {}".format(counter))
+
+    opt_values.reverse()
+    # print("otimos locais {}".format(opt_values))
+    # print("i {}".format(counter_values))
+    plt.title("TSP", fontsize=13)
+    plt.xlabel("Iteração", fontsize=11)
+    plt.ylabel("Ótimo local", fontsize=11)
+    plt.plot(counter_values, opt_values)
+    # plt.legend()
+    plt.show()
     # print(route)
+
     return best_distance
