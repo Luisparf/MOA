@@ -119,37 +119,82 @@ def three_opt(graph, route):
     size_route = localLen(route)
     best_route = route
 
-    improved = True
+    should_break = False
 
-    while improved:
+    improved = True
+    counter = 0
+
+    wRoute = sumdistance(graph, route)
+
+    new_route = route[:]
+    while not should_break:
+
         for a in range(size_route - 1):
+            if should_break:
+                break
             for b in range(a+2, size_route - 1):
-                for c in range(b+2, size_route - 1):
-                    new_route = route[:]
-                    
+                if should_break:
+                    break
+
+                for c in range(b+2, size_route - 1):        
                     # d1 = distance(A, C) + distance(B, D) + distance(E, F)
+
+                    if counter >= 10:
+                        should_break = True
+                        break
 
                     #new_route1 = route[:]
                     #new_route1[i:j] = route[]
                     #new_route1[] = route[]
-                    wRoute0 = sumdistance(graph, route)
+                    wRoute0 = wRoute
                     
+
                     #                   P(0,A)                                    D(A,B+1)                                              P(B+1,C)                            D(C,B)                                                       R(A+1,B)                               D(A+1,C+1)                                                P(C+1, 0)
                     wRoute1 = sumdistance(graph, route[0:a+1]) + dist_between_points(graph, route, route[a], route[b+1]) + sumdistance(graph, route[b+1:c+1]) + dist_between_points(graph, route, route[c], route[b]) + sumdistance(graph, route[a+1:b+2:-1]) + dist_between_points(graph, route, route[a+1], route[c+1]) + sumdistance(graph, route[c+1:size_route])
                     if wRoute0 > wRoute1:
-                        pass
+                        #new_route RECEBE rota
+                        #devolve tbm valor do peso
+
+
+                        counter += 1
+                        route = new_route
+                        wRoute = wRoute1
+                        continue
                     
                     #                   P(0,A)                                    D(A,B)                                                P(B,A+1)                            D(A+1,C)                                                     R(B+1,C)                               D(B+1,C+1)                                                P(C+1, 0)
                     wRoute2 = sumdistance(graph, route[0:a+1]) + dist_between_points(graph, route, route[a], route[b]) + sumdistance(graph, route[b:a+2:-1]) + dist_between_points(graph, route, route[a+1], route[c]) + sumdistance(graph, route[b+1:c+1:-1]) + dist_between_points(graph, route, route[b+1], route[c+1]) + sumdistance(graph, route[c+1:size_route])
                     if wRoute0 > wRoute2:
-                        pass
+                        #new_route RECEBE rota
+                        #devolve tbm valor do peso
+
+
+                        counter += 1
+                        route = new_route
+                        wRoute = wRoute1
+                        continue
 
                     #                    P(0,A)                                    D(A,C)                                                R(B+1,C)                            D(B+1,A+1)                                                   P(A+1,B)                               D(B,C+1)                                                  P(C+1,0)        
                     wRoute3 = sumdistance(graph, route[0:a+1]) + dist_between_points(graph, route, route[a], route[c]) + sumdistance(graph, route[b+1:c+1:-1]) + dist_between_points(graph, route, route[b+1], route[a+1]) + sumdistance(graph, route[a+1:b+1]) + dist_between_points(graph, route, route[b] + route[c+1]) + sumdistance(graph, route[c+1:size_route])                  
                     if wRoute0 > wRoute3:
-                        pass
+                        #new_route RECEBE rota
+                        #devolve tbm valor do peso
+
+
+                        counter += 1
+                        route = new_route
+                        wRoute = wRoute1
+                        continue
 
                     #                    P(0,A)                                    D(A, B+1)                                             P(B+1,C)                            D(C+1,A+1)                                                   P(A+1,B)                               D(B,C+1)                                                  P(C+1,0)                 
                     wRoute4 = sumdistance(graph, route[0:a+1]) + dist_between_points(graph, route, route[a], route[b+1]) + sumdistance(graph, route[b+1:c+1]) + dist_between_points(graph, route, route[c+1], route[a+1]) + sumdistance(graph, route[a+1:b+1]) +  dist_between_points(graph, route, route[b], route[c+1]) + sumdistance(graph, route[c+1, size_route])  
                     if wRoute0 > wRoute4:
-                        pass
+                        #new_route RECEBE rota
+                        #devolve tbm valor do peso
+
+
+                        counter += 1
+                        route = new_route
+                        wRoute = wRoute1
+                        continue
+        
+        return wRoute
