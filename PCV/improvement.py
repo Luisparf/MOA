@@ -11,6 +11,14 @@ localDist = dist
 
 ########################################################################################################################
 
+def dist_between_points(graph, route, p1 ,p2):
+    x1 = graph[route[p1]]['x']
+    y1 = graph[route[p1]]['y']
+
+    x2 = graph[route[p2]]['x']
+    y2 = graph[route[p2]]['y']
+
+    return localDist([x1, y1], [x2, y2])
 
 def sumdistance(graph, route):
     sizeroute = localLen(route) - 1
@@ -114,13 +122,16 @@ def three_opt(graph, route):
     improved = True
 
     while improved:
-        for i in range(size_route):
-            for j in range(i+2, size_route):
-                for k in range(j+2, size_route):
+        for a in range(size_route - 1):
+            for b in range(a+2, size_route - 1):
+                for c in range(b+2, size_route - 1):
                     new_route0 = route[:]
                     
-                    new_route1 = route[:]
-                    new_route1[i:j] = route[]
-                    new_route1[] = route[]
+                    # d1 = distance(A, C) + distance(B, D) + distance(E, F)
 
+                    #new_route1 = route[:]
+                    #new_route1[i:j] = route[]
+                    #new_route1[] = route[]
                     wRoute0 = sumdistance(graph, route)
+                                #      P(0,A)                                    D(A,B+1)                                            P(B+1,C)                            D(C,B)                                                       R(A+1,B)                               D(A+1,C+1)                                                P(C+1, 0)
+                    wRoute1 = sumdistance(graph, route[0:a+1]) + dist_between_points(graph, route, route[a], route[b+1]) + sumdistance(graph, route[b+1:c+1]) + dist_between_points(graph, route, route[c], route[b]) + sumdistance(graph, route[a+1:b+2:-1]) + dist_between_points(graph, route, route[a+1], route[c+1]) + sumdistance(graph, route[c+1:size_route])
