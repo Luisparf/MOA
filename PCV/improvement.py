@@ -76,7 +76,6 @@ def two_opt(graph, route, x):
                 new_route[i:j] = route[j - 1:i - 1:-1]  # o mesmo que two_opt_swap
                 # print(newRoute)
                 new_distance = sumdistance(graph, new_route)
-
                 ### trecho para matplot ###
                 plt_opts.append(best_distance)
                 plt_counter += 1
@@ -107,3 +106,21 @@ def two_opt(graph, route, x):
     print(counter)
     # print(route)
     return best_distance, plt_counters, plt_opts
+
+def three_opt(graph, route):
+    size_route = localLen(route)
+    best_route = route
+
+    improved = True
+
+    while improved:
+        for i in range(size_route):
+            for j in range(i+2, size_route):
+                for k in range(j+2, size_route):
+                    new_route0 = route[:]
+                    
+                    new_route1 = route[:]
+                    new_route1[i:j] = route[]
+                    new_route1[] = route[]
+
+                    wRoute0 = sumdistance(graph, route)
