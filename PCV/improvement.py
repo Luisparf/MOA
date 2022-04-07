@@ -170,7 +170,7 @@ def three_opt(graph, route):
 
                         counter += 1
                         route = new_route
-                        wRoute = wRoute1
+                        wRoute = wRoute2
                         continue
 
                     #                    P(0,A)                                    D(A,C)                                                R(B+1,C)                            D(B+1,A+1)                                                   P(A+1,B)                               D(B,C+1)                                                  P(C+1,0)        
@@ -182,7 +182,7 @@ def three_opt(graph, route):
 
                         counter += 1
                         route = new_route
-                        wRoute = wRoute1
+                        wRoute = wRoute3
                         continue
 
                     #                    P(0,A)                                    D(A, B+1)                                             P(B+1,C)                            D(C+1,A+1)                                                   P(A+1,B)                               D(B,C+1)                                                  P(C+1,0)                 
@@ -194,7 +194,7 @@ def three_opt(graph, route):
 
                         counter += 1
                         route = new_route
-                        wRoute = wRoute1
+                        wRoute = wRoute4
                         continue
         
         return wRoute
