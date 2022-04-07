@@ -57,7 +57,7 @@ if __name__ == '__main__':
             cost, plt_counters, plt_opts = two_opt_matrix(all_dist, route, x)
             print(f'Custo = {cost}')
             imp_name = "2-opt"
-            plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name)
+            plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, cost)
 
         ### Sem Heurística melhorativa
         elif args.algoritmo_melhorativo == 'none':
@@ -102,9 +102,10 @@ if __name__ == '__main__':
         if args.algoritmo_melhorativo == 'opt2':
             print("### Heurística melhorativa 2opt...")
             cost, plt_counters, plt_opts = two_opt(graph, route, x)
-            print(int(cost))
+            cost = int(cost)
+            print(cost)
             imp_name = "2-opt"
-            plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name)
+            plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, cost)
 
         elif args.algoritmo_melhorativo == 'none':
             print(sumdistance(graph, route))
