@@ -40,7 +40,7 @@ def nearestneighbour(graph):
                 end_counter += 1
                 continue
             disti = localDist([graph[selected]['x'], graph[selected]['y']], [graph[i]['x'], graph[i]['y']])
-            if  disti < menor:
+            if disti < menor:
                 menor = disti
                 menor_index = i
 

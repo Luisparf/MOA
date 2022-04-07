@@ -101,13 +101,13 @@ def two_opt_matrix(all_dist, route, x):
                     improved = True
                     best_distance = new_distance
                     counter += 1
-
+                    """
                     ### trecho para matplot ###
                     plt_opts.append(best_distance)
                     plt_counter += 1
                     plt_counters.append(plt_counter)
                     #################
-
+                    """
                 if x == 1 and counter >= 20:
                     should_break = True
                     improved = False
