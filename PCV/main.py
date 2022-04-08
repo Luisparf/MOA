@@ -103,7 +103,6 @@ if __name__ == '__main__':
             print("### Heurística melhorativa 2opt...")
             cost, plt_counters, plt_opts = two_opt(graph, route, x)
             cost = int(cost)
-            print(cost)
             imp_name = "2-opt"
             plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, cost)
 
@@ -112,7 +111,11 @@ if __name__ == '__main__':
 
             ### Heurística melhorativa 3-opt
         elif args.algoritmo_melhorativo == 'opt3':
-            three_opt(graph, route)
+            print('### Heurística melhorativa 3opt...')
+            cost, plt_counters, plt_opts = three_opt(graph, route)
+            cost = int(cost)
+            imp_name = "3-opt"
+            plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, cost)
         else:
             print("{} não é um argumento válido!\n".format(args.algoritmo_melhorativo))
     else:
