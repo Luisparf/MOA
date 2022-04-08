@@ -2,7 +2,7 @@
 
 from input import fileinput, runcodesinput
 from constructive_matrix import nearestneighbour_matrix, insertdist_matrix, getalldistances, insertcheap_matrix
-from constructive import nearestneighbour, insertdist, insertcheap
+from constructive import nearestneighbour, insertdist, insertcheap, distantneighbour
 from improvement_matrix import two_opt_matrix, sumdistance_matrix
 from improvement import two_opt, sumdistance, three_opt
 from aux import printgraph, plot_graf
@@ -82,9 +82,9 @@ if __name__ == '__main__':
 
         ### Heurística construtiva Inserção do mais distante
         elif args.algoritmo_construtivo == 'id':
-            x = 0
-            route = insertdist(graph)
-            constr_name = 'Inserção do mais distante'
+            x = 1
+            route = distantneighbour(graph)
+            constr_name = 'Vizinho mais distante'
             print(f'### Heurística construtiva {constr_name}...')
 
         ### Heurística construtiva Inserção do mais barato
@@ -100,8 +100,8 @@ if __name__ == '__main__':
 
         ### Heurística melhorativa 2-opt
         if args.algoritmo_melhorativo == 'opt2':
-            print("### Heurística melhorativa 2opt...")
-            cost, plt_counters, plt_opts = two_opt(graph, route, x)
+            print("### Heurística melhorativa 2opt limited to 20 max...")
+            cost, plt_counters, plt_opts = two_opt(graph, route, x, 20)
             cost = int(cost)
             print(cost)
             imp_name = "2-opt"
@@ -110,9 +110,14 @@ if __name__ == '__main__':
         elif args.algoritmo_melhorativo == 'none':
             print(sumdistance(graph, route))
 
-            ### Heurística melhorativa 3-opt
-        elif args.algoritmo_melhorativo == 'opt3':
-            three_opt(graph, route)
+            ### Heurística melhorativa 2-opt limitado a 100 max
+        elif args.algoritmo_melhorativo == 'opt2-2000':
+            print("### Heurística melhorativa 2opt limited to 2000 max...")
+            cost, plt_counters, plt_opts = two_opt(graph, route, x, 2000)
+            cost = int(cost)
+            print(cost)
+            imp_name = "2-opt-2000-max"
+            plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, cost)
         else:
             print("{} não é um argumento válido!\n".format(args.algoritmo_melhorativo))
     else:

@@ -6,6 +6,7 @@
 ###########################################################################################
 
 from math import dist
+from typing import Tuple
 
 # Uma cópia local de funções como essa reduz o tempo de execução
 from improvement import sumdistance
@@ -56,6 +57,45 @@ def nearestneighbour(graph):
 
     return walkedPath
 
+
+###########################################################################################
+
+def distantneighbour(graph):
+    selected = 1
+    first = selected
+
+    walkedPath = [selected]
+    graph[selected]['used'] = True
+
+    while True:
+        maior = float('-inf')
+
+        maior_index = -1
+
+        # Conteiro para verificar se todos os vizinho já foram explorados
+        end_counter = 0
+        for i in range(1, localLen(graph)):
+            # print("selected = {} i = {}".format(selected, i))
+
+            if (i == selected) or (graph[i]['used']):
+                end_counter += 1
+                continue
+            disti = localDist([graph[selected]['x'], graph[selected]['y']], [graph[i]['x'], graph[i]['y']])
+            if disti > maior:
+                maior = disti
+                maior_index = i
+
+        if end_counter == (localLen(graph) - 1):
+            walkedPath.append(first)
+            break
+
+        walkedPath.append(maior_index)
+        graph[maior_index]['used'] = True
+        selected = maior_index
+
+    # print(f'\nwalkedPath = {walkedPath}')
+
+    return walkedPath
 
 ###########################################################################################
 
