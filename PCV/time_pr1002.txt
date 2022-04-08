@@ -1,0 +1,15 @@
+NAME : pr1002
+COMMENT : 1002-city problem (Padberg/Rinaldi)
+TYPE : TSP
+DIMENSION : 1002
+EDGE_WEIGHT_TYPE : EUC_2D
+
+### Executando sem matriz de distâncias...
+### Heurística construtiva Vizinho mais próximo
+### Heurística melhorativa 2opt limited to 20 max...
+315596.5873942432
+310546
+
+real	0m37.279s
+user	0m37.354s
+sys	0m0.348s

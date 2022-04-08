@@ -100,11 +100,11 @@ if __name__ == '__main__':
 
         ### Heurística melhorativa 2-opt
         if args.algoritmo_melhorativo == 'opt2':
-            print("### Heurística melhorativa 2opt limited to 20 max...")
-            cost, plt_counters, plt_opts = two_opt(graph, route, x, 20)
+            print("### Heurística melhorativa 2opt limited to 40 max...")
+            cost, plt_counters, plt_opts = two_opt(graph, route, x, 40)
             cost = int(cost)
             print(cost)
-            imp_name = "2-opt on " + args.filename.name
+            imp_name = "2-opt on " + args.filename.name + " limited to 40 improvements"
             plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, cost)
 
         elif args.algoritmo_melhorativo == 'none':
