@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from input import fileinput, runcodesinput
+from input import fileinput
 from constructive_matrix import nearestneighbour_matrix, insertdist_matrix, getalldistances, insertcheap_matrix
-from constructive import nearestneighbour, insertdist, insertcheap
+from constructive import nearestneighbour, insertdist, insertcheap, distantneighbour
 from improvement_matrix import two_opt_matrix, sumdistance_matrix
 from improvement import two_opt, sumdistance, three_opt
 from aux import printgraph, plot_graf
@@ -65,7 +65,11 @@ if __name__ == '__main__':
 
         ### Heurística melhorativa 3-opt
         elif args.algoritmo_melhorativo == 'opt3':
-            three_opt(graph, route)
+            print('### Heurística melhorativa 3opt...')
+            cost, plt_counters, plt_opts = three_opt(graph, route)
+            cost = int(cost)
+            imp_name = "3-opt"
+            plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, cost)
         else:
             print("{} não é um argumento válido!\n".format(args.algoritmo_melhorativo))
 
@@ -79,6 +83,13 @@ if __name__ == '__main__':
             route = nearestneighbour(graph)
             constr_name = 'Vizinho mais próximo'
             print(f'### Heurística construtiva {constr_name}')
+
+        ### Heurística construtiva Vizinho mais distante
+        elif args.algoritmo_construtivo == 'vd':
+            x = 1
+            route = distantneighbour(graph)  # usando matriz de distâncias
+            constr_name = 'Vizinho mais próximo'
+            print(f'### Heurística construtiva {constr_name}...')
 
         ### Heurística construtiva Inserção do mais distante
         elif args.algoritmo_construtivo == 'id':

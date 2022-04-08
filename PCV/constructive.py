@@ -8,7 +8,6 @@
 from math import dist
 
 # Uma cópia local de funções como essa reduz o tempo de execução
-from improvement import sumdistance
 
 localLen = len
 localDist = dist
@@ -59,6 +58,45 @@ def nearestneighbour(graph):
 
 ###########################################################################################
 
+def distantneighbour(graph):
+    selected = 1
+    first = selected
+
+    walkedPath = [selected]
+    graph[selected]['used'] = True
+
+    while True:
+        maior = float('-inf')
+
+        maior_index = -1
+
+        # Conteiro para verificar se todos os vizinho já foram explorados
+        end_counter = 0
+        for i in range(1, localLen(graph)):
+            # print("selected = {} i = {}".format(selected, i))
+
+            if (i == selected) or (graph[i]['used']):
+                end_counter += 1
+                continue
+            disti = localDist([graph[selected]['x'], graph[selected]['y']], [graph[i]['x'], graph[i]['y']])
+            if disti > maior:
+                maior = disti
+                maior_index = i
+
+        if end_counter == (localLen(graph) - 1):
+            walkedPath.append(first)
+            break
+
+        walkedPath.append(maior_index)
+        graph[maior_index]['used'] = True
+        selected = maior_index
+
+    # print(f'\nwalkedPath = {walkedPath}')
+
+    return walkedPath
+
+###########################################################################################
+
 def insertdist(graph):
     route = [1, 2, 3]
     sizegraph = localLen(graph)
@@ -70,7 +108,7 @@ def insertdist(graph):
         k = 1
         selected_i = 1
         for i in range(localLen(route) - 1):
-            for j in range(i + 1, sizegraph ):
+            for j in range(i + 1, sizegraph):
                 disti = localDist([graph[route[i]]['x'], graph[route[i]]['y']], [graph[j]['x'], graph[j]['y']])
                 if graph[j]['used'] is False and disti > maior:
                     k = j

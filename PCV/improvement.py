@@ -132,15 +132,15 @@ def three_opt(graph, route):
 
     while not should_break:
 
-        for a in range(size_route - 5):
+        for a in range(size_route - 1):
             if should_break:
                 break
-            for b in range(a + 2, size_route - 3):
+            for b in range(a + 2, size_route - 1):
                 if should_break:
                     break
                 for c in range(b + 2, size_route - 1 ):
 
-                    if counter >= 5:
+                    if counter >= 2:
                         should_break = True
                         break
 

@@ -22,8 +22,8 @@ def is_valid_file(parser, arg):
 
 def fileinput():
     # algumas definições para --help
-    parser = ArgumentParser(description='Solver to PCV ',
-                            epilog="(Try 'python3 main.py att48.tsp')")
+    parser = ArgumentParser(description='Heurísticas para o problema do caixeiro viajante. ',
+                            epilog="Divirta-se: >_ python3 main.py att48.tsp")
 
     parser.add_argument(dest="filename", help='.tsp file with graph coordinates',
                         type=lambda x: is_valid_file(parser, x))

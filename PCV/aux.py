@@ -28,7 +28,10 @@ def plot_graf(opt_values, counter_values, constr_name, imp_name, file_name, cost
         arrowprops=dict(arrowstyle="->", connectionstyle="arc3")
     )
     plt.text(  # position text absolutely at specific pixel on image
-        220, 380, f'{constr_name}',
+        220, 380,
+        f'{constr_name}', color='green',
+        fontsize= 11,
+        bbox= dict(facecolor='none', edgecolor='green'),
         transform=None
     )
     plt.xlabel("Iterações", fontsize=11)
@@ -37,5 +40,5 @@ def plot_graf(opt_values, counter_values, constr_name, imp_name, file_name, cost
     # plt.scatter(counter_values, opt_values, marker="+", color='red')
     plt.legend(loc='best')
     plt.savefig(f'{constr_name.replace(" ", "_") + "_" + imp_name.replace(" ", "_") + "_" + file_name.replace(" ", "_").replace(".tsp", ".png")}')
-    # plt.show()
+    plt.show()
     # print(route)
