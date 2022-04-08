@@ -90,7 +90,6 @@ def two_opt(graph, route, x, limit):
                     improved = True
                     best_distance = new_distance
                     counter += 1
-                    print(counter, best_distance)
                     """
                     ### trecho para matplot ###
                     plt_opts.append(best_distance)
