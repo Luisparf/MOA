@@ -128,18 +128,18 @@ def three_opt(graph, route):
 
     while not should_break:
 
-        for a in range(size_route - 5):
+        for a in range(size_route - 2):
             if should_break:
                 break
-            for b in range(a + 2, size_route - 3):
+            for b in range(a + 2, size_route - 1):
                 if should_break:
                     break
-                for c in range(b + 2, size_route - 1):
+                for c in range(b + 2, size_route ):
 
                     if counter >= 10:
                         should_break = True
                         break
-                    new_route = route[:]
+
 
                     # d1 = distance(A, C) + distance(B, D) + distance(E, F)
 
@@ -147,43 +147,55 @@ def three_opt(graph, route):
                     # new_route1[i:j] = route[]
                     # new_route1[] = route[]
                     wRoute0 = wRoute
+                    # print(f'\nroute[{a}] = {route[a]} route[{b}] = {route[b]}  route[{c}] = {route[c]} route[{c} + 1] = {route[c + 1]} \n')
+                    # print(f'counter = {counter} route = {route}')
 
                     #                   P(0,A)                                    D(A,B+1)                                              P(B+1,C)                            D(C,B)                                                       R(A+1,B)                               D(A+1,C+1)                                                P(C+1, 0)
-                    wRoute1 = sumdistance(graph, route[:a + 1]) + dist_between_points(graph, route, route[a],route[b + 1])  + sumdistance(graph, route[b + 1:c + 1]) + dist_between_points(graph, route, route[c],route[b]) + sumdistance(graph, route[a + 1:b + 1:-1]) + dist_between_points(graph, route, route[a + 1], route[c + 2]) + sumdistance(graph, route[c + 1: - 1])
+                    wRoute1 = sumdistance(graph, route[:a + 1]) + dist_between_points(graph, route, route[a] , route[b + 1])  + sumdistance(graph, route[b + 1:c + 1]) + dist_between_points(graph, route, route[c],route[b]) + sumdistance(graph, route[a + 1:b + 1:-1]) + dist_between_points(graph, route, route[a + 1], route[c + 1]) + sumdistance(graph, route[c + 1:])
+                    ### CASO 1
                     if wRoute1 < wRoute0:
-                        new_route = route[:a + 1] + route[b + 1:c + 1] + route[a + 1:b + 1:-1] + route[a + 1:c + 2] + route[c + 1:]
-                        print(f'\nwRoute1 = {new_route} ')
+                        #                P(0,A)            P(B+1,C)         R(A+1,B)        P(C+1, 0)
+                        new_route = route[:a + 1] + route[b + 1:c + 1] + route[b:a:-1] + route[c + 1:]
                         wRoute = wRoute1
                         counter += 1
                         route = new_route
+                        continue
 
-
-                    #                   P(0,A)                                    D(A,B)                                                P(B,A+1)                            D(A+1,C)                                                     R(B+1,C)                               D(B+1,C+1)                                                P(C+1, 0)
-                    wRoute2 = sumdistance(graph, route[:a + 1]) + dist_between_points(graph, route, route[a],  route[b]) + sumdistance(graph,route[b:a + 2:-1]) + dist_between_points(graph, route, route[a + 1], route[c]) + sumdistance(graph, route[b + 1:c + 1:-1]) + dist_between_points(graph, route, route[b + 1], route[c + 1]) + sumdistance(graph, route[c + 1:size_route ])
+                    #                   P(0,A)                                    D(A,B)                                                R (B,A+1)                            D(A+1,C)                                                     R(B+1,C)                               D(B+1,C+1)                                                P(C+1, 0)
+                    wRoute2 = sumdistance(graph, route[:a + 1]) + dist_between_points(graph, route, route[a],  route[b]) + sumdistance(graph,route[b:a + 2:-1]) + dist_between_points(graph, route, route[a + 1], route[c]) + sumdistance(graph, route[b + 1:c + 1:-1]) + dist_between_points(graph, route, route[b + 1], route[c + 1]) + sumdistance(graph, route[c + 1:])
+                    ### CASO 2
                     if wRoute2 < wRoute0:
-                        new_route = route[:a + 1] + route[b:a + 2: -1] + route[b + 1: c + 1: - 1] + route[c:]
+                        ### CASO 2
+                        #               P(0,A)           R(B,A+1)      R(B+1,C)        P(C+1, 0)
+                        new_route = route[:a + 1] + route[b:a:-1] + route[c:b:-1] + route[c + 1:]
                         wRoute = wRoute2
                         counter += 1
                         route = new_route
+                        continue
 
-                    print(route[c])
                     #                    P(0,A)                                    D(A,C)                                                R(B+1,C)                            D(B+1,A+1)                                                   P(A+1,B)                               D(B,C+1)                                                  P(C+1,0)
-                    wRoute3 = sumdistance(graph, route[:a + 1]) + dist_between_points(graph, route, route[a], route[c]) + sumdistance(graph, route[b + 1:c + 1:-1]) + dist_between_points(graph, route, route[b + 1], route[a + 1]) + sumdistance(graph, route[a + 1:b + 1]) + dist_between_points(graph, route, route[b] , route[c + 1]) + sumdistance(graph, route[c + 1:size_route ])
+                    wRoute3 = sumdistance(graph, route[:a + 1]) + dist_between_points(graph, route, route[a], route[c]) + sumdistance(graph, route[b + 1:c + 1:-1]) + dist_between_points(graph, route, route[b + 1], route[a + 1]) + sumdistance(graph, route[a + 1:b + 1]) + dist_between_points(graph, route, route[b] , route[c + 1]) + sumdistance(graph, route[c + 1:])
+                    ### CASO 3
                     if wRoute3 < wRoute0:
-                        new_route = route[:a+1] + route[b + 1 : c + 1: -1] + route[b:c + 2] + route[c + 1 :]
+                        ### CASO3
+                        #              P(0,A)        R(B+1,C)                   P(A+1,B)        P(C+1,0)
+                        new_route = route[:a + 1] + route[c:b: -1] + route[a + 1:b + 1] + route[c + 1:]
                         wRoute = wRoute3
                         counter += 1
                         route = new_route
-
+                        continue
 
                     #                    P(0,A)                                    D(A, B+1)                                             P(B+1,C)                            D(C+1,A+1)                                                   P(A+1,B)                               D(B,C+1)                                                  P(C+1,0)
                     wRoute4 = sumdistance(graph, route[:a + 1]) + dist_between_points(graph, route, route[a], route[b + 1]) + sumdistance(graph, route[b + 1:c + 1]) + dist_between_points(graph, route, route[c + 1], route[a + 1]) + sumdistance(graph, route[a + 1:b + 1]) + dist_between_points(graph, route, route[b], route[c + 1]) + sumdistance(graph, route[c + 1:])
                     if wRoute4 < wRoute0:
-                        new_route = route[:a + 1] + route[b + 1: c + 1] + route[a + 1: b + 1 ] + route[c + 1:]
+                        #              P(0,A)            P(B+1,C)             P(A+1,B)           P(C+1,0)
+                        new_route = route[:a + 1] + route[b + 1: c + 1] + route[a + 1: b + 1] + route[c + 1:]
                         wRoute = wRoute4
                         counter += 1
                         route = new_route
+                        continue
 
                     # route = new_route
-
+    print(route)
+    print(sumdistance(graph, route))
     return wRoute

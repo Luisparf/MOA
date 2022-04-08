@@ -52,7 +52,7 @@ def nearestneighbour(graph):
         graph[menor_index]['used'] = True
         selected = menor_index
 
-    # print(walkedPath)
+    # print(f'\nwalkedPath = {walkedPath}')
 
     return walkedPath
 
