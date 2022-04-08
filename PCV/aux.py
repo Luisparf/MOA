@@ -12,13 +12,14 @@ def printgraph(graph):
 
 ########################################################################################################################
 
-def plot_graf(opt_values, counter_values, constr_name, imp_name, file_name, cost):
+
+def plot_graf(opt_values, counter_values, constr_name, imp_name, file_name, exe_time, cost):
     # print("otimos locais {}".format(opt_values))
 
     # print("i {}".format(counter_values))
 
     # plt.axis('auto')
-    plt.title("TSP", fontsize=13)
+    plt.title(f'{file_name} - {constr_name} - tempo total:{exe_time}s', loc='center',bbox=dict(facecolor='none', edgecolor='purple'), color='purple', fontsize=10)
     plt.grid(True)
     plt.annotate(
         f'melhor solução: {cost}',
@@ -27,16 +28,22 @@ def plot_graf(opt_values, counter_values, constr_name, imp_name, file_name, cost
         xy=(counter_values[localLen(counter_values) - 1], opt_values[localLen(opt_values) - 1]),
         arrowprops=dict(arrowstyle="->", connectionstyle="arc3")
     )
+    """
     plt.text(  # position text absolutely at specific pixel on image
-        220, 380,
-        f'{constr_name}', color='green',
-        fontsize= 11,
-        bbox= dict(facecolor='none', edgecolor='green'),
+        200, 460,
+        f'{file_name} - {constr_name}', color='purple',
+        fontsize=11,
+        bbox=dict(facecolor='none', edgecolor='purple'),
         transform=None
     )
-    plt.xlabel("Iterações", fontsize=11)
-    plt.ylabel("Ótimos locais", fontsize=11)
-    plt.plot(counter_values, opt_values, label=f'{imp_name.format()}')
+    """
+    if opt_values[0] > 10000:
+        plt.ticklabel_format(useOffset=True)
+        plt.ticklabel_format(axis='x', style='sci', scilimits=(0,0))
+        plt.ticklabel_format(axis='y', style='sci', scilimits=(0,0))
+    plt.xlabel("Iterações", fontsize=9)
+    plt.ylabel("Ótimos locais", fontsize=9)
+    plt.plot(counter_values, opt_values, label=f'{imp_name}')
     # plt.scatter(counter_values, opt_values, marker="+", color='red')
     plt.legend(loc='best')
     plt.savefig(f'{constr_name.replace(" ", "_") + "_" + imp_name.replace(" ", "_") + "_" + file_name.replace(" ", "_").replace(".tsp", ".png")}')

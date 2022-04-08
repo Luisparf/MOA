@@ -17,12 +17,12 @@ import sys
 if __name__ == '__main__':
     file_name = sys.argv[len(sys.argv) - 1]
 
-    # start_time = time.time()
     ### Input ###
     args, graph = fileinput()
 
     ### Utiliza matriz de distâncias
     x = -1
+    start_time = time.time()
     if args.mode == 'm':
         print("### Executando com matriz de distâncias...")
         all_dist = getalldistances(graph)  # matriz de distâncias
@@ -55,9 +55,10 @@ if __name__ == '__main__':
         ### Heurística melhorativa 2-opt
         if args.algoritmo_melhorativo == 'opt2':
             cost, plt_counters, plt_opts = two_opt_matrix(all_dist, route, x)
+            exe_time = time.time() - start_time
             print(f'Custo = {cost}')
             imp_name = "2-opt"
-            plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, cost)
+            plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, exe_time, cost)
 
         ### Sem Heurística melhorativa
         elif args.algoritmo_melhorativo == 'none':
@@ -67,9 +68,12 @@ if __name__ == '__main__':
         elif args.algoritmo_melhorativo == 'opt3':
             print('### Heurística melhorativa 3opt...')
             cost, plt_counters, plt_opts = three_opt(graph, route)
+            total_time = time.time() - start_time
+            exe_time = round(total_time, 2)
+            print(exe_time)
             cost = int(cost)
             imp_name = "3-opt"
-            plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, cost)
+            plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, exe_time, cost)
         else:
             print("{} não é um argumento válido!\n".format(args.algoritmo_melhorativo))
 
@@ -88,7 +92,7 @@ if __name__ == '__main__':
         elif args.algoritmo_construtivo == 'vd':
             x = 1
             route = distantneighbour(graph)  # usando matriz de distâncias
-            constr_name = 'Vizinho mais próximo'
+            constr_name = 'Vizinho mais distante'
             print(f'### Heurística construtiva {constr_name}...')
 
         ### Heurística construtiva Inserção do mais distante
@@ -113,9 +117,12 @@ if __name__ == '__main__':
         if args.algoritmo_melhorativo == 'opt2':
             print("### Heurística melhorativa 2opt...")
             cost, plt_counters, plt_opts = two_opt(graph, route, x)
+            total_time = time.time() - start_time
+            exe_time = round(total_time, 2)
             cost = int(cost)
+            print(f'Custo: {cost}')
             imp_name = "2-opt"
-            plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, cost)
+            plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, exe_time, cost)
 
         elif args.algoritmo_melhorativo == 'none':
             print(sumdistance(graph, route))
@@ -124,9 +131,13 @@ if __name__ == '__main__':
         elif args.algoritmo_melhorativo == 'opt3':
             print('### Heurística melhorativa 3opt...')
             cost, plt_counters, plt_opts = three_opt(graph, route)
+            total_time = time.time() - start_time
+            exe_time = round(total_time, 2)
+            print(exe_time)
             cost = int(cost)
+            print(f'Custo:{cost}')
             imp_name = "3-opt"
-            plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, cost)
+            plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, exe_time, cost)
         else:
             print("{} não é um argumento válido!\n".format(args.algoritmo_melhorativo))
     else:

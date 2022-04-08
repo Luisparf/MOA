@@ -132,13 +132,13 @@ def three_opt(graph, route):
 
     while not should_break:
 
-        for a in range(size_route - 1):
+        for a in range(size_route - 4):
             if should_break:
                 break
-            for b in range(a + 2, size_route - 1):
+            for b in range(a + 2, size_route - 2 - (1 if a == 0 else 0)):
                 if should_break:
                     break
-                for c in range(b + 2, size_route - 1 ):
+                for c in range(b + 2, size_route - (1 if a == 0 else 0) ):
 
                     if counter >= 2:
                         should_break = True
@@ -146,7 +146,7 @@ def three_opt(graph, route):
 
                     wRoute0 = wRoute
                     # print(f'\nroute[{a}] = {route[a]} route[{b}] = {route[b]}  route[{c}] = {route[c]} route[{c} + 1] = {route[c + 1]} \n')
-                    print(f'counter = {counter} ')
+                    # print(f'counter = {counter} ')
 
                     ### trecho para matplot ###
                     plt_opts.append(wRoute)
@@ -208,6 +208,6 @@ def three_opt(graph, route):
     plt_counter += 1
     plt_counters.append(plt_counter)
     #################
-    print(route)
-    print(wRoute)
+    # print(route)
+    # print(wRoute)
     return wRoute, plt_counters, plt_opts
