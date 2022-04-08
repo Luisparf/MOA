@@ -11,7 +11,8 @@ import sys
 
 """
     TSP SOLVER
-    >_ python3 main.py -h       for help.
+    for help:
+    >_ python3 main.py -h   
 """
 
 if __name__ == '__main__':
@@ -86,9 +87,9 @@ if __name__ == '__main__':
             x = 1
             route = nearestneighbour(graph)
             constr_name = 'Vizinho mais próximo'
-            print(f'### Heurística construtiva {constr_name}')
+            print(f'### Heurística construtiva {constr_name}...')
 
-        ### Heurística construtiva Vizinho mais distante
+        ### Heurística construtiva Vizinho mais distante õÔ
         elif args.algoritmo_construtivo == 'vd':
             x = 1
             route = distantneighbour(graph)  # usando matriz de distâncias

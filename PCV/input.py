@@ -37,7 +37,7 @@ def fileinput():
                         help="vp para algoritmo 'Vizinho mais próximo', id para algoritmo 'Inserção do mais distante', ic para algoritmo 'Inserção mais barata' (padrão: vp )")
 
     parser.add_argument('-i', action='store', dest='algoritmo_melhorativo', default='opt2',
-                        required=False, help="opt2 para algoritmo '2-opt', n para não executar algoritmo melhorativo")
+                        required=False, help="opt2 para algoritmo '2-opt', opt3 para algoritmo '3-opt', n para não executar algoritmo melhorativo (padrão: opt2)")
 
     args = parser.parse_args()
 
