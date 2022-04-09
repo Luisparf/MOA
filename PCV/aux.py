@@ -54,5 +54,5 @@ def plot_graf(opt_values, counter_values, constr_name, imp_name, file_name, exe_
     # plt.scatter(counter_values, opt_values, marker="+", color='red')
     plt.legend(loc='best')
     plt.savefig(f'{constr_name.replace(" ", "_") + "_" + imp_name.replace(" ", "_") + "_" + file_name.replace(" ", "_").replace(".tsp", ".png")}')
-    # plt.show()
+    plt.show()
     # print(route)
