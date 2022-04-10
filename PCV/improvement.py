@@ -124,15 +124,18 @@ def dist_between_points(graph, route, p1 ,p2):
 
 def three_opt(graph, route):
     size_route = localLen(route)
+    print(f'sizeroute = {size_route}')
     should_break = False
     counter = 0
     wRoute = sumdistance(graph, route)
+    improved = True
 
     plt_counter = -1
     plt_counters = []
     plt_opts = []
 
-    while not should_break:
+    while improved:
+        improved = False
 
         for a in range(size_route - 4):
             if should_break:
@@ -142,8 +145,9 @@ def three_opt(graph, route):
                     break
                 for c in range(b + 2, size_route - (a == 0)):
 
-                    if counter >= 10:
+                    if counter >= 100:
                         should_break = True
+                        improved = True
                         break
 
                     wRoute0 = wRoute
@@ -174,6 +178,7 @@ def three_opt(graph, route):
                         counter += 1
                         route = new_route
                         wRoute = wRoute1
+                        improved = True
                         continue
                     """
                     ### CASO 2
@@ -193,6 +198,7 @@ def three_opt(graph, route):
                         counter += 1
                         route = new_route
                         wRoute = wRoute2
+                        improved = True
                         continue
                     """
                     ### CASO 3
@@ -212,6 +218,7 @@ def three_opt(graph, route):
                         counter += 1
                         route = new_route
                         wRoute = wRoute3
+                        improved = True
                         continue
                     """
                     ### CASO 4
@@ -231,6 +238,7 @@ def three_opt(graph, route):
                         counter += 1
                         route = new_route
                         wRoute = wRoute4
+                        improved = True
                         continue
 
                     ### os outros 4 casos são equivalentes ao 2opt
