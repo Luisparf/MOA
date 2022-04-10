@@ -111,7 +111,7 @@ def two_opt(graph, route, x):
     return best_distance, plt_counters, plt_opts
 
 ########################################################################################################################
-
+"""
 def dist_between_points(graph, route, p1 ,p2):
     x1 = graph[route[p1]]['x']
     y1 = graph[route[p1]]['y']
@@ -121,7 +121,7 @@ def dist_between_points(graph, route, p1 ,p2):
 
     return localDist([x1, y1], [x2, y2])
 ########################################################################################################################
-
+"""
 def three_opt(graph, route):
     size_route = localLen(route)
     print(f'sizeroute = {size_route}')
@@ -145,14 +145,14 @@ def three_opt(graph, route):
                     break
                 for c in range(b + 2, size_route - (a == 0)):
 
-                    if counter >= 100:
+                    if counter >= 1200:
                         should_break = True
                         improved = True
                         break
 
                     wRoute0 = wRoute
                     # print(f'\nroute[{a}] = {route[a]} route[{b}] = {route[b]}  route[{c}] = {route[c]} route[{c} + 1] = {route[c + 1]} \n')
-                    print(f'counter = {counter} ')
+                    # print(f'counter = {counter} ')
 
                     ### trecho para matplot ###
                     plt_opts.append(wRoute)
@@ -161,17 +161,18 @@ def three_opt(graph, route):
                     #################
 
                     """
+                    
+                    P(i,j): custo do caminho entre a posição i e a posição j
+                    R(i,j): custo do caminho entre a posição j e a posição i
+                    D(i,j): custo do ponto da posição da posição i para o ponto da posição j
+                    
                     ### CASO 1
-                    #                  P(0,A)                                    D(A,B+1)
-                    wRoute1 = (sumdistance(graph, route[:a + 1]) + dist_between_points(graph, route, route[a] , route[b + 1]) +
-                               #       P(B+1,C)                                  D(C,B)
-                               sumdistance(graph, route[b + 1:c + 1]) + dist_between_points(graph, route, route[c],route[b]) +
-                               #       R(A+1,B)                                  D(A+1,C+1)
-                               sumdistance(graph, route[b:a:-1]) + dist_between_points(graph, route, route[a + 1], route[c + 1]) +
-                               #       P(C+1, 0)
-                               sumdistance(graph, route[c + 1:]))
+                    P(0,A) + D(A,B+1) + P(B+1,C) + D(C,B) + R(A+1,B) + D(A+1,C+1) + P(C+1,0)
+                    <
+                    P(0,A) + D(A,A+1) + P(A+1,B) + D(B,B+1) + P(B+1,C) + D(C,C+1) + P(C+1,0)
+                    
                     """
-                    wRoute1 = sumdistance(graph, route[:a + 1] + route[b + 1:c + 1] + route[b:a:-1] + route[c + 1:])
+                    wRoute1 = sumdistance(graph, route[:a + 1] + route[b + 1:c + 1] + route[b:a:-1] + route[c + 1:])  # D(i,j) fica impícito
                     if wRoute1 < wRoute0:
                         #                P(0,A)            P(B+1,C)         R(A+1,B)        P(C+1, 0)
                         new_route = route[:a + 1] + route[b + 1:c + 1] + route[b:a:-1] + route[c + 1:]
@@ -182,16 +183,12 @@ def three_opt(graph, route):
                         continue
                     """
                     ### CASO 2
-                    #                   P(0,A)                                    D(A,B)
-                    wRoute2 = (sumdistance(graph, route[:a + 1]) + dist_between_points(graph, route, route[a],  route[b]) +
-                               #        R(B,A+1)                                  D(A+1,C)
-                               sumdistance(graph,route[b:a:-1]) + dist_between_points(graph, route, route[a + 1], route[c]) +
-                               #        R(B+1,C)                                  D(B+1,C+1)
-                               sumdistance(graph, route[c:b:-1]) + dist_between_points(graph, route, route[b + 1], route[c + 1]) +
-                               #        P(C+1, 0)
-                               sumdistance(graph, route[c + 1:]))
+                    P(0,A) + D(A,B) + R(B,A+1) + D(A+1,C) + R(B+1,C) + D(B+1,C+1) + P(C+1,0)
+                    <
+                    P(0,A) + D(A,A+1) + P(A+1,B) + D(B,B+1) + P(B+1,C) + D(C,C+1) + P(C+1,0)
+
                     """
-                    wRoute2 = sumdistance(graph, route[:a + 1] + route[b:a:-1] + route[c:b:-1] + route[c + 1:])
+                    wRoute2 = sumdistance(graph, route[:a + 1] + route[b:a:-1] + route[c:b:-1] + route[c + 1:])  # D(i,j) fica impícito
                     if wRoute2 < wRoute0:
                         #               P(0,A)           R(B,A+1)      R(B+1,C)        P(C+1, 0)
                         new_route = route[:a + 1] + route[b:a:-1] + route[c:b:-1] + route[c + 1:]
@@ -202,16 +199,12 @@ def three_opt(graph, route):
                         continue
                     """
                     ### CASO 3
-                    #                    P(0,A)                                    D(A,C)
-                    wRoute3 = (sumdistance(graph, route[:a + 1]) + dist_between_points(graph, route, route[a], route[c]) +
-                               #         R(B+1,C)                                  D(B+1,A+1)
-                               sumdistance(graph, route[c:b:-1]) + dist_between_points(graph, route, route[b + 1], route[a + 1]) +
-                               #         P(A+1,B)                                  D(B,C+1)
-                               sumdistance(graph, route[a + 1:b + 1]) + dist_between_points(graph, route, route[b] , route[c + 1]) +
-                               #         P(C+1,0)
-                               sumdistance(graph, route[c + 1:]))
+                    P(0,A) + D(A,C) + R(B+1,C) + D(B+1,A+1) + P(A+1,B) + D(B,C+1) + P(C+1,0)
+                    <
+                    P(0,A) + D(A,A+1) + P(A+1,B) + D(B,B+1) + P(B+1,C) + D(C,C+1) + P(C+1,0)
+
                     """
-                    wRoute3 = sumdistance(graph, route[:a + 1] + route[c:b: -1] + route[a + 1:b + 1] + route[c + 1:] )
+                    wRoute3 = sumdistance(graph, route[:a + 1] + route[c:b: -1] + route[a + 1:b + 1] + route[c + 1:])  # D(i,j) fica impícito
                     if wRoute3 < wRoute0:
                         #              P(0,A)        R(B+1,C)                   P(A+1,B)        P(C+1,0)
                         new_route = route[:a + 1] + route[c:b: -1] + route[a + 1:b + 1] + route[c + 1:]
@@ -222,16 +215,12 @@ def three_opt(graph, route):
                         continue
                     """
                     ### CASO 4
-                    #                    P(0,A)                                    D(A, B+1)
-                    wRoute4 = (sumdistance(graph, route[:a + 1]) + dist_between_points(graph, route, route[a], route[b + 1]) +
-                               #         P(B+1,C)                                  D(C+1,A+1)
-                               sumdistance(graph, route[b + 1:c + 1]) + dist_between_points(graph, route, route[c + 1], route[a + 1]) +
-                               #         P(A+1,B)                                  D(B,C+1)
-                               sumdistance(graph, route[a + 1:b + 1]) + dist_between_points(graph, route, route[b], route[c + 1]) +
-                               #         P(C+1,0)
-                               sumdistance(graph, route[c + 1:]))
+                    P(0,A) + D(A,B+1) + P(B+1,C) + D(C+1,A+1) + P(A+1,B) + D(B,C+1) + P(C+1,0)
+                    <
+                    P(0,A) + D(A,A+1) + P(A+1,B) + D(B,B+1) + P(B+1,C) + D(C,C+1) + P(C+1,0)
+
                     """
-                    wRoute4 = sumdistance(graph, route[:a + 1] + route[b + 1: c + 1] + route[a + 1: b + 1] + route[c + 1:])
+                    wRoute4 = sumdistance(graph, route[:a + 1] + route[b + 1: c + 1] + route[a + 1: b + 1] + route[c + 1:])  # D(i,j) fica impícito
                     if wRoute4 < wRoute0:
                         #              P(0,A)            P(B+1,C)             P(A+1,B)           P(C+1,0)
                         new_route = route[:a + 1] + route[b + 1: c + 1] + route[a + 1: b + 1] + route[c + 1:]
@@ -242,6 +231,7 @@ def three_opt(graph, route):
                         continue
 
                     ### os outros 4 casos são equivalentes ao 2opt
+
 
     ### trecho para matplot ###
     plt_opts.append(wRoute)

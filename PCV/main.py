@@ -71,7 +71,7 @@ if __name__ == '__main__':
             cost, plt_counters, plt_opts = three_opt(graph, route)
             total_time = time.time() - start_time
             exe_time = round(total_time, 2)
-            print(exe_time)
+            # print(exe_time)
             cost = int(cost)
             imp_name = "3-opt"
             plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, exe_time, cost)
@@ -121,7 +121,7 @@ if __name__ == '__main__':
             total_time = time.time() - start_time
             exe_time = round(total_time, 2)
             cost = int(cost)
-            print(f'Custo: {cost}')
+            # print(f'Custo: {cost}')
             imp_name = "2-opt"
             plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, exe_time, cost)
 
@@ -134,7 +134,7 @@ if __name__ == '__main__':
             cost, plt_counters, plt_opts = three_opt(graph, route)
             total_time = time.time() - start_time
             exe_time = round(total_time, 2)
-            print(exe_time)
+            # print(exe_time)
             cost = int(cost)
             print(f'Custo:{cost}')
             imp_name = "3-opt"

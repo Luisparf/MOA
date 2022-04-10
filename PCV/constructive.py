@@ -126,7 +126,7 @@ def insertdist(graph):
                 selected_i = route[i]
         # print(route)
         # print()
-        route.insert(selected_i, k)
+        route.insert(selected_i - 1, k)
         graph[k]['used'] = True
 
     route.append(route[0])
