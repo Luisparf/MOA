@@ -147,7 +147,7 @@ def three_opt(graph, route):
 
                     if counter >= 1200:
                         should_break = True
-                        improved = True
+                        improved = False
                         break
 
                     wRoute0 = wRoute
