@@ -124,7 +124,7 @@ def dist_between_points(graph, route, p1 ,p2):
 """
 def three_opt(graph, route):
     size_route = localLen(route)
-    print(f'sizeroute = {size_route}')
+    # print(f'sizeroute = {size_route}')
     should_break = False
     counter = 0
     wRoute = sumdistance(graph, route)
@@ -234,10 +234,10 @@ def three_opt(graph, route):
 
 
     ### trecho para matplot ###
-    plt_opts.append(wRoute)
-    plt_counter += 1
-    plt_counters.append(plt_counter)
+    #plt_opts.append(wRoute)
+    #plt_counter += 1
+    #plt_counters.append(plt_counter)
     #################
-    # print(route)
+    print(f'route {route}')
     # print(wRoute)
     return wRoute, plt_counters, plt_opts
