@@ -12,7 +12,7 @@ import sys
 """
     TSP SOLVER
     for help:
-    >_ python3 main.py -h   
+    >_ ./main -h   
 """
 
 if __name__ == '__main__':

@@ -12,7 +12,6 @@ from argparse import ArgumentParser
 
 localLen = len
 
-
 def is_valid_file(parser, arg):
     if not os.path.exists(arg):  # se o caminho passado é inválido:
         parser.error("The file '%s' does not exist!" % arg)  # printa que o arquivo não existe
@@ -23,14 +22,14 @@ def is_valid_file(parser, arg):
 def fileinput():
     # algumas definições para --help
     parser = ArgumentParser(description='Heurísticas para o problema do caixeiro viajante. ',
-                            epilog="Divirta-se: >_ python3 main.py att48.tsp")
+                            epilog="Tente:  ./main att48.tsp")
 
     parser.add_argument(dest="filename", help='.tsp file with graph coordinates',
                         type=lambda x: is_valid_file(parser, x))
 
     parser.add_argument('--mode', action='store', dest='mode', default='n',
                         required=False,
-                        help="m para execução com matriz de distâncias, n para execução sem matriz de distâncias (padrão: m )")
+                        help="m para execução com matriz de distâncias, n para execução sem matriz de distâncias (padrão: n )")
 
     parser.add_argument('-c', action='store', dest='algoritmo_construtivo', default='vp',
                         required=False,
