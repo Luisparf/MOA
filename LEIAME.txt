@@ -1,0 +1,44 @@
+############################################################################################
+#                                                                                          #
+#                             INSTRUÇÕES PARA EXECUÇÃO                                     #
+#                                                                                          #   
+############################################################################################
+
+
+Link para o git: https://github.com/Luisparf/MOA/tree/master/PCV
+
+O programa possui um executável 'main' e é possível passar parâmetros para o programa via 
+terminal.É possível escolher:
+        O modo de execução: com matriz de distâncias ou não(--mode m ou --mode n),
+        Algoritmo construtivo: vizinho mais próximo(vp), inserção do mais distante(id), 
+        inserção do mais barato(ic),
+        Algoritmo melhorativo: 2-opt(opt2), 3-opt(opt3) e nenhum(none),
+        Caso de teste: filename
+
+
+Dentro do diretório PCV, no terminal digite: ./main -h 
+Output:
+
+usage: main [-h] [--mode MODE] [-c ALGORITMO_CONSTRUTIVO][-i ALGORITMO_MELHORATIVO] filename
+
+Heurísticas para o problema do caixeiro viajante.
+
+positional arguments:
+  filename              .tsp file with graph coordinates
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --mode MODE           m para execução com matriz de distâncias, n para
+                        execução sem matriz de distâncias (padrão: n )
+  -c ALGORITMO_CONSTRUTIVO
+                        vp para algoritmo 'Vizinho mais próximo', id para
+                        algoritmo 'Inserção do mais distante', ic para
+                        algoritmo 'Inserção mais barata' (padrão: vp )
+  -i ALGORITMO_MELHORATIVO
+                        opt2 para algoritmo '2-opt', opt3 para algoritmo
+                        '3-opt', n para não executar algoritmo melhorativo
+                        (padrão: opt2)
+
+Tente: ./main att48.tsp
+       ./main -c id -i opt3 tsp225.tsp
+       ./main -c ic  a280.tsp
