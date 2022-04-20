@@ -17,7 +17,7 @@ localDist = dist
 
 def nearestneighbour(graph):
     # selected = randint(1, localLen(graph)-1)
-    selected = 1
+    selected = i
     first = selected
 
     walkedPath = [selected]
@@ -136,6 +136,7 @@ def insertdist(graph):
 
 
 ###########################################################################################
+
 def insertcheap(graph):
     sizegraph = localLen(graph)
     route = [1, 2, 3]
@@ -165,3 +166,6 @@ def insertcheap(graph):
     # print(sumdistance_matrix(all_dist, route))
     # print(route)
     return route
+
+
+

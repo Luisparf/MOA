@@ -2,7 +2,7 @@
 
 from input import fileinput
 from constructive_matrix import nearestneighbour_matrix, insertdist_matrix, getalldistances, insertcheap_matrix
-from constructive import nearestneighbour, insertdist, insertcheap, distantneighbour
+from constructive import nearestneighbour, insertdist, insertcheap, distantneighbour, genetic
 from improvement_matrix import two_opt_matrix, sumdistance_matrix
 from improvement import two_opt, sumdistance, three_opt
 from aux import printgraph, plot_graf
@@ -139,6 +139,7 @@ if __name__ == '__main__':
             print(f'Custo:{cost}')
             imp_name = "3-opt"
             plot_graf(plt_opts, plt_counters, constr_name, imp_name, file_name, exe_time, cost)
+
         else:
             print("{} não é um argumento válido!\n".format(args.algoritmo_melhorativo))
     else:

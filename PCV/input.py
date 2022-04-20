@@ -27,16 +27,18 @@ def fileinput():
     parser.add_argument(dest="filename", help='.tsp file with graph coordinates',
                         type=lambda x: is_valid_file(parser, x))
 
+
     parser.add_argument('--mode', action='store', dest='mode', default='n',
                         required=False,
                         help="m para execução com matriz de distâncias, n para execução sem matriz de distâncias (padrão: n )")
 
+
     parser.add_argument('-c', action='store', dest='algoritmo_construtivo', default='vp',
                         required=False,
-                        help="vp para algoritmo 'Vizinho mais próximo', id para algoritmo 'Inserção do mais distante', ic para algoritmo 'Inserção mais barata' (padrão: vp )")
+                        help="vp para algoritmo 'Vizinho mais próximo', id para algoritmo 'Inserção do mais distante', ic para algoritmo 'Inserção mais barata', gen para meta-heurística 'algoritmo genético' (padrão: vp )")
 
     parser.add_argument('-i', action='store', dest='algoritmo_melhorativo', default='opt2',
-                        required=False, help="opt2 para algoritmo '2-opt', opt3 para algoritmo '3-opt', n para não executar algoritmo melhorativo (padrão: opt2)")
+                        required=False, help="opt2 para algoritmo '2-opt', opt3 para algoritmo '3-opt', none para não executar algoritmo melhorativo (padrão: opt2)")
 
     args = parser.parse_args()
 
