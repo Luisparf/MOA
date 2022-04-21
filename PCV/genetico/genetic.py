@@ -1,18 +1,34 @@
 # -*- coding: utf-8 -*-
 ###########################################################################################
 #                                                                                         #
-#                Módulo que contém os algoritmos construtivos para o PCV                  #                          
+#                Módulo que contém o algoritmo genético para o PCV                        #                          
 #                                                                                         #      
 ###########################################################################################
 
 from math import dist
 from copy import deepcopy
+from random import seed, randint
+import time
+
 # Uma cópia local de funções como essa reduz o tempo de execução
 
 localLen = len
 localDist = dist
 
 
+def fitness(graph, route):
+    sizeroute = localLen(route) - 1
+    walk_weight = 0
+    for i in range(sizeroute):
+        xi = graph[route[i]]['x']
+        yi = graph[route[i]]['y']
+
+        x_p = graph[route[i + 1]]['x']
+        y_p = graph[route[i + 1]]['y']
+
+        walk_weight += int(localDist([xi, yi], [x_p, y_p]))
+
+    return walk_weight
 
 
 ###########################################################################################
@@ -46,7 +62,7 @@ def nearestneighbour(graph, j):
                 menor_index = i
 
         if end_counter == (localLen(graph) - 1):
-            walkedPath.append(first)
+            #walkedPath.append(first)
             break
 
         walkedPath.append(menor_index)
@@ -60,9 +76,70 @@ def nearestneighbour(graph, j):
 
 ###########################################################################################
 
-def genetic(graph, start_time, pop, mut, max_i, max_t, seed):
+def selection(graph, population,k, s):
+
+    selections = []
+    costs = []
+    seed(s)
+    i1 = 1
+    i2 = 2
+
+
+    # Seleciona k individuos aleatoriamente 
+    for i in range(k):
+        selections.append(population[randint(1, localLen(population) - 1)])
+
+
+
+    # Escolhe os dois mais adaptados (2 melhores fitness)
+    minor = float('inf')
+    for i in range(k): 
+        fit = fitness(graph, selections[i]) 
+        if fit < minor:
+            minor = fitness(graph, selections[i])
+            i1 = i
+        
+    minor = float('inf')
+    for i in range(k):
+        if fitness(graph, selections[i]) < minor and i != i1:
+            minor = fitness(graph, selections[i])
+            i2 = i
+
+
+
+    cromossomo1 = selections[i1]
+    cromossomo2 = selections[i2]
+    
+    print(f'Pai1:{cromossomo1} - tamanho:{localLen(cromossomo1)}\n')
+    print(f'Pai2:{cromossomo2} - tamanho:{localLen(cromossomo2)}\n')
+
+    return cromossomo1, cromossomo2
+
+
+###########################################################################################
+
+def pmx(f1, f2):
+
+    s1 = [] # filho 1
+    s2 = [] # filho 2
+
+    i = randint(1, localLen(f1) - 1)
+    j = randint(1, localLen(f2) - 1)
+
+    s1[i:j] = f2[i:j]
+    s2[i:j] = f1[i:j]
+
+    print(f'i:{i} j:{j}\n')
+    print(f'Filho 1: {s1} - tamanho:{localLen(s1)}\n')
+    print(f'Filho 2: {s2} - tamanho:{localLen(s2)}\n')
+
+###########################################################################################
+
+
+def genetic(graph, pop, mut, max_i, max_t, s):
 
     population = []
+    k = 4
 
     if pop > localLen(graph)-1:
         pop = localLen(graph) 
@@ -71,6 +148,21 @@ def genetic(graph, start_time, pop, mut, max_i, max_t, seed):
     for i in range(1, pop ):
         population.append(nearestneighbour(deepcopy(graph),i))
 
+    start_time = time.time()
+    # while start_time - time.time() <= max_t:
 
-    print(population)
+    ### Avaliação ###
+
+
+    #### Seleção ###
+    f1, f2 = selection(graph, population, k, s) # pai1, pai2
+
+    ### Cruzamento ###
+
+    pmx(f1, f2)
+
+
+
+
+
 

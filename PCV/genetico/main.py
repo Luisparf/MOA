@@ -2,8 +2,7 @@
 
 from aux import printgraph, plot_graf
 from input import fileinput
-from genetic import genetic, nearestneighbour, nearest
-import time
+from genetic import genetic
 import sys
 
 """
@@ -18,9 +17,8 @@ if __name__ == '__main__':
 
     ### Input ###
     args, graph = fileinput()
-    start_time = time.time()
 
-    genetic(graph[:], start_time, args.population, args.mutation, args.max_iteration, args.max_time, args.seed)
+    genetic(graph[:], args.population, args.mutation, args.max_iteration, args.max_time, args.seed)
     
     
 
