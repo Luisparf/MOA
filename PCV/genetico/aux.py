@@ -12,7 +12,6 @@ def printgraph(graph):
 
 ########################################################################################################################
 
-
 def plot_graf(opt_values, counter_values, constr_name, imp_name, file_name, exe_time, cost):
     # print("otimos locais {}".format(opt_values))
 
@@ -41,18 +40,19 @@ def plot_graf(opt_values, counter_values, constr_name, imp_name, file_name, exe_
         bbox=dict(facecolor='none', edgecolor='purple'),
         transform=None
     )"""
-    
+
     if opt_values[0] > 10000:
         plt.ticklabel_format(useOffset=True)
-        plt.ticklabel_format(axis='x', style='sci', scilimits=(0,0))
-        plt.ticklabel_format(axis='y', style='sci', scilimits=(0,0))
+        plt.ticklabel_format(axis='x', style='sci', scilimits=(0, 0))
+        plt.ticklabel_format(axis='y', style='sci', scilimits=(0, 0))
 
     plt.grid(True)
     plt.xlabel("Iterações", fontsize=9)
     plt.ylabel("Ótimos locais", fontsize=9)
-    plt.plot(counter_values, opt_values, label=f'{imp_name}')
+    plt.plot(counter_values, opt_values, label='{imp_name}')
     # plt.scatter(counter_values, opt_values, marker="+", color='red')
     plt.legend(loc='best')
-    plt.savefig(f'{constr_name.replace(" ", "_") + "_" + imp_name.replace(" ", "_") + "_" + file_name.replace(" ", "_").replace(".tsp", ".png")}')
+    plt.savefig(
+        f'{constr_name.replace(" ", "_") + "_" + imp_name.replace(" ", "_") + "_" + file_name.replace(" ", "_").replace(".tsp", ".png")}')
     plt.show()
     # print(route)

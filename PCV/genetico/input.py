@@ -1,4 +1,4 @@
-    # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ###########################################################################################
 #                                                                                         #
 #                Módulo que contém as funções para entrada e formatação dos dados         #                          
@@ -10,6 +10,7 @@ import os
 from argparse import ArgumentParser
 
 localLen = len
+
 
 def is_valid_file(parser, arg):
     if not os.path.exists(arg):  # se o caminho passado é inválido:
@@ -25,7 +26,6 @@ def fileinput():
 
     parser.add_argument(dest="filename", help='arquivo .tsp',
                         type=lambda x: is_valid_file(parser, x))
-
 
     parser.add_argument('-pop', action='store', type=int, dest='population', default=25,
                         required=False,
@@ -68,7 +68,3 @@ def fileinput():
 
     del lines[0:5]
     return args, lines
-
-
-
-    
