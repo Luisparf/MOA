@@ -18,7 +18,7 @@ if __name__ == '__main__':
     ### Input ###
     args, graph = fileinput()
 
-    genetic(graph[:], args.population, args.mutation, args.max_iteration, args.max_time, args.seed)
+    genetic(graph[:], args.population, args.mutation, args.max_iteration, args.max_time * 60, args.seed)
     
     
 

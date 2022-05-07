@@ -100,10 +100,8 @@ def cx(pais):
     filhos = [[0], [], []]
 
     for i in range(1, 3):
-        filhos[i] = deepcopy(pais[(i % 2) + 1] )
+        filhos[i] = deepcopy(pais[(i % 2) + 1])
         index = 0
-
-        print(f'\nfilhos[{i}] = {filhos[i]}\n')
 
         while True:
             filhos[i][index] = pais[i][index]
@@ -141,37 +139,31 @@ def selection(graph, population, k, s):  # seleção por torneio
             minor = fitness(graph, selections[i])
             i2 = i
 
-    cromossomo1 = selections[i1]
-    cromossomo2 = selections[i2]
-
-    print(f'Pai1:{cromossomo1} - tamanho:{localLen(cromossomo1)}\n')
-    print(f'Pai2:{cromossomo2} - tamanho:{localLen(cromossomo2)}\n')
-
     pais.append(0)
-    pais.append(cromossomo1)
-    pais.append(cromossomo2)
+    pais.append(selections[i1])
+    pais.append(selections[i2])
 
     return pais
 
 
 ###########################################################################################
 
-def mutation(mut, cromossomos):
-
+def mutation(mut, cromossomos, pop):
     swap_list = []
-
+    mut = int(mut)
     mut_tax = floor((mut / 100) * localLen(cromossomos[1]))
-    print(f'mut_tax:{mut_tax}')
+    # print(f'mut_tax:{mut_tax}')
 
     for i in range(mut_tax):
-        swap_list.append(randint(i, localLen(cromossomos[1]) - 1))
+        swap_list.append(randint(i, pop - 1))
 
-    print(f'swaplist:{swap_list}')
+    i = (randint(1, localLen(cromossomos[1]) - 1))
+    j = (randint(i, localLen(cromossomos[1]) - 1))
 
-    for i in range(localLen(swap_list) - 1):
-        aux = cromossomos[1][swap_list[i]]
-        cromossomos[1][swap_list[i]] = cromossomos[1][swap_list[i+1]]
-        cromossomos[1][swap_list[i+1]] = aux
+    for index in swap_list:
+        aux = cromossomos[index][j]
+        cromossomos[index][j] = cromossomos[index][i]
+        cromossomos[index][i] = aux
 
     return cromossomos
 
@@ -190,6 +182,9 @@ def genetic(graph, pop, mut, max_i, max_t, s):
     for i in range(1, pop):
         population.append(nearestneighbour(deepcopy(graph), i))
 
+    for elemento in population:
+        print(f'elemento:{elemento}')
+
     start_time = time.time()
     # while time.time() - start_time  <= max_t:
 
@@ -197,21 +192,23 @@ def genetic(graph, pop, mut, max_i, max_t, s):
 
     #### Seleção ###
     pais = selection(graph, population, k, s)
-    print(f'\npais{pais}\n')
+    print(f'\nSeleção:\n')
+    for pai in pais:
+        print(f'{pai}\n')
 
     ### Cruzamento ###
+    print(f'\nCruzamento:\n')
     filhos = cx(pais)
-
     for filho in filhos:
         print(f'{filho} - tamanho:{localLen(filho)}\n')
 
     ### Mutação ###
-    cromossomos = mutation(mut, filhos)
-
+    print(f'\nMutação:\n')
+    cromossomos = mutation(mut, population, pop)
     for cromossomo in cromossomos:
         print(f'{cromossomo} - tamanho:{localLen(cromossomo)}\n')
 
     ### Busca Local ###
 
-    ### atualização ###
 
+    ### atualização ###
