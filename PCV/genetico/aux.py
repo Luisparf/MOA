@@ -42,7 +42,7 @@ def plot_graf(opt_values, counter_values, file_name, exe_time, cost):
     plt.grid(True)
     plt.xlabel("Iterações", fontsize=9)
     plt.ylabel("Ótimos locais", fontsize=9)
-    plt.plot(counter_values, opt_values, label='População', color='red')
+    plt.plot(counter_values, opt_values, label='melhoria',  color='red')
     # plt.scatter(counter_values, opt_values, marker="+", color='red')
     plt.legend(loc='best')
     plt.savefig(
