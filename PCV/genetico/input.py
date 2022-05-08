@@ -20,8 +20,8 @@ def is_valid_file(parser, arg):
 
 
 def fileinput():
-    # algumas definições para --help
-    parser = ArgumentParser(description='Meta-heurística algoritmo genético para o problema do caixeiro viajante. ',
+
+    parser = ArgumentParser(description='Algoritmo genético aplicado ao problema do caixeiro viajante; ',
                             epilog="Tente:  ./main att48.tsp")
 
     parser.add_argument(dest="filename", help='arquivo .tsp',

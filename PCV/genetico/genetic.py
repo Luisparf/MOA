@@ -5,7 +5,7 @@
 #                                                                                         #      
 ###########################################################################################
 
-from math import dist, ceil, floor
+from math import dist,  floor
 from copy import deepcopy
 from random import seed, randint
 import time
@@ -34,7 +34,6 @@ def fitness(graph, route):
 ###########################################################################################
 
 def search_worst_fit(population, graph):
-
     worst = 0
     index = 0
     for i in range(localLen(population) - 1):
@@ -43,6 +42,7 @@ def search_worst_fit(population, graph):
             worst = atual
             index = i
     return worst, index
+
 
 ###########################################################################################
 
@@ -151,14 +151,8 @@ def two_opt(graph, route, x):
                     improved = True
                     best_distance = new_distance
                     counter += 1
-                    """
-                    ### trecho para matplot ###
-                    plt_opts.append(best_distance)
-                    plt_counter += 1
-                    plt_counters.append(plt_counter)
-                    #################
-                    """
-                if x == 1 and counter >= 1: # critério de parada, first improvement
+
+                if x == 1 and counter >= 1:  # critério de parada, first improvement
                     should_break = True
                     improved = False
                     break
@@ -169,7 +163,8 @@ def two_opt(graph, route, x):
             # print()
     # print(counter)
     # print(route)
-    return route #, plt_counters, plt_opts
+    return route  # , plt_counters, plt_opts
+
 
 ###########################################################################################
 
@@ -202,8 +197,19 @@ def cx(pais):
         index = 0
 
         while True:
+            # print(f'i:{i} index:{index}\n')
             filhos[i][index] = pais[i][index]
-            index = list.index(pais[(i % 2) + 1], filhos[i][index])
+            # print(f'filhos[{i}][{index}]:{filhos[i][index]}')
+            # print(f'\nvalue error: {list.index(pais[(i % 2) + 1], filhos[i][index])}\n')
+            try:
+                index = list.index(pais[(i % 2) + 1], filhos[i][index])
+            except ValueError:
+                set_of_citys = set(pais[(i % 2) + 1])
+                # print(f'set_of_citys:{set_of_citys}')
+                pais[(i % 2) + 1] = list(set_of_citys)
+                pais[(i % 2) + 1].append(filhos[i][index])
+                index = list.index(pais[(i % 2) + 1], filhos[i][index])
+                break
             if index != 0:
                 break
     return filhos
@@ -247,19 +253,15 @@ def selection(graph, population, k, s):  # seleção por torneio
 ###########################################################################################
 
 def mutation(mut, population, pop):
-    swap_list = []
     mut = int(mut)
     mut_tax = floor((mut / 100) * localLen(population[1]))
-    print(f'mut:{mut} mut_tax:{mut_tax}')
-
-    for i in range(mut_tax):
-        swap_list.append(randint(i, pop - 2))
+    # print(f'mut:{mut} mut_tax:{mut_tax}')
 
     i = (randint(1, localLen(population[1]) - 1))
     j = (randint(i, localLen(population[1]) - 1))
 
-    print(f'swaplist:{swap_list} i:{i} j:{j}')
-    for index in swap_list:
+    for i in range(mut_tax):
+        index = (randint(0, pop - 2))
         aux = population[index][j]
         population[index][j] = population[index][i]
         population[index][i] = aux
@@ -280,7 +282,8 @@ def steady_stated(graph, population, filhos):
     if fitness(graph, menor) < worst:
         population[worst_index] = menor
 
-    return  population
+    return population
+
 
 ###########################################################################################
 
@@ -293,57 +296,53 @@ def genetic(graph, pop, mut, max_i, max_t, s):
     if pop > localLen(graph) - 1:
         pop = localLen(graph)
 
-        # gerar população inicial
+    # gerar população inicial
+    print(f'Gerando população inicial...\n')
     for i in range(1, pop):
         population.append(nearestneighbour(deepcopy(graph), i))
 
-    for elemento in population:
-        print(f'elemento:{elemento}')
+    # for elemento in population:
+    #   print(f'elemento:{elemento}')
 
     start_time = time.time()
-    while time.time() - start_time <= max_t or it == max_i:
+    while (time.time() - start_time <= max_t) and (it <= max_i):
 
         ### Avaliação ###
 
         #### Seleção ###
+        print(f'\nSeleção:[{it}]')
         pais = selection(graph, population, k, s)
-        print(f'\nSeleção:')
-        for pai in pais:
-            print(f'{pai}\n')
 
         ### Cruzamento ###
-        print(f'\nCruzamento:')
+        print(f'\nCruzamento:[{it}]')
         filhos = cx(pais)
-        for filho in filhos:
-            print(f'{filho} - tamanho:{localLen(filho)}\n')
 
         ### Mutação ###
-        print(f'\nMutação:')
-        cromossomos = mutation(mut, population, pop)
-        for cromossomo in cromossomos:
-           print(f'{cromossomo} - tamanho:{localLen(cromossomo)}\n')
+        print(f'\nMutação:[{it}]')
+        population = mutation(mut, population, pop)
 
         ### Busca Local ###
-        print(f'\nBusca Local:')
-        for filho in filhos:
-            busca.append(two_opt(graph, filho, 1))
-
-        for elemento in busca:
-            print(f'{elemento}\n')
-
-        for elemento in population:
-            print(f'elemento:{elemento}')
+        print(f'\nBusca Local:[{it}]')
+        for i in range(1, localLen(filhos)):
+            busca.append(two_opt(graph, filhos[i], 1))
 
         print(f'\n\n\n')
         ### atualização ###
         population = steady_stated(graph, population, filhos)
 
-        for elemento in population:
-            print(f'elemento:{elemento}')
+        it += 1
 
-        i += 1
+    best_solution = fitness(graph, population[0])
+    for i in range(1, localLen(population)):
+        if fitness(graph, population[i]) < best_solution:
+            best_solution = fitness(graph, population[i])
 
-    print(population)
+    best_solution_busca = fitness(graph, busca[1])
+    for i in range(2, localLen(busca)):
+        if fitness(graph, busca[i]) < best_solution_busca:
+            best_solution_busca = fitness(graph, busca[i])
 
+    if best_solution_busca < best_solution:
+        best_solution = best_solution_busca
 
-
+    print(f'\nMelhor solução:{best_solution}\n')
