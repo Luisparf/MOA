@@ -12,14 +12,15 @@ def printgraph(graph):
 
 ########################################################################################################################
 
-def plot_graf(opt_values, counter_values, constr_name, imp_name, file_name, exe_time, cost):
+def plot_graf(opt_values, counter_values, file_name, exe_time, cost):
     # print("otimos locais {}".format(opt_values))
 
     # print("i {}".format(counter_values))
 
     # plt.axis('auto')
+    name = 'Algoritmo genético'
     plt.title(
-        f'{file_name} - {constr_name} - tempo total:{exe_time}s',
+        f'{file_name} - {name} - tempo total:{exe_time}s',
         loc='center',
         bbox=dict(facecolor='none', edgecolor='purple'),
         color='purple',
@@ -32,14 +33,6 @@ def plot_graf(opt_values, counter_values, constr_name, imp_name, file_name, exe_
         xy=(counter_values[localLen(counter_values) - 1], opt_values[localLen(opt_values) - 1]),
         arrowprops=dict(arrowstyle="->", connectionstyle="arc3")
     )
-    """
-    plt.text(  # position text absolutely at specific pixel on image
-        200, 460,
-        f'{file_name} - {constr_name}', color='purple',
-        fontsize=11,
-        bbox=dict(facecolor='none', edgecolor='purple'),
-        transform=None
-    )"""
 
     if opt_values[0] > 10000:
         plt.ticklabel_format(useOffset=True)
@@ -49,10 +42,10 @@ def plot_graf(opt_values, counter_values, constr_name, imp_name, file_name, exe_
     plt.grid(True)
     plt.xlabel("Iterações", fontsize=9)
     plt.ylabel("Ótimos locais", fontsize=9)
-    plt.plot(counter_values, opt_values, label='{imp_name}')
+    plt.plot(counter_values, opt_values, label='População', color='red')
     # plt.scatter(counter_values, opt_values, marker="+", color='red')
     plt.legend(loc='best')
     plt.savefig(
-        f'{constr_name.replace(" ", "_") + "_" + imp_name.replace(" ", "_") + "_" + file_name.replace(" ", "_").replace(".tsp", ".png")}')
+        f'{name.replace(" ", "-") + "_" + file_name.replace(" ", "_").replace(".tsp", ".png")}')
     plt.show()
     # print(route)

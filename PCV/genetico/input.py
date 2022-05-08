@@ -32,16 +32,20 @@ def fileinput():
                         help="Tamanho da população inicial (padrão: 25)")
 
     parser.add_argument('-mut', action='store', dest='mutation', default=5,
-                        required=False, help="Porcentagem de mutação (padrão: 5 )")
+                        required=False,
+                        help="Porcentagem de mutação (padrão: 5 )")
 
     parser.add_argument('-max_i', action='store', dest='max_iteration', default=2000,
-                        required=False, help="Máximo de iterações (padrão: 2000)")
+                        required=False,
+                        help="Máximo de iterações (padrão: 2000)")
 
     parser.add_argument('-max_t', action='store', dest='max_time', default=60,
-                        required=False, help="Máximo de tempo de execução(minutos) (padrão: 60)")
+                        required=False,
+                        help="Máximo de tempo de execução(minutos) (padrão: 60)")
 
     parser.add_argument('-s', action='store', dest='seed', default=1,
-                        required=False, help="Semente randômica (padrão: 1)")
+                        required=False,
+                        help="Semente randômica (padrão: 1)")
 
     args = parser.parse_args()
 

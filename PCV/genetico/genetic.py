@@ -5,10 +5,12 @@
 #                                                                                         #      
 ###########################################################################################
 
-from math import dist,  floor
+from math import dist, floor
 from copy import deepcopy
 from random import seed, randint
+from aux import plot_graf
 import time
+import sys
 
 # Uma cópia local de funções como essa reduz o tempo de execução
 
@@ -290,6 +292,9 @@ def steady_stated(graph, population, filhos):
 def genetic(graph, pop, mut, max_i, max_t, s):
     population = []
     busca = []
+    plt_opts = []
+    plt_counters = []
+
     k = 4
     it = 0
 
@@ -305,9 +310,15 @@ def genetic(graph, pop, mut, max_i, max_t, s):
     #   print(f'elemento:{elemento}')
 
     start_time = time.time()
-    while (time.time() - start_time <= max_t) and (it <= max_i):
+    exe_time = 0
+    while (exe_time <= max_t) and (it <= max_i):
 
         ### Avaliação ###
+        best_solution = fitness(graph, population[0])
+        for i in range(1, localLen(population)):
+            if fitness(graph, population[i]) < best_solution:
+                best_solution = fitness(graph, population[i])
+        plt_opts.append(best_solution)
 
         #### Seleção ###
         print(f'\nSeleção:[{it}]')
@@ -326,23 +337,20 @@ def genetic(graph, pop, mut, max_i, max_t, s):
         for i in range(1, localLen(filhos)):
             busca.append(two_opt(graph, filhos[i], 1))
 
-        print(f'\n\n\n')
         ### atualização ###
-        population = steady_stated(graph, population, filhos)
+        print(f'\nAtualização da população:[{it}]')
+        population = steady_stated(graph, population, busca)
 
         it += 1
+        exe_time = time.time() - start_time
 
-    best_solution = fitness(graph, population[0])
-    for i in range(1, localLen(population)):
-        if fitness(graph, population[i]) < best_solution:
-            best_solution = fitness(graph, population[i])
-
-    best_solution_busca = fitness(graph, busca[1])
-    for i in range(2, localLen(busca)):
-        if fitness(graph, busca[i]) < best_solution_busca:
-            best_solution_busca = fitness(graph, busca[i])
-
-    if best_solution_busca < best_solution:
-        best_solution = best_solution_busca
+    # for i in range(localLen(busca)-1):
+    #     print(f'local s* in busca = {fitness(graph,busca[i])}')
+    #
+    # for i in range(localLen(population)-1):
+    #     print(f'local s* in population = {fitness(graph,population[i])}')
 
     print(f'\nMelhor solução:{best_solution}\n')
+    file_name = sys.argv[len(sys.argv) - 1]
+    plt_counters = range(it)
+    plot_graf(plt_opts, plt_counters, file_name, round(exe_time, 2), best_solution)
