@@ -5,14 +5,11 @@
 #                                                                                         #      
 ###########################################################################################
 import random
-from math import dist, floor, ceil
+from math import dist, ceil
 from copy import deepcopy
 from random import seed, randint
-from aux import plot_graf
-from iteration_utilities import duplicates
-import numpy as np
 import time
-import sys
+
 
 # Uma cópia local de funções como essa reduz o tempo de execução
 
@@ -384,6 +381,6 @@ def genetic(graph, pop, mut, max_i, max_t, s,cross_operator):
         exe_time = time.time() - start_time
 
     print(f'\nMelhor solução:{best_solution}\n')
-    return plt_counters, plt_opts, best_solution
+    return plt_counters, plt_opts, best_solution, round(exe_time, 2)
 
     # plot_graf(plt_opts, plt_counters, file_name, round(exe_time, 2), best_solution, cross_operator)

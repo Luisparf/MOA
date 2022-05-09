@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-import matplotlib.pyplot as plt
 
+import matplotlib.pyplot as plt
+import time
 localLen = len
 
 
@@ -12,13 +13,13 @@ def printgraph(graph):
 
 ########################################################################################################################
 
-def plot_graf(x_values1, y_values1, x_values2, y_values2, file_name, cost1, cost2, cross_operator1, cross_operator2):
+def plot_graf(x_values1, y_values1, x_values2, y_values2, file_name, cost1, cost2, cross_operator1, cross_operator2, time1, time2):
     # print("otimos locais {}".format(opt_values))
 
     # print("i {}".format(counter_values))
 
     # plt.axis('auto')
-    name = 'Algoritmo genético'
+    name = 'Genétic Algorithm'
     plt.title(
         f'{file_name} - {name}',
         loc='center',
@@ -28,16 +29,16 @@ def plot_graf(x_values1, y_values1, x_values2, y_values2, file_name, cost1, cost
     )
 
     plt.annotate(
-        f'fitness {cross_operator1}:{cost1}',
-        xytext=(400, 150),
+        f'fitness:{cost1} - time:{str(time.strftime("%H:%M:%S", time.gmtime(time1)))}',
+        xytext=(300, 150),
         textcoords='figure pixels',
         xy=(x_values1[localLen(x_values1) - 1], y_values1[localLen(y_values1) - 1]),
         arrowprops=dict(arrowstyle="->", connectionstyle="arc3")
     )
 
     plt.annotate(
-        f'fitness {cross_operator2}:{cost2}',
-        xytext=(400, 300),
+        f'fitness:{cost2} - time:{str(time.strftime("%H:%M:%S", time.gmtime(time2)))}',
+        xytext=(300, 300),
         textcoords='figure pixels',
         xy=(x_values2[localLen(x_values2) - 1], y_values2[localLen(y_values2) - 1]),
         arrowprops=dict(arrowstyle="->", connectionstyle="arc3")

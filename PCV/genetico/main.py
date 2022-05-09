@@ -19,11 +19,10 @@ if __name__ == '__main__':
     ### Input ###
     args, graph = fileinput()
 
-    # genetic(graph[:], int(args.population), int(args.mutation), int(args.max_iteration), int(args.max_time) * 60, int(args.seed), args.cross_operator)
-    x1, y1, best_solution1 = genetic(graph[:], int(args.population), int(args.mutation), int(args.max_iteration), int(args.max_time) * 60, int(args.seed), 'cx')
+    x1, y1, best_solution1, time1 = genetic(graph[:], int(args.population), int(args.mutation), int(args.max_iteration), int(args.max_time) * 60, int(args.seed), 'cx')
 
-    x2, y2, best_solution2 = genetic(graph[:], int(args.population), int(args.mutation), int(args.max_iteration), int(args.max_time) * 60, int(args.seed), 'pos')
+    x2, y2, best_solution2, time2 = genetic(graph[:], int(args.population), int(args.mutation), int(args.max_iteration), int(args.max_time) * 60, int(args.seed), 'pos')
 
-    plot_graf(x1, y1, x2, y2, file_name, best_solution1, best_solution2, 'cx', 'pos')
+    plot_graf(x1, y1, x2, y2, file_name, best_solution1, best_solution2, 'cx', 'pos', time1, time2)
 
 
