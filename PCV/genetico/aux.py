@@ -12,7 +12,7 @@ def printgraph(graph):
 
 ########################################################################################################################
 
-def plot_graf(opt_values, counter_values, file_name, exe_time, cost, cross_operator):
+def plot_graf(x_values1, y_values1, x_values2, y_values2, file_name, cost1, cost2, cross_operator1, cross_operator2):
     # print("otimos locais {}".format(opt_values))
 
     # print("i {}".format(counter_values))
@@ -20,32 +20,42 @@ def plot_graf(opt_values, counter_values, file_name, exe_time, cost, cross_opera
     # plt.axis('auto')
     name = 'Algoritmo genético'
     plt.title(
-        f'{file_name} - {name} - tempo total:{exe_time}s',
+        f'{file_name} - {name}',
         loc='center',
         bbox=dict(facecolor='none', edgecolor='purple'),
         color='purple',
         fontsize=10
     )
+
     plt.annotate(
-        f'melhor solução: {cost}',
-        xytext=(400, 300),
+        f'fitness {cross_operator1}:{cost1}',
+        xytext=(400, 150),
         textcoords='figure pixels',
-        xy=(counter_values[localLen(counter_values) - 1], opt_values[localLen(opt_values) - 1]),
+        xy=(x_values1[localLen(x_values1) - 1], y_values1[localLen(y_values1) - 1]),
         arrowprops=dict(arrowstyle="->", connectionstyle="arc3")
     )
 
-    if opt_values[0] > 10000:
+    plt.annotate(
+        f'fitness {cross_operator2}:{cost2}',
+        xytext=(400, 300),
+        textcoords='figure pixels',
+        xy=(x_values2[localLen(x_values2) - 1], y_values2[localLen(y_values2) - 1]),
+        arrowprops=dict(arrowstyle="->", connectionstyle="arc3")
+    )
+
+    if y_values1[0] > 10000 or y_values2 > 10000:
         plt.ticklabel_format(useOffset=True)
         plt.ticklabel_format(axis='x', style='sci', scilimits=(0, 0))
         plt.ticklabel_format(axis='y', style='sci', scilimits=(0, 0))
 
     plt.grid(True)
-    plt.xlabel("Iterações", fontsize=9)
-    plt.ylabel("Ótimos locais", fontsize=9)
-    plt.plot(counter_values, opt_values, label=f'{cross_operator}',  color='red')
+    plt.xlabel("Generation", fontsize=9)
+    plt.ylabel("Fitness(Mean best)", fontsize=9)
+    plt.plot(x_values1, y_values1, label=f'{cross_operator1}', color='red')
+    plt.plot(x_values2, y_values2, label=f'{cross_operator2}', color='green')
     # plt.scatter(counter_values, opt_values, marker="+", color='red')
     plt.legend(loc='best')
     plt.savefig(
-        f'{name.replace(" ", "-") + "_" + cross_operator + "_" +  file_name.replace(" ", "_").replace(".tsp", ".png")}')
+        f'{name.replace(" ", "-") + "_" + file_name.replace(" ", "_").replace(".tsp", ".png")}')
     plt.show()
     # print(route)

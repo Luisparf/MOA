@@ -2,7 +2,7 @@
 
 from input import fileinput
 from constructive_matrix import nearestneighbour_matrix, insertdist_matrix, getalldistances, insertcheap_matrix
-from constructive import nearestneighbour, insertdist, insertcheap, distantneighbour, genetic
+from constructive import nearestneighbour, insertdist, insertcheap, distantneighbour
 from improvement_matrix import two_opt_matrix, sumdistance_matrix
 from improvement import two_opt, sumdistance, three_opt
 from aux import printgraph, plot_graf

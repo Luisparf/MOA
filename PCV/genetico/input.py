@@ -26,11 +26,7 @@ def fileinput():
     parser.add_argument(dest="filename", help='arquivo .tsp',
                         type=lambda x: is_valid_file(parser, x))
 
-    parser.add_argument('-cross', action='store', dest='cross_operator', default='cx',
-                        required=False,
-                        help="Operador de cruzamento, cx para algoritmo 'Cycle crossover', pos para algoritmo 'Position based crossover' ")
-
-    parser.add_argument('-pop', action='store', type=int, dest='population', default=20,
+    parser.add_argument('-pop', action='store', type=int, dest='population', default=25,
                         required=False,
                         help="Tamanho da população inicial (padrão: 25)")
 
@@ -38,15 +34,15 @@ def fileinput():
                         required=False,
                         help="Porcentagem de mutação (padrão: 5 )")
 
-    parser.add_argument('-max_i', action='store', dest='max_iteration', default=200000,  #
+    parser.add_argument('-max_i', action='store', dest='max_iteration', default=20000000,  #
                         required=False,
                         help="Máximo de iterações (padrão: 2000)")
 
-    parser.add_argument('-max_t', action='store', dest='max_time', default=60,  #
+    parser.add_argument('-max_t', action='store', dest='max_time', default=120,  #
                         required=False,
                         help="Máximo de tempo de execução (minutos) (padrão: 60)")
 
-    parser.add_argument('-s', action='store', dest='seed', default=10,
+    parser.add_argument('-s', action='store', dest='seed', default=1,
                         required=False,
                         help="Semente randômica (padrão: 1)")
 

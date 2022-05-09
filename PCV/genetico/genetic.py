@@ -156,7 +156,7 @@ def two_opt(graph, route, x):
                     best_distance = new_distance
                     counter += 1
 
-                if x == 1 and counter >= 3:  # first improvement
+                if x == 1 and counter >= 1:  # first improvement
                     should_break = True
                     improved = False
                     break
@@ -174,6 +174,11 @@ def two_opt(graph, route, x):
 
 
 def pos(pais):
+    """
+
+    :param pais:
+    :return:
+    """
     positions = []
     filhos = [[0], [], []]
     li = range(1, localLen(pais[1]))
@@ -218,10 +223,10 @@ def cx(pais):
 
 ###########################################################################################
 
-def selection_by_tournament(graph, population, k, s):  # seleção por torneio
+def selection_by_tournament(graph, population, k):  # seleção por torneio
     selections = []
     pais = []
-    seed(s)
+    # seed(s)
     i1 = 1
     i2 = 2
 
@@ -313,7 +318,7 @@ def steady_stated(graph, population, filhos):
 
 ###########################################################################################
 
-def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
+def genetic(graph, pop, mut, max_i, max_t, s,cross_operator):
     population = []
     busca = []
     plt_opts = []
@@ -324,8 +329,6 @@ def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
 
     if pop > localLen(graph) - 1:
         pop = localLen(graph)
-
-    print(f'localLen(graph):{localLen(graph)}')
 
     # gerar população inicial
     print(f'Gerando população inicial...\n')
@@ -339,6 +342,8 @@ def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
     exe_time = 0
     while (exe_time <= max_t) and (it <= max_i):
 
+        random.seed(s)
+
         ### Avaliação ###
         best_solution = float('inf')
         for i in range(localLen(population) - 1):
@@ -350,7 +355,7 @@ def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
 
         #### Seleção ###
         print(f'\nSeleção:[{it}]')
-        pais = selection_by_tournament(graph, localDeepcopy(population), k, s)  # seleção por torneio
+        pais = selection_by_tournament(graph, localDeepcopy(population), k)  # seleção por torneio
         # pais = selection_by_fit(graph, population.copy(), index)
 
         ### Cruzamento ###
@@ -372,12 +377,13 @@ def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
 
         ### atualização ###
         print(f'\nAtualização da população:[{it}]')
-        population = steady_stated(graph, localDeepcopy(population), localDeepcopy(busca))
+        population = steady_stated(graph, population, busca)
 
         it += 1
         # s += 1
         exe_time = time.time() - start_time
 
     print(f'\nMelhor solução:{best_solution}\n')
-    file_name = sys.argv[len(sys.argv) - 1]
-    plot_graf(plt_opts, plt_counters, file_name, round(exe_time, 2), best_solution, cross_operator)
+    return plt_counters, plt_opts, best_solution
+
+    # plot_graf(plt_opts, plt_counters, file_name, round(exe_time, 2), best_solution, cross_operator)
