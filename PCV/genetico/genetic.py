@@ -313,7 +313,7 @@ def steady_stated(graph, population, filhos):
 
 ###########################################################################################
 
-def genetic(graph, pop, mut, max_i, max_t, s):
+def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
     population = []
     busca = []
     plt_opts = []
@@ -360,8 +360,10 @@ def genetic(graph, pop, mut, max_i, max_t, s):
 
         ### Cruzamento ###
         print(f'\nCruzamento:[{it}]')
-        # filhos = cx(pais)
-        filhos = pos(pais)
+        if cross_operator == 'cx':
+            filhos = cx(pais)
+        else:
+            filhos = pos(pais)
         # for i in range(1,localLen(filhos)):
         #     print(f'filhos[{i}]:{filhos[i]} - custo(filhos[{i}]):{fitness(graph, filhos[i])}\n')
 

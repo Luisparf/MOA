@@ -27,6 +27,10 @@ def fileinput():
     parser.add_argument(dest="filename", help='arquivo .tsp',
                         type=lambda x: is_valid_file(parser, x))
 
+    parser.add_argument('-cross', action='store',  dest='cross_operator', default='cx',
+                        required=False,
+                        help="Operador de cruzamento, cx para 'Cycle crossover', pos para 'Position based crossover' ")
+
     parser.add_argument('-pop', action='store', type=int, dest='population', default=25,
                         required=False,
                         help="Tamanho da população inicial (padrão: 25)")

@@ -16,6 +16,6 @@ if __name__ == '__main__':
     ### Input ###
     args, graph = fileinput()
 
-    genetic(graph[:], int(args.population), int(args.mutation), int(args.max_iteration), int(args.max_time) * 60, int(args.seed))
+    genetic(graph[:], int(args.population), int(args.mutation), int(args.max_iteration), int(args.max_time) * 60, int(args.seed), args.cross_operator)
 
 
