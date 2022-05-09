@@ -12,7 +12,7 @@ def printgraph(graph):
 
 ########################################################################################################################
 
-def plot_graf(opt_values, counter_values, file_name, exe_time, cost):
+def plot_graf(opt_values, counter_values, file_name, exe_time, cost, cross_operator):
     # print("otimos locais {}".format(opt_values))
 
     # print("i {}".format(counter_values))
@@ -42,10 +42,10 @@ def plot_graf(opt_values, counter_values, file_name, exe_time, cost):
     plt.grid(True)
     plt.xlabel("Iterações", fontsize=9)
     plt.ylabel("Ótimos locais", fontsize=9)
-    plt.plot(counter_values, opt_values, label='melhoria',  color='red')
+    plt.plot(counter_values, opt_values, label=f'{cross_operator}',  color='red')
     # plt.scatter(counter_values, opt_values, marker="+", color='red')
     plt.legend(loc='best')
     plt.savefig(
-        f'{name.replace(" ", "-") + "_" + file_name.replace(" ", "_").replace(".tsp", ".png")}')
+        f'{name.replace(" ", "-") + "_" + cross_operator + "_" +  file_name.replace(" ", "_").replace(".tsp", ".png")}')
     plt.show()
     # print(route)

@@ -20,32 +20,31 @@ def is_valid_file(parser, arg):
 
 
 def fileinput():
-
     parser = ArgumentParser(description='Algoritmo genético aplicado ao problema do caixeiro viajante; ',
-                            epilog="Tente:  ./main att48.tsp")
+                            epilog="Tente:  ./main pr1002.tsp")
 
     parser.add_argument(dest="filename", help='arquivo .tsp',
                         type=lambda x: is_valid_file(parser, x))
 
-    parser.add_argument('-cross', action='store',  dest='cross_operator', default='cx',
+    parser.add_argument('-cross', action='store', dest='cross_operator', default='cx',
                         required=False,
-                        help="Operador de cruzamento, cx para 'Cycle crossover', pos para 'Position based crossover' ")
+                        help="Operador de cruzamento, cx para algoritmo 'Cycle crossover', pos para algoritmo 'Position based crossover' ")
 
     parser.add_argument('-pop', action='store', type=int, dest='population', default=25,
                         required=False,
                         help="Tamanho da população inicial (padrão: 25)")
 
-    parser.add_argument('-mut', action='store', dest='mutation', default=5,
+    parser.add_argument('-mut', action='store', dest='mutation', default=6,
                         required=False,
                         help="Porcentagem de mutação (padrão: 5 )")
 
-    parser.add_argument('-max_i', action='store', dest='max_iteration', default=2000,
+    parser.add_argument('-max_i', action='store', dest='max_iteration', default=20000000000,  # 20bi
                         required=False,
                         help="Máximo de iterações (padrão: 2000)")
 
-    parser.add_argument('-max_t', action='store', dest='max_time', default=60,
+    parser.add_argument('-max_t', action='store', dest='max_time', default=240,
                         required=False,
-                        help="Máximo de tempo de execução(minutos) (padrão: 60)")
+                        help="Máximo de tempo de execução (minutos) (padrão: 60)")
 
     parser.add_argument('-s', action='store', dest='seed', default=1,
                         required=False,
