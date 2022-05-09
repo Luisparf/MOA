@@ -30,23 +30,23 @@ def fileinput():
                         required=False,
                         help="Operador de cruzamento, cx para algoritmo 'Cycle crossover', pos para algoritmo 'Position based crossover' ")
 
-    parser.add_argument('-pop', action='store', type=int, dest='population', default=25,
+    parser.add_argument('-pop', action='store', type=int, dest='population', default=20,
                         required=False,
                         help="Tamanho da população inicial (padrão: 25)")
 
-    parser.add_argument('-mut', action='store', dest='mutation', default=6,
+    parser.add_argument('-mut', action='store', dest='mutation', default=4,
                         required=False,
                         help="Porcentagem de mutação (padrão: 5 )")
 
-    parser.add_argument('-max_i', action='store', dest='max_iteration', default=20000000000,  # 20bi
+    parser.add_argument('-max_i', action='store', dest='max_iteration', default=200000,  #
                         required=False,
                         help="Máximo de iterações (padrão: 2000)")
 
-    parser.add_argument('-max_t', action='store', dest='max_time', default=240,
+    parser.add_argument('-max_t', action='store', dest='max_time', default=60,  #
                         required=False,
                         help="Máximo de tempo de execução (minutos) (padrão: 60)")
 
-    parser.add_argument('-s', action='store', dest='seed', default=1,
+    parser.add_argument('-s', action='store', dest='seed', default=10,
                         required=False,
                         help="Semente randômica (padrão: 1)")
 

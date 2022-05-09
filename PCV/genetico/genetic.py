@@ -156,7 +156,7 @@ def two_opt(graph, route, x):
                     best_distance = new_distance
                     counter += 1
 
-                if x == 1 and counter >= 1:  # first improvement
+                if x == 1 and counter >= 3:  # first improvement
                     should_break = True
                     improved = False
                     break
@@ -195,6 +195,11 @@ def pos(pais):
 ###########################################################################################
 
 def cx(pais):
+    """
+    Operador de cruzamento Cycle crossover
+    :param pais:
+    :return:
+    """
     filhos = [[0], [], []]
 
     for i in range(1, 3):
@@ -266,7 +271,13 @@ def selection_by_fit(graph, population, index):
 ###########################################################################################
 
 def mutation(mut, population):
-    mut_tax = ceil((mut / 100) * localLen(population[1]))
+    """
+
+    :param mut:
+    :param population:
+    :return:
+    """
+    mut_tax = ceil((mut / 100) * localLen(population))
     # print(f'mut:{mut} mut_tax:{mut_tax} localLen(population):{localLen(population)}')
 
     i = (randint(1, localLen(population[1])))
@@ -275,7 +286,7 @@ def mutation(mut, population):
     # if localLen(population) < mut_tax:
     #     mut_tax = localLen(population)
 
-    for i in range(mut_tax):
+    for k in range(mut_tax):
         index = (randint(1, localLen(population) - 1))
         aux = population[index][j]
         population[index][j] = population[index][i]
@@ -351,24 +362,20 @@ def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
 
         ### Mutação ###
         print(f'\nMutação:[{it}]')
-        filhos = mutation(mut, filhos.copy())
+        population = mutation(mut, localDeepcopy(population))
 
         ### Busca Local ###
         print(f'\nBusca Local:[{it}]')
         busca = []
         for i in range(1, localLen(filhos)):
             busca.append(localDeepcopy(two_opt(graph, filhos[i].copy(), 1)))
-        # for i in range(1,localLen(busca)):
-        #     print(f'busca[{i}]:{busca[i]} - custo(busca[{i}]):{fitness(graph, busca[i])}\n')
 
         ### atualização ###
         print(f'\nAtualização da população:[{it}]')
         population = steady_stated(graph, localDeepcopy(population), localDeepcopy(busca))
-        # for i in range(1,localLen(population)):
-        #     print(f'population[{i}]:{population[i]} - custo(filhos[{i}]):{fitness(graph, population[i])}\n')
 
         it += 1
-
+        # s += 1
         exe_time = time.time() - start_time
 
     print(f'\nMelhor solução:{best_solution}\n')

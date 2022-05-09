@@ -33,15 +33,7 @@ def plot_graf(opt_values, counter_values, constr_name, imp_name, file_name, exe_
         xy=(counter_values[localLen(counter_values) - 1], opt_values[localLen(opt_values) - 1]),
         arrowprops=dict(arrowstyle="->", connectionstyle="arc3")
     )
-    """
-    plt.text(  # position text absolutely at specific pixel on image
-        200, 460,
-        f'{file_name} - {constr_name}', color='purple',
-        fontsize=11,
-        bbox=dict(facecolor='none', edgecolor='purple'),
-        transform=None
-    )"""
-    
+
     if opt_values[0] > 10000:
         plt.ticklabel_format(useOffset=True)
         plt.ticklabel_format(axis='x', style='sci', scilimits=(0,0))
