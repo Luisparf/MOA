@@ -32,15 +32,15 @@ def fileinput():
 
     parser.add_argument('-mut', action='store', dest='mutation', default=4,
                         required=False,
-                        help="Porcentagem de mutação (padrão: 5 )")
+                        help="Porcentagem de mutação (padrão: 4 )")
 
     parser.add_argument('-max_i', action='store', dest='max_iteration', default=20000000,  #
                         required=False,
-                        help="Máximo de iterações (padrão: 2000)")
+                        help="Máximo de iterações (padrão: 2000000)")
 
     parser.add_argument('-max_t', action='store', dest='max_time', default=120,  #
                         required=False,
-                        help="Máximo de tempo de execução (minutos) (padrão: 60)")
+                        help="Máximo de tempo de execução (minutos) (padrão: 120)")
 
     parser.add_argument('-s', action='store', dest='seed', default=1,
                         required=False,

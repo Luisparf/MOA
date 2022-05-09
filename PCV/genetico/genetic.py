@@ -19,6 +19,12 @@ localDeepcopy = deepcopy
 
 
 def fitness(graph, route):
+    """
+    Função objetivo do TSP
+    :param graph: grafo completo
+    :param route: rota atual no grafo
+    :return: fitness(route)
+    """
     sizeroute = localLen(route) - 1
     walk_weight = 0
     for i in range(sizeroute):
@@ -36,6 +42,12 @@ def fitness(graph, route):
 ###########################################################################################
 
 def search_worst_fit(population, graph):
+    """
+    Busca pela rota com pior fitness na população
+    :param population: população do algoritmo genético
+    :param graph: grafo completo de entrada
+    :return: pior fitness da população e seu indice
+    """
     worst = 0
     index = 0
     for i in range(localLen(population) - 1):
@@ -48,7 +60,13 @@ def search_worst_fit(population, graph):
 
 ###########################################################################################
 
-def nearestneighbour(graph, j):
+def nearest_neighbour(graph, j):
+    """
+
+    :param graph: Grafo completo de entrada
+    :param j: vértice de inicio
+    :return: Rota encontrada
+    """
     # selected = randint(1, localLen(graph)-1)
     selected = j
     first = selected
@@ -172,9 +190,9 @@ def two_opt(graph, route, x):
 
 def pos(pais):
     """
-
-    :param pais:
-    :return:
+    Operador de cruzamento Position based crossover
+    :param pais:cromossomos pais
+    :return:cromossomos filhos
     """
     positions = []
     filhos = [[0], [], []]
@@ -199,8 +217,8 @@ def pos(pais):
 def cx(pais):
     """
     Operador de cruzamento Cycle crossover
-    :param pais:
-    :return:
+    :param pais: Cromossomos pais
+    :return: Cromossomos filhos
     """
     filhos = [[0], [], []]
 
@@ -221,6 +239,13 @@ def cx(pais):
 ###########################################################################################
 
 def selection_by_tournament(graph, population, k):  # seleção por torneio
+    """
+    Faz a seleção por torneio dos cromossomos pais para o cruzamento
+    :param graph: grafo de entrada
+    :param population: população atual
+    :param k:k elementos
+    :return:cromossomos pais selecionados
+    """
     selections = []
     pais = []
     # seed(s)
@@ -256,6 +281,13 @@ def selection_by_tournament(graph, population, k):  # seleção por torneio
 ###########################################################################################
 
 def selection_by_fit(graph, population, index):
+    """
+    Faz a seleção elitizada dos cromossomos pais para o cruzamento
+    :param graph: grafo de entrada
+    :param population: população atual
+    :param index:
+    :return:
+    """
     pais = []
 
     minor = float('inf')
@@ -274,9 +306,9 @@ def selection_by_fit(graph, population, index):
 
 def mutation(mut, population):
     """
-
-    :param mut:
-    :param population:
+    Faz a mutação da população
+    :param mut: taxa de mutação
+    :param population: população atual
     :return:
     """
     mut_tax = ceil((mut / 100) * localLen(population))
@@ -300,6 +332,13 @@ def mutation(mut, population):
 ###########################################################################################
 
 def steady_stated(graph, population, filhos):
+    """
+    Faz a manutenção da população
+    :param graph: grafo de entrada
+    :param population: população atual
+    :param filhos: cromossomos filhos
+    :return: população atualizada
+    """
     worst, worst_index = search_worst_fit(population, graph)
 
     menor = filhos[0]
@@ -315,12 +354,21 @@ def steady_stated(graph, population, filhos):
 
 ###########################################################################################
 
-def genetic(graph, pop, mut, max_i, max_t, s,cross_operator):
+def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
+    """
+    Algoritmo Genético
+    :param graph: grafo de entrada
+    :param pop: tamanho da população
+    :param mut: tava de mutação
+    :param max_i: número máximo de iterações
+    :param max_t: tempo máximo em minutos
+    :param s: semente aleatória
+    :param cross_operator: operador de cruzamento (cx ou pos)
+    :return: geração, fitness, s*, tempo de execução
+    """
     population = []
-    busca = []
     plt_opts = []
     plt_counters = []
-    li = []
     k = 4
     it = 0
 
@@ -372,12 +420,11 @@ def genetic(graph, pop, mut, max_i, max_t, s,cross_operator):
         for i in range(1, localLen(filhos)):
             busca.append(localDeepcopy(two_opt(graph, filhos[i].copy(), 1)))
 
-        ### atualização ###
+        ### Atualização ###
         print(f'\nAtualização da população:[{it}]')
         population = steady_stated(graph, population, busca)
 
         it += 1
-        # s += 1
         exe_time = time.time() - start_time
 
     print(f'\nMelhor solução:{best_solution}\n')

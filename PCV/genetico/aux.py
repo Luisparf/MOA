@@ -14,11 +14,7 @@ def printgraph(graph):
 ########################################################################################################################
 
 def plot_graf(x_values1, y_values1, x_values2, y_values2, file_name, cost1, cost2, cross_operator1, cross_operator2, time1, time2):
-    # print("otimos locais {}".format(opt_values))
 
-    # print("i {}".format(counter_values))
-
-    # plt.axis('auto')
     name = 'Genétic Algorithm'
     plt.title(
         f'{file_name} - {name}',
@@ -44,7 +40,7 @@ def plot_graf(x_values1, y_values1, x_values2, y_values2, file_name, cost1, cost
         arrowprops=dict(arrowstyle="->", connectionstyle="arc3")
     )
 
-    if y_values1[0] > 10000 or y_values2 > 10000:
+    if y_values1[0] > 10000 or y_values2[0] > 10000:
         plt.ticklabel_format(useOffset=True)
         plt.ticklabel_format(axis='x', style='sci', scilimits=(0, 0))
         plt.ticklabel_format(axis='y', style='sci', scilimits=(0, 0))
