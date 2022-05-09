@@ -157,7 +157,7 @@ def two_opt(graph, route, x):
                     best_distance = new_distance
                     counter += 1
 
-                if x == 1 and counter >= 5:  # critério de parada, first improvement
+                if x == 1 and counter >= 6:
                     should_break = True
                     improved = False
                     break
@@ -174,22 +174,23 @@ def two_opt(graph, route, x):
 ###########################################################################################
 
 
-def pmx(f1, f2):
-    s1 = []  # filho 1
-    s2 = []  # filho 2
-    lista = []
-    i = randint(1, localLen(f1) - 1)
-    j = randint(i + 1, localLen(f2) - 1)
+def pos(pais):
+    positions = []
+    filhos = [[0], [], []]
+    li = range(1, localLen(pais[1]))
+    positions.append(random.sample(li, 3))
 
-    s1[i:j] = f2[i:j]
-    s2[i:j] = f1[i:j]
+    filhos[1] = localDeepcopy(pais[1])
+    filhos[2] = localDeepcopy(pais[2])
 
-    for i in range(1, 3):
-        lista.append(1)
+    for i in positions[0]:
+        i = int(i)
+        filhos[1][i] = pais[2][i]
+        filhos[1][pais[1].index(filhos[1][i])] = pais[1][i]
+        filhos[2][i] = pais[1][i]
+        filhos[2][pais[2].index(filhos[2][i])] = pais[2][i]
 
-    print(f'i:{i} j:{j}\n')
-    print(f'Filho 1: {s1} - tamanho:{localLen(s1)}\n')
-    print(f'Filho 2: {s2} - tamanho:{localLen(s2)}\n')
+    return filhos
 
 
 ###########################################################################################
@@ -212,7 +213,7 @@ def cx(pais):
             # print(f'\nfilhos[{i}][{index}] = {filhos[i][index]}')
             # print(f'\npai[{(i % 2) + 1}] = {pais[(i % 2) + 1]}')
 
-            index = pais[(i % 2) + 1].index(filhos[i][index], 0)
+            index = pais[(i % 2) + 1].index(filhos[i][index])
 
             # print(f'repetidos:{list(duplicates(pais[(i % 2) + 1]))}')
 
@@ -282,8 +283,8 @@ def mutation(mut, population):
     i = (randint(1, localLen(population[1])))
     j = (randint(i, localLen(population[1])))
 
-    if localLen(population) < mut_tax:
-        mut_tax = localLen(population)
+    # if localLen(population) < mut_tax:
+    #     mut_tax = localLen(population)
 
     for i in range(mut_tax):
         index = (randint(1, localLen(population) - 1))
@@ -329,9 +330,10 @@ def genetic(graph, pop, mut, max_i, max_t, s):
     # gerar população inicial
     print(f'Gerando população inicial...\n')
     for i in range(1, pop):
-        population.append(nearestneighbour(deepcopy(graph), i))
-        # li = range(1, localLen(graph))
-        # population.append(random.sample(li, localLen(li)))
+        # population.append(nearestneighbour(deepcopy(graph), i)) # traz soluções boas mas sem variabilidade
+        # população gerada de forma aletória:
+        li = range(1, localLen(graph))
+        population.append(random.sample(li, localLen(li)))
 
     for elemento in population:
         print(f'elemento:{elemento} - tamanho:{localLen(elemento)}')
@@ -358,7 +360,8 @@ def genetic(graph, pop, mut, max_i, max_t, s):
 
         ### Cruzamento ###
         print(f'\nCruzamento:[{it}]')
-        filhos = cx(pais)
+        # filhos = cx(pais)
+        filhos = pos(pais)
         # for i in range(1,localLen(filhos)):
         #     print(f'filhos[{i}]:{filhos[i]} - custo(filhos[{i}]):{fitness(graph, filhos[i])}\n')
 
@@ -388,5 +391,4 @@ def genetic(graph, pop, mut, max_i, max_t, s):
 
     print(f'\nMelhor solução:{best_solution}\n')
     file_name = sys.argv[len(sys.argv) - 1]
-    plt_counters = range(it)
     plot_graf(plt_opts, plt_counters, file_name, round(exe_time, 2), best_solution)
