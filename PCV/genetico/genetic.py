@@ -8,8 +8,8 @@ import random
 from math import dist, ceil
 from copy import deepcopy
 from random import seed, randint
+from iteration_utilities import duplicates
 import time
-
 
 # Uma cópia local de funções como essa reduz o tempo de execução
 
@@ -196,18 +196,23 @@ def pos(pais):
     """
     positions = []
     filhos = [[0], [], []]
-    li = range(1, localLen(pais[1]))
-    positions.append(random.sample(li, 3))
+    li = range(localLen(pais[1]) - 1)
+    positions.append(random.sample(li, 2))
+    # print(f'positions:{positions[0]}')
 
-    filhos[1] = localDeepcopy(pais[1])
-    filhos[2] = localDeepcopy(pais[2])
+    filhos[1] = localDeepcopy((pais[1]))
+    filhos[2] = localDeepcopy((pais[2]))
+
+    # print(f'\ninicio:')
+    # print(f'filho[1]:{filhos[1]}')
+    # print(f'filho[2]:{filhos[2]}\n')
 
     for i in positions[0]:
-        i = int(i)
         filhos[1][i] = pais[2][i]
         filhos[1][pais[1].index(filhos[1][i])] = pais[1][i]
         filhos[2][i] = pais[1][i]
         filhos[2][pais[2].index(filhos[2][i])] = pais[2][i]
+        # print(f'[{i}] pos filho[2] = {filhos[2]} repetidos: {list(duplicates(filhos[2]))}')
 
     return filhos
 
@@ -223,15 +228,20 @@ def cx(pais):
     filhos = [[0], [], []]
 
     for i in range(1, 3):
-        filhos[i] = pais[(i % 2) + 1]
+        filhos[i] = pais[(i % 2) + 1].copy()
         index = 0
+
+        if pais[1][0] == pais[2][0]:
+            break
 
         while True:
             # print(f'i:{i} index:{index}\n')
+            # elem = pais[(i % 2) + 1][index]
             filhos[i][index] = pais[i][index]
             index = pais[(i % 2) + 1].index(filhos[i][index])
+            # filhos[i][index] = elem
             # print(f'repetidos:{list(duplicates(pais[(i % 2) + 1]))}')
-            if index != 0 or pais[1][0] == pais[2][0]:
+            if index == 0:
                 break
     return filhos
 
@@ -267,7 +277,7 @@ def selection_by_tournament(graph, population, k):  # seleção por torneio
 
     minor = float('inf')
     for i in range(k):
-        if fitness(graph, selections[i]) < minor and i != i1:
+        if fitness(graph, selections[i]) < minor and i != i1 and selections[i][0] != selections[i1][0]:
             minor = fitness(graph, selections[i])
             i2 = i
 
@@ -314,8 +324,8 @@ def mutation(mut, population):
     mut_tax = ceil((mut / 100) * localLen(population))
     # print(f'mut:{mut} mut_tax:{mut_tax} localLen(population):{localLen(population)}')
 
-    i = (randint(1, localLen(population[1])))
-    j = (randint(i, localLen(population[1])))
+    i = (randint(1, localLen(population[1]) - 1))
+    j = (randint(i, localLen(population[1]) - 1))
 
     # if localLen(population) < mut_tax:
     #     mut_tax = localLen(population)
@@ -342,7 +352,7 @@ def steady_stated(graph, population, filhos):
     worst, worst_index = search_worst_fit(population, graph)
 
     menor = filhos[0]
-    for i in range(1, localLen(filhos)):
+    for i in range(localLen(filhos) - 1):
         if fitness(graph, filhos[i]) < fitness(graph, menor):
             menor = filhos[i]
 
@@ -359,26 +369,25 @@ def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
     Algoritmo Genético
     :param graph: grafo de entrada
     :param pop: tamanho da população
-    :param mut: tava de mutação
+    :param mut: taxa de mutação
     :param max_i: número máximo de iterações
-    :param max_t: tempo máximo em minutos
+    :param max_t: tempo máximo de execução em minutos
     :param s: semente aleatória
     :param cross_operator: operador de cruzamento (cx ou pos)
     :return: geração, fitness, s*, tempo de execução
     """
     population = []
-    plt_opts = []
-    plt_counters = []
+    plt_fitness = []
+    plt_generation = []
     k = 4
     it = 0
 
-    if pop > localLen(graph) - 1:
-        pop = localLen(graph)
+    random.seed(s)
 
     # gerar população inicial
     print(f'Gerando população inicial...\n')
     for i in range(1, pop):
-        # population.append(nearestneighbour(deepcopy(graph), i)) # traz soluções boas mas sem variabilidade
+        # population.append(nearest_neighbour(deepcopy(graph), i)) # traz soluções boas mas sem variabilidade
         # população gerada de forma aletória:
         li = range(1, localLen(graph))
         population.append(random.sample(li, localLen(li)))
@@ -387,7 +396,7 @@ def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
     exe_time = 0
     while (exe_time <= max_t) and (it <= max_i):
 
-        random.seed(s)
+        # random.seed(s)
 
         ### Avaliação ###
         best_solution = float('inf')
@@ -395,13 +404,17 @@ def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
             if fitness(graph, population[i]) < best_solution:
                 best_solution = fitness(graph, population[i])
 
-        plt_opts.append(best_solution)
-        plt_counters.append(it)
+        plt_fitness.append(best_solution)
+        plt_generation.append(it)
 
         #### Seleção ###
         print(f'\nSeleção:[{it}]')
         pais = selection_by_tournament(graph, localDeepcopy(population), k)  # seleção por torneio
-        # pais = selection_by_fit(graph, population.copy(), index)
+
+        print('======================')
+        for x in range(1, localLen(pais)):
+            print(f'pais repetidos:{list(duplicates(pais[x]))}')
+        print('======================')
 
         ### Cruzamento ###
         print(f'\nCruzamento:[{it}]')
@@ -410,9 +423,19 @@ def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
         else:
             filhos = pos(pais)
 
+        # print('======================')
+        # for x in range(localLen(filhos)):
+        #     print(f'x in filhos:{filhos[x]} - repetidos:{list(duplicates(filhos[x]))}')
+        # print('======================')
+
         ### Mutação ###
         print(f'\nMutação:[{it}]')
         population = mutation(mut, localDeepcopy(population))
+
+        # print('======================')
+        # for x in range(localLen(population) - 1):
+        #     print(f'x in population:{population[x]} - repetidos:{list(duplicates(population[x]))}')
+        # print('======================')
 
         ### Busca Local ###
         print(f'\nBusca Local:[{it}]')
@@ -420,14 +443,24 @@ def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
         for i in range(1, localLen(filhos)):
             busca.append(localDeepcopy(two_opt(graph, filhos[i].copy(), 1)))
 
+        # print('======================')
+        # for x in range(localLen(busca) - 1):
+        #     print(f'x in busca:{busca[x]} - repetidos:{list(duplicates(busca[x]))}')
+        # print('======================')
+
         ### Atualização ###
         print(f'\nAtualização da população:[{it}]')
-        population = steady_stated(graph, population, busca)
+        population = steady_stated(localDeepcopy(graph), localDeepcopy(population), localDeepcopy(busca))
+
+        # print('======================')
+        # for x in range(localLen(population) - 1):
+        #     print(f'x in population:{population[x]} - repetidos:{list(duplicates(population[x]))}')
+        # print('======================')
 
         it += 1
         exe_time = time.time() - start_time
 
     print(f'\nMelhor solução:{best_solution}\n')
-    return plt_counters, plt_opts, best_solution, round(exe_time, 2)
+    return plt_generation, plt_fitness, best_solution, round(exe_time, 2)
 
-    # plot_graf(plt_opts, plt_counters, file_name, round(exe_time, 2), best_solution, cross_operator)
+    # plot_graf(plt_fitness, plt_generation, file_name, round(exe_time, 2), best_solution, cross_operator)

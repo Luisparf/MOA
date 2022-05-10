@@ -15,7 +15,7 @@ def printgraph(graph):
 
 def plot_graf(x_values1, y_values1, x_values2, y_values2, file_name, cost1, cost2, cross_operator1, cross_operator2, time1, time2):
 
-    name = 'Genétic Algorithm'
+    name = 'Genetic Algorithm'
     plt.title(
         f'{file_name} - {name}',
         loc='center',

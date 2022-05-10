@@ -34,15 +34,15 @@ def fileinput():
                         required=False,
                         help="Porcentagem de mutação (padrão: 4 )")
 
-    parser.add_argument('-max_i', action='store', dest='max_iteration', default=20000000,  #
+    parser.add_argument('-max_i', action='store', dest='max_iteration', default=2000000,  # 2M
                         required=False,
                         help="Máximo de iterações (padrão: 2000000)")
 
-    parser.add_argument('-max_t', action='store', dest='max_time', default=120,  #
+    parser.add_argument('-max_t', action='store', dest='max_time', default=120,  # 2H
                         required=False,
                         help="Máximo de tempo de execução (minutos) (padrão: 120)")
 
-    parser.add_argument('-s', action='store', dest='seed', default=1,
+    parser.add_argument('-s', action='store', dest='seed', default=5,
                         required=False,
                         help="Semente randômica (padrão: 1)")
 
