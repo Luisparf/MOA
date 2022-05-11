@@ -3,7 +3,7 @@
 #                             INSTRUÇÕES PARA EXECUÇÃO                                     #
 #                                                                                          #   
 ############################################################################################
-
+i
 O programa possui um executável 'main' e é possível passar parâmetros para o programa via 
 terminal.É possível escolher:
         O modo de execução: com matriz de distâncias ou não(--mode m ou --mode n),
