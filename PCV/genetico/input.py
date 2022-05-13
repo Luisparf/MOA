@@ -21,7 +21,7 @@ def is_valid_file(parser, arg):
 
 def fileinput():
     parser = ArgumentParser(description='Algoritmo genético aplicado ao problema do caixeiro viajante; ',
-                            epilog="Tente:  python3 main.py pr1002.tsp")
+                            epilog="Tente:  /main.py pr1002.tsp")
 
     parser.add_argument(dest="filename", help='arquivo .tsp',
                         type=lambda x: is_valid_file(parser, x))

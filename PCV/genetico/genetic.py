@@ -8,7 +8,6 @@ import random
 from math import dist, ceil
 from copy import deepcopy
 from random import seed, randint
-from iteration_utilities import duplicates
 import time
 
 # Uma cópia local de funções como essa reduz o tempo de execução
@@ -177,9 +176,6 @@ def cx(pais):
         filhos[i] = pais[(i % 2) + 1].copy()
         index = 0
 
-        if pais[1][0] == pais[2][0]:
-            break
-
         while True:
             filhos[i][index] = pais[i][index]
             index = pais[(i % 2) + 1].index(filhos[i][index])
@@ -321,11 +317,11 @@ def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
     population = []
     plt_fitness = []
     plt_generation = []
-    k = 4
     it = 0
+    k = 4
+    index = 0
 
     random.seed(s)
-    index = 0
 
     # gerar população inicial
     print(f'Gerando população inicial...\n')
@@ -338,8 +334,6 @@ def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
     exe_time = 0
     while (exe_time <= max_t) and (it <= max_i):
 
-        # random.seed(s)
-
         ### Avaliação ###
         best_solution = float('inf')
         for i in range(localLen(population) - 1):
@@ -347,64 +341,40 @@ def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
                 best_solution = fitness(graph, population[i])
                 index = i
 
+        print(
+            f'Iteração:{it} Crossover operator:{cross_operator} fitness:{best_solution} time:{str(time.strftime("%H:%M:%S", time.gmtime(exe_time)))}')
         plt_fitness.append(best_solution)
         plt_generation.append(it)
 
         #### Seleção ###
-        print(f'\nSeleção:[{it}]')
-        # pais = selection_by_tournament(graph, population, k)  # seleção por torneio
-        pais = selection_by_fit(graph, population, index)
-
-        print('======================')
-        for x in range(1, localLen(pais)):
-            print(f'pais repetidos:{list(duplicates(pais[x]))}')
-        print('======================')
-
+        # print(f'\nSeleção:[{it}]')
+        pais = selection_by_tournament(graph, population, k)  # seleção por torneio
+        # pais = selection_by_fit(graph,population,index)
+        # for pai in pais:
+        #     print(f'pai:{pai} fit:{best_solution}\n')
         ### Cruzamento ###
-        print(f'\nCruzamento:[{it}]')
+        # print(f'\nCruzamento:[{it}]')
         if cross_operator == 'cx':
             filhos = cx(pais)
         else:
             filhos = pos(pais)
 
-        # print('======================')
-        # for x in range(localLen(filhos)):
-        #     print(f'x in filhos:{filhos[x]} - repetidos:{list(duplicates(filhos[x]))}')
-        # print('======================')
-
         ### Mutação ###
-        print(f'\nMutação:[{it}]')
+        # print(f'\nMutação:[{it}]')
         population = mutation(mut, population)
 
-        # print('======================')
-        # for x in range(localLen(population) - 1):
-        #     print(f'x in population:{population[x]} - repetidos:{list(duplicates(population[x]))}')
-        # print('======================')
-
         ### Busca Local ###
-        print(f'\nBusca Local:[{it}]')
+        # print(f'\nBusca Local:[{it}]')
         busca = []
         for i in range(1, localLen(filhos)):
             busca.append(localDeepcopy(two_opt(graph, filhos[i].copy(), 1)))
 
-        # print('======================')
-        # for x in range(localLen(busca) - 1):
-        #     print(f'x in busca:{busca[x]} - repetidos:{list(duplicates(busca[x]))}')
-        # print('======================')
-
         ### Atualização ###
-        print(f'\nAtualização da população:[{it}]')
+        # print(f'\nAtualização da população:[{it}]')
         population = steady_stated(graph, population, busca)
-
-        # print('======================')
-        # for x in range(localLen(population) - 1):
-        #     print(f'x in population:{population[x]} - repetidos:{list(duplicates(population[x]))}')
-        # print('======================')
 
         it += 1
         exe_time = time.time() - start_time
 
     print(f'\nMelhor solução:{best_solution}\n')
     return plt_generation, plt_fitness, best_solution, round(exe_time, 2)
-
-    # plot_graf(plt_fitness, plt_generation, file_name, round(exe_time, 2), best_solution, cross_operator)

@@ -24,21 +24,21 @@ def plot_graf(x_values1, y_values1, x_values2, y_values2, file_name, cost1, cost
         fontsize=10
     )
 
-    plt.annotate(
-        f'fitness:{cost1} - time:{str(time.strftime("%H:%M:%S", time.gmtime(time1)))}',
-        xytext=(300, 150),
-        textcoords='figure pixels',
-        xy=(x_values1[localLen(x_values1) - 1], y_values1[localLen(y_values1) - 1]),
-        arrowprops=dict(arrowstyle="->", connectionstyle="arc3")
-    )
-
-    plt.annotate(
-        f'fitness:{cost2} - time:{str(time.strftime("%H:%M:%S", time.gmtime(time2)))}',
-        xytext=(300, 300),
-        textcoords='figure pixels',
-        xy=(x_values2[localLen(x_values2) - 1], y_values2[localLen(y_values2) - 1]),
-        arrowprops=dict(arrowstyle="->", connectionstyle="arc3")
-    )
+    # plt.annotate(
+    #     f'fitness:{cost1} - time:{str(time.strftime("%H:%M:%S", time.gmtime(time1)))}',
+    #     xytext=(300, 150),
+    #     textcoords='figure pixels',
+    #     xy=(x_values1[localLen(x_values1) - 1], y_values1[localLen(y_values1) - 1]),
+    #     arrowprops=dict(arrowstyle="->", connectionstyle="arc3")
+    # )
+    #
+    # plt.annotate(
+    #     f'fitness:{cost2} - time:{str(time.strftime("%H:%M:%S", time.gmtime(time2)))}',
+    #     xytext=(300, 300),
+    #     textcoords='figure pixels',
+    #     xy=(x_values2[localLen(x_values2) - 1], y_values2[localLen(y_values2) - 1]),
+    #     arrowprops=dict(arrowstyle="->", connectionstyle="arc3")
+    # )
 
     if y_values1[0] > 10000 or y_values2[0] > 10000:
         plt.ticklabel_format(useOffset=True)
@@ -48,11 +48,11 @@ def plot_graf(x_values1, y_values1, x_values2, y_values2, file_name, cost1, cost
     plt.grid(True)
     plt.xlabel("Generation", fontsize=9)
     plt.ylabel("Fitness(Mean best)", fontsize=9)
-    plt.plot(x_values1, y_values1, label=f'{cross_operator1}', color='red')
-    plt.plot(x_values2, y_values2, label=f'{cross_operator2}', color='green')
+    plt.plot(x_values1, y_values1, label=f'{cross_operator1} time:{str(time.strftime("%H:%M:%S", time.gmtime(time1)))} fitness:{cost1}', color='red')
+    plt.plot(x_values2, y_values2, label=f'{cross_operator2} time:{str(time.strftime("%H:%M:%S", time.gmtime(time2)))} fitness:{cost2}', color='green')
     # plt.scatter(counter_values, opt_values, marker="+", color='red')
     plt.legend(loc='best')
     plt.savefig(
-        f'{name.replace(" ", "-") + "_" + file_name.replace(" ", "_").replace(".tsp", ".png")}')
+        f'{name.replace(" ", "-") + "_" + "2" + "_" + file_name.replace(" ", "_").replace(".tsp", ".png")}')
     plt.show()
     # print(route)
