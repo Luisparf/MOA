@@ -341,8 +341,7 @@ def genetic(graph, pop, mut, max_i, max_t, s, cross_operator):
                 best_solution = fitness(graph, population[i])
                 index = i
 
-        print(
-            f'Iteração:{it} Crossover operator:{cross_operator} fitness:{best_solution} time:{str(time.strftime("%H:%M:%S", time.gmtime(exe_time)))}')
+        print(f'Iteração:{it} Crossover operator:{cross_operator} fitness:{best_solution} time:{str(time.strftime("%H:%M:%S", time.gmtime(exe_time)))}')
         plt_fitness.append(best_solution)
         plt_generation.append(it)
 
