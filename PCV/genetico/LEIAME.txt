@@ -1,0 +1,41 @@
+############################################################################################
+#                                                                                          #
+#                             INSTRUÇÕES PARA EXECUÇÃO                                     #
+#                                                                                          #   
+############################################################################################
+
+
+Link para o git: https://github.com/Luisparf/MOA/tree/master/PCV/genetico
+
+Para executar o programa, excecute no terminal python3 main.py <caso_de_teste>
+
+É possível escolher:
+        Tamanho da população inicial;
+        A Porcentagem de mutação; 
+        Máximo de iterações; 
+        Máximo de tempo de execução;
+        Semente randômica.
+        Caso de teste: filename
+
+Exemplo:
+
+Dentro do diretório PCV, no terminal digite: python3 main.py -h 
+Output:
+
+usage: main.py [-h] [-pop POPULATION] [-mut MUTATION] [-max_i MAX_ITERATION] [-max_t MAX_TIME] [-s SEED] filename
+
+Algoritmo genético aplicado ao problema do caixeiro viajante;
+
+positional arguments:
+  filename              arquivo .tsp
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -pop POPULATION       Tamanho da população inicial (padrão: 25)
+  -mut MUTATION         Porcentagem de mutação (padrão: 4 )
+  -max_i MAX_ITERATION  Máximo de iterações (padrão: 2000000)
+  -max_t MAX_TIME       Máximo de tempo de execução (minutos) (padrão: 120)
+  -s SEED               Semente randômica (padrão: 5)
+
+Tente: python3 main.py pr1002.tsp
+       python3 main.py -mut 6 -pop 20 -max_i 2000 -max_t 2 -s 2 pr1002.tsp
